@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-navbar color="danger">
+    <button persistent="true"  ion-button class="damn" menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title style="text-align: center;">Booking Request</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+<ion-list>
+  <ion-item *ngFor="let item of items; let i = index" (click)="gotoPage(i)">
+   <p>Time: {{ item.Starttime }}</p>   
+  </ion-item>
+</ion-list>
+
+</ion-content>

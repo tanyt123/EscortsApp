@@ -1,0 +1,125 @@
+<ion-header>
+  <ion-navbar color="danger">
+
+    <ion-title style="text-align: center;">
+      Register
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <p *ngIf="submitAttempt" style="color: #ea6153;">Please fill out all details accurately.</p>
+  <ion-list>
+    <form [formGroup]="myForm" >
+    <ion-item>
+    <ion-label color="primary">Name:</ion-label>
+    <ion-input formControlName="Name" [class.invalid]="!myForm.get('Name').valid && (myForm.get('Name').dirty || submitAttempt)" placeholder="Text Input"></ion-input>
+  </ion-item>
+<div class="error" *ngIf="!myForm.get('Name').valid && myForm.get('Name').touched">
+    <p>Please enter a valid name.</p>
+</div>
+  <ion-item>
+    <ion-label color="primary" fixed>Username:</ion-label>
+    <ion-input  formControlName="Username" [class.invalid]="!myForm.get('Username').valid  && (myForm.get('Username').dirty || submitAttempt)" placeholder="Text Input"></ion-input>
+  </ion-item>
+<div class="error" *ngIf="!myForm.get('Username').valid  && myForm.get('Username').touched">
+    <p>Please enter a valid username.</p>
+</div>
+  <ion-item>
+    <ion-label color="primary" fixed text-wrap>Personal Contact:</ion-label>
+    <ion-input formControlName="tel" type="tel"  placeholder="Tel Input" [class.invalid]="!myForm.get('tel').valid  && (myForm.get('tel').dirty || submitAttempt)"></ion-input>
+  </ion-item>
+<div class="error" *ngIf="!myForm.get('tel').valid && myForm.get('tel').touched">
+    <p>Please enter a valid phone number of 8 characters.</p>
+</div>
+  <ion-item>
+    <ion-label color="primary" >Email:</ion-label>
+    <ion-input formControlName="email" type="email" placeholder="Email Input" ></ion-input>
+  </ion-item>
+   <div class="error" *ngIf="!myForm.get('email').valid && myForm.get('email').touched">
+    <p>Please enter a valid email.</p>
+</div>
+ <ion-item >
+  <ion-label color="primary">Gender:</ion-label>
+  <ion-select formControlName="gender" >
+    <ion-option value="f">Female</ion-option>
+    <ion-option value="m">Male</ion-option>
+  </ion-select>
+    </ion-item>
+
+  <ion-item>
+    <ion-label color="primary"  >IC:</ion-label>
+    <ion-input  formControlName="IC" placeholder="Text Input" [class.invalid]="!myForm.get('IC').valid  && (myForm.get('IC').dirty || submitAttempt)"></ion-input>
+  </ion-item>
+<div class="error" *ngIf="!myForm.get('IC').valid  && myForm.get('IC').touched">
+    <p>Enter valid IC.</p>
+</div>
+  
+
+  <ion-item>
+  <ion-label color="primary"  >Address:</ion-label>
+    <ion-input formControlName="address"  placeholder="Address Input"></ion-input>
+  </ion-item>
+  <div class="error" *ngIf="!myForm.get('address').valid  && myForm.get('address').touched">
+    <p>Please enter a valid address.</p>
+</div>
+
+   <ion-item>
+  <ion-label color="primary"  >License Plate:</ion-label>
+    <ion-input formControlName="plateNo" type="text"  placeholder="License Plate"></ion-input>
+  </ion-item>
+      <ion-item>
+        <ion-label color="primary">Date of birth:</ion-label>
+        <ion-datetime formControlName="DOB" displayFormat="DD/MM/YYYY" (ionChange)="getAge()" pickerFormat="DDDD MMMM YYYY"></ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-label color="primary">Age:</ion-label>
+        <ion-input formControlName="age" id="age" type="text" [disabled]="true" placeholder="" [class.invalid]="mismatchedPasswords"></ion-input>
+      </ion-item>
+      <div *ngIf="AgeError">
+        <p>Age must be between 18 & 70.</p>
+      </div>
+      <ion-item>
+        <ion-label color="primary" stacked>Password:</ion-label>
+        <ion-input type="password" formControlName="password" placeholder="Password Input" (ionChange)="matchingPasswords()" max="25"
+          min="8" [class.invalid]="!myForm.get('password').valid  && (myForm.get('password').dirty || submitAttempt)"></ion-input>
+      </ion-item>
+      <div class="error" *ngIf="myForm.get('password').hasError('required') && myForm.get('password').touched">
+        Password is required
+      </div>
+      <div class="error" *ngIf="myForm.get('password').hasError('minlength') && myForm.get('password').touched">
+        Minimum of 8 characters
+      </div>
+      <div class="error" *ngIf="myForm.get('password').hasError('maxlength') && myForm.get('password').touched">
+        Maximum of 25 characters
+      </div>
+      <ion-item>
+        <ion-label color="primary" stacked no-lines>Confirm Password:</ion-label>
+        <ion-input type="password" formControlName="rePassword" placeholder="Password Input" max="25" min="8" (ionChange)="matchingPasswords()"
+          [class.invalid]="!myForm.get('rePassword').valid  && (myForm.get('rePassword').dirty  || submitAttempt)"></ion-input>
+      </ion-item>
+  
+       <div class='form-text error' *ngIf="myForm.get('rePassword').touched && mismatchedPasswords && myForm.get('password').valid">
+        <p>Passwords do not match.</p>
+       </div>
+      
+
+    </form>
+  </ion-list>
+  <button ion-button [disabled]="!myForm.valid || !isenabled" (click)="Register()">Register 
+</button>
+  <!-- <ion-footer>
+  <ion-toolbar color="primary">
+    <ion-buttons>
+      <button ion-button icon-left (click)="presentActionSheet()">
+        <ion-icon name="camera"></ion-icon>Select Image
+      </button>
+      <button ion-button icon-left (click)="uploadImage()" [disabled]="lastImage === null">
+        <ion-icon name="cloud-upload"></ion-icon>Upload
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
+-->
+</ion-content>

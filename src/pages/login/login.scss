@@ -1,0 +1,63 @@
+page-login {
+.image{
+ position: relative;
+ left: 80px;
+ 
+}
+.label {
+    width:80px;
+ 
+  
+
+}
+
+.input, .label {
+  
+}
+.row{
+
+    position: relative;
+    width:200px;
+ box-sizing: border-box; 
+    width: 100%;
+margin: auto;
+ 
+}   
+
+.ro{
+     widows: 200px; 
+       box-sizing: border-box; 
+    width: 100%; 
+    margin: auto;
+}
+.fp{
+     text-decoration-line: underline;
+     border-top: none;
+   border-bottom: none;
+     width: 150px;
+  margin: auto;
+  text-decoration-color: red;
+  
+}
+
+.rp{
+     text-decoration-line: underline;
+border-top: none;
+   border-bottom: none;
+     width: 150px;
+color: orange !important;
+
+  text-decoration-color: red;
+  
+  
+}
+
+
+.but{
+  margin:auto;
+  display:block;
+
+
+}
+
+}

@@ -1,0 +1,21 @@
+page-home {
+.background{
+        background: no-repeat ; 
+        background-image: url(../assets/imgs/Hospital.jpg);
+        background-position: right 5px ;
+        background-position: 0px 50px;
+    }
+   .react{
+       margin: auto;
+   }
+      .react:active{   
+          text-decoration-line: underline;
+           margin: auto;  
+         text-decoration-color: red;
+         background-color: blue;
+
+      }
+      .middle{
+           margin: auto; 
+      }
+}

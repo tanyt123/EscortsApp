@@ -1,0 +1,35 @@
+<ion-header>
+
+  <ion-navbar color="danger">
+    <ion-title style="text-align: center;">Login</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding >
+
+  <ion-list>
+
+    <ion-item>
+     <img src ="../assets/imgs/hospital-icon.jpg" class="image">
+    </ion-item>
+    <ion-item class="row">
+      <ion-label color="primary">Email: </ion-label>
+      <ion-input type="email" [(ngModel)]="email" placeholder="Text Input" text-wrap>"    "</ion-input>
+    </ion-item>
+    <ion-item class="ro">
+      <ion-label color="primary">Password:</ion-label>
+      <ion-input [(ngModel)]="password" placeholder="Text Input" type="password" text-wrap></ion-input>
+
+    </ion-item>
+    <button ion-button class="but" text-center (click)="Login()" [disabled]="!email || !password">Login
+</button>
+    <ion-item class="fp" text-wrap no-lines>
+      <h4>Forgot Password</h4>
+    </ion-item>
+
+
+
+  </ion-list>
+</ion-content>
