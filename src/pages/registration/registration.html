@@ -8,10 +8,10 @@
 </ion-header>
 
 <ion-content padding>
-  <p *ngIf="submitAttempt" style="color: #ea6153;">Please fill out all details accurately.</p>
+   <p *ngIf="submitAttempt" style="color: #ea6153;">Please fill out all details accurately.</p>
   <ion-list>
     <form [formGroup]="myForm" >
-    <ion-item>
+  <!--  <ion-item>
     <ion-label color="primary">Name:</ion-label>
     <ion-input formControlName="Name" [class.invalid]="!myForm.get('Name').valid && (myForm.get('Name').dirty || submitAttempt)" placeholder="Text Input"></ion-input>
   </ion-item>
@@ -31,13 +31,6 @@
   </ion-item>
 <div class="error" *ngIf="!myForm.get('tel').valid && myForm.get('tel').touched">
     <p>Please enter a valid phone number of 8 characters.</p>
-</div>
-  <ion-item>
-    <ion-label color="primary" >Email:</ion-label>
-    <ion-input formControlName="email" type="email" placeholder="Email Input" ></ion-input>
-  </ion-item>
-   <div class="error" *ngIf="!myForm.get('email').valid && myForm.get('email').touched">
-    <p>Please enter a valid email.</p>
 </div>
  <ion-item >
   <ion-label color="primary">Gender:</ion-label>
@@ -80,36 +73,45 @@
       <div *ngIf="AgeError">
         <p>Age must be between 18 & 70.</p>
       </div>
-      <ion-item>
-        <ion-label color="primary" stacked>Password:</ion-label>
-        <ion-input type="password" formControlName="password" placeholder="Password Input" (ionChange)="matchingPasswords()" max="25"
-          min="8" [class.invalid]="!myForm.get('password').valid  && (myForm.get('password').dirty || submitAttempt)"></ion-input>
-      </ion-item>
-      <div class="error" *ngIf="myForm.get('password').hasError('required') && myForm.get('password').touched">
-        Password is required
-      </div>
-      <div class="error" *ngIf="myForm.get('password').hasError('minlength') && myForm.get('password').touched">
-        Minimum of 8 characters
-      </div>
-      <div class="error" *ngIf="myForm.get('password').hasError('maxlength') && myForm.get('password').touched">
-        Maximum of 25 characters
-      </div>
-      <ion-item>
-        <ion-label color="primary" stacked no-lines>Confirm Password:</ion-label>
-        <ion-input type="password" formControlName="rePassword" placeholder="Password Input" max="25" min="8" (ionChange)="matchingPasswords()"
-          [class.invalid]="!myForm.get('rePassword').valid  && (myForm.get('rePassword').dirty  || submitAttempt)"></ion-input>
-      </ion-item>
-  
-       <div class='form-text error' *ngIf="myForm.get('rePassword').touched && mismatchedPasswords && myForm.get('password').valid">
-        <p>Passwords do not match.</p>
-       </div>
-      
 
-    </form>
+-->
+  <ion-item>
+    <ion-label color="primary">Email:</ion-label>
+    <ion-input formControlName="email" type="email" placeholder="Email Input"></ion-input>
+  </ion-item>
+  <div class="error" *ngIf="!myForm.get('email').valid && myForm.get('email').touched">
+    <p>Please enter a valid email.</p>
+  </div>
+  <ion-item>
+    <ion-label color="primary" stacked>Password:</ion-label>
+    <ion-input type="password" formControlName="password" placeholder="Password Input" (ionChange)="matchingPasswords()" max="25"
+      min="8" [class.invalid]="!myForm.get('password').valid  && (myForm.get('password').dirty || submitAttempt)"></ion-input>
+  </ion-item>
+  <div class="error" *ngIf="myForm.get('password').hasError('required') && myForm.get('password').touched">
+    Password is required
+  </div>
+  <div class="error" *ngIf="myForm.get('password').hasError('minlength') && myForm.get('password').touched">
+    Minimum of 8 characters
+  </div>
+  <div class="error" *ngIf="myForm.get('password').hasError('maxlength') && myForm.get('password').touched">
+    Maximum of 25 characters
+  </div>
+  <ion-item>
+    <ion-label color="primary" stacked no-lines>Confirm Password:</ion-label>
+    <ion-input type="password" formControlName="rePassword" placeholder="Password Input" max="25" min="8" (ionChange)="matchingPasswords()"
+      [class.invalid]="!myForm.get('rePassword').valid  && (myForm.get('rePassword').dirty  || submitAttempt)"></ion-input>
+  </ion-item>
+
+  <div class='form-text error' *ngIf="myForm.get('rePassword').touched && mismatchedPasswords && myForm.get('password').valid">
+    <p>Passwords do not match.</p>
+  </div>
+
+
+  </form>
   </ion-list>
-  <button ion-button [disabled]="!myForm.valid || !isenabled" (click)="Register()">Register 
+  <button ion-button  (click)="Register()">Register 
 </button>
-  <!-- <ion-footer>
+  <!-- <ion-footer>[disabled]="!myForm.valid || !isenabled" 
   <ion-toolbar color="primary">
     <ion-buttons>
       <button ion-button icon-left (click)="presentActionSheet()">

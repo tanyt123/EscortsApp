@@ -18,21 +18,18 @@ export class SinglebookPage {
   ionViewDidLoad() {
     this.index = this.navParams.get('index');
     this.itemRef.on('value', itemSnapshot => {
-      
-    
-
-        var key = Object.keys(itemSnapshot.val())[this.index];
-        this.itemRef.child(key).on('value', itemkeySnapshot => {
-        this.items.push( itemkeySnapshot.val());
-     
-        });
-
-        return false;
+      var key = Object.keys(itemSnapshot.val())[this.index];
+      this.itemRef.child(key).on('value', itemkeySnapshot => {
+        this.items.push(itemkeySnapshot.val());
 
       });
 
+      return false;
 
-   
+    });
+
+
+
 
   }
 }

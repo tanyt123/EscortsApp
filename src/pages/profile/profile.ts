@@ -17,11 +17,11 @@ export class ProfilePage {
     console.log('ionViewDidLoad ProfilePage');
  var appData = window.localStorage.getItem( 'app-name' );
  this.itemRef.on('value', itemSnapshot => {
-      
+        this.items = [];
   
-
-   
-     console.log(appData);
+ this.items.push(itemSnapshot.val());
+    
+     console.log(this.items);
         });
 
         return false;
