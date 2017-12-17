@@ -22,7 +22,7 @@ export class LoginPage {
   password: '';
   public loading: Loading;
   constructor(public navCtrl: NavController,
-    public alertCtrl: AlertController, private toastCtrl: ToastController, public loadingCtrl: LoadingController, public navParams: NavParams, private afAuth: AngularFireAuth, private nativeStorage: NativeStorage) {
+    private alertCtrl: AlertController, private toastCtrl: ToastController, public loadingCtrl: LoadingController, public navParams: NavParams, private afAuth: AngularFireAuth, private nativeStorage: NativeStorage) {
 
 
   }
@@ -30,36 +30,49 @@ export class LoginPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
   }
+
+
+
   Login() {
     this.afAuth.auth.signInWithEmailAndPassword(this.email, this.password)
       .then(auth => {
 
+        try {
+          firebase.auth().onAuthStateChanged((user) => {
 
-        firebase.auth().onAuthStateChanged(function (user) {
-          if (user.emailVerified) {
-            window.localStorage.setItem('app-name', JSON.stringify(this.email));
-            this.navCtrl.push(BookingPage);
+            if (user.emailVerified) {
+              window.localStorage.setItem('app-name',this.email);
+              this.navCtrl.push(BookingPage);
 
-            this.navCtrl.setRoot(BookingPage);
-          }
-          else if (!user.emailVerified) {
-            let toast = this.toastCtrl.create({
-              message: 'Email not verified. Please verify again.',
-              duration: 1000
-            });
-            toast.present();
-           user.sendEmailVerification();
-      }
-});
+              this.navCtrl.setRoot(BookingPage);
 
-})
-    .catch(err => {
-  let toast = this.toastCtrl.create({
-    message: err.message,
-    duration: 1000
-  });
-  toast.present();
-});
+            }
+            else if (!user.emailVerified) {
+             let alert = this.alertCtrl.create({
+                              message: "Email not verified. Please verify again.",
+                            buttons: [{ text: "Ok"} ]
+                        });
+
+                        alert.present();
+              user.sendEmailVerification();
+            }
+
+          });
+        } catch (err) {
+          let toast = this.toastCtrl.create({
+            message: err.message,
+            duration: 1000
+          });
+          toast.present();
+        }
+      })
+      .catch(err => {
+        let toast = this.toastCtrl.create({
+          message: err.message,
+          duration: 1000
+        });
+        toast.present();
+      });
 
   }
 }

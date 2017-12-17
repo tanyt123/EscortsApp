@@ -21,6 +21,7 @@ import { BookingPage } from '../pages/booking/booking';
 import { ProfilePage } from '../pages/profile/profile';
 import { SinglebookPage } from '../pages/singlebook/singlebook';
 import { NativeStorage } from '@ionic-native/native-storage';
+import { UpdateprofilePage } from '../pages/updateprofile/updateprofile';
 export const firebaseConfig = {
   apiKey: "AIzaSyCFU9g3inPp81yQU14fYANC7vf31SpkqKk",
   authDomain: "sharedmedicalfyp-1cfcf.firebaseapp.com",
@@ -39,7 +40,8 @@ export const firebaseConfig = {
     HomePage,
     BookingPage,
     ProfilePage,
-    SinglebookPage
+    SinglebookPage,
+    UpdateprofilePage
   ],
   imports: [
     BrowserModule,
@@ -65,7 +67,8 @@ export const firebaseConfig = {
     HomePage,
     BookingPage,
     ProfilePage,
-    SinglebookPage
+    SinglebookPage,
+    UpdateprofilePage
   ],
   providers: [
     StatusBar,

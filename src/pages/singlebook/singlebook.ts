@@ -9,6 +9,7 @@ import firebase from 'firebase';
 })
 export class SinglebookPage {
   public index;
+  public AgeError: boolean = false;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
@@ -21,7 +22,7 @@ export class SinglebookPage {
       var key = Object.keys(itemSnapshot.val())[this.index];
       this.itemRef.child(key).on('value', itemkeySnapshot => {
         this.items.push(itemkeySnapshot.val());
-
+        console.log(this.items);
       });
 
       return false;
