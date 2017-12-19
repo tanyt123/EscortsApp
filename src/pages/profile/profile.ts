@@ -36,7 +36,7 @@ export class ProfilePage {
 
     var appData = "tanyongting1234@gmail.com";
     this.itemRef.orderByChild("Email").equalTo(appData).once('value', (snap) => {
-         var key = Object.keys(snap.val())
+     
       snap.forEach(itemSnap => {
         this.items.push(itemSnap.val());
         this.date = itemSnap.child("DOB").val();
@@ -44,7 +44,7 @@ export class ProfilePage {
 
       });
       this.myDate = this.date;
-      console.log(key);
+  
     });
 
   }

@@ -13,20 +13,20 @@
     <form [formGroup]="myForm" >
     <ion-item>
     <ion-label color="primary">Name:</ion-label>
-    <ion-input formControlName="Name" [class.invalid]="!myForm.get('Name').valid && (myForm.get('Name').dirty || submitAttempt)" placeholder="Text Input"></ion-input>
+    <ion-input formControlName="Name" [class.invalid]="!myForm.get('Name').valid && (myForm.get('Name').dirty || submitAttempt)" placeholder="Text Input" required></ion-input>
   </ion-item>
 <div class="error" *ngIf="!myForm.get('Name').valid && myForm.get('Name').touched">
     <p>Please enter a valid name.</p>
 </div>
   <ion-item>
-    <ion-label color="primary" fixed>Username:</ion-label>
+    <ion-label color="primary" >Username:</ion-label>
     <ion-input  formControlName="Username" [class.invalid]="!myForm.get('Username').valid  && (myForm.get('Username').dirty || submitAttempt)" placeholder="Text Input"></ion-input>
   </ion-item>
 <div class="error" *ngIf="!myForm.get('Username').valid  && myForm.get('Username').touched">
     <p>Please enter a valid username.</p>
 </div>
   <ion-item>
-    <ion-label color="primary" fixed text-wrap>Personal Contact:</ion-label>
+    <ion-label color="primary" text-wrap>Personal Contact:</ion-label>
     <ion-input formControlName="tel" type="tel"  placeholder="Tel Input" [class.invalid]="!myForm.get('tel').valid  && (myForm.get('tel').dirty || submitAttempt)"></ion-input>
   </ion-item>
 <div class="error" *ngIf="!myForm.get('tel').valid && myForm.get('tel').touched">
@@ -35,8 +35,8 @@
  <ion-item >
   <ion-label color="primary">Gender:</ion-label>
   <ion-select formControlName="gender" >
-    <ion-option value="f">Female</ion-option>
-    <ion-option value="m">Male</ion-option>
+    <ion-option value="Female">Female</ion-option>
+    <ion-option value="Male">Male</ion-option>
   </ion-select>
     </ion-item>
 
@@ -58,7 +58,7 @@
 </div>
 
    <ion-item>
-  <ion-label color="primary"  >License Plate:</ion-label>
+  <ion-label color="primary" text-wrap >License Plate:</ion-label>
     <ion-input formControlName="plateNo" type="text"  placeholder="License Plate"></ion-input>
   </ion-item>
       <ion-item>
@@ -68,7 +68,7 @@
 
       <ion-item>
         <ion-label color="primary">Age:</ion-label>
-        <ion-input formControlName="age" id="age" type="text" [disabled]="true" placeholder="" [class.invalid]="mismatchedPasswords"></ion-input>
+        <ion-input formControlName="age" id="age" type="text" [disabled]="true" ></ion-input>
       </ion-item>
       <div *ngIf="AgeError">
         <p>Age must be between 18 & 70.</p>
@@ -97,7 +97,7 @@
     Maximum of 25 characters
   </div>
   <ion-item>
-    <ion-label color="primary" stacked no-lines>Confirm Password:</ion-label>
+    <ion-label color="primary" stacked no-lines text-wrap>Confirm Password:</ion-label>
     <ion-input type="password" formControlName="rePassword" placeholder="Password Input" max="25" min="8" (ionChange)="matchingPasswords()"
       [class.invalid]="!myForm.get('rePassword').valid  && (myForm.get('rePassword').dirty  || submitAttempt)"></ion-input>
   </ion-item>
@@ -109,10 +109,10 @@
 
   </form>
   </ion-list>
-  <button ion-button [disabled]="!myForm.valid || !isenabled"  (click)="Register()">Register 
+  <button ion-button  [disabled]="!myForm.valid || !isEnabled" (click)="Register()">Register 
 </button>
   <!-- <ion-footer>
-  <ion-toolbar color="primary">
+  <ion-toolbar color="primary"> 
     <ion-buttons>
       <button ion-button icon-left (click)="presentActionSheet()">
         <ion-icon name="camera"></ion-icon>Select Image

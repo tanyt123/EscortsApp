@@ -18,11 +18,13 @@ import { ViewChild } from '@angular/core'
   templateUrl: 'updateprofile.html',
 })
 export class UpdateprofilePage {
- myForm: FormGroup;
+  myForm: FormGroup;
   public ages: string;
   public AgeError: boolean = false;
-  isenabled: boolean = false;
+  isenabled: boolean = true;
+  public key;
   public date;
+
   changeDate = '';
   correct_data;
   public myDate: string
@@ -31,13 +33,12 @@ export class UpdateprofilePage {
       Name: ['', Validators.required],
       Username: ['', Validators.required],
       tel: ['', Validators.compose([Validators.minLength(8), Validators.maxLength(8), Validators.pattern('[0-9]*'), Validators.required])],
-      email: ['', Validators.compose([Validators.maxLength(70), Validators.pattern('^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$'), Validators.required])],
+
 
       address: ['', Validators.required],
 
-      password: ['', Validators.compose([Validators.minLength(8), Validators.maxLength(25), Validators.required])],
-      rePassword: ['', Validators.compose([Validators.minLength(8), Validators.maxLength(25), Validators.required])],
-      Gender: ['', Validators.required],
+
+
       IC: ['', Validators.compose([Validators.required, Validators.minLength(7), Validators.pattern('[a-zA-Z]{1}[0-9]{7}[a-zA-Z]{1}')])],
       plateNo: ['', Validators.required],
       age: ['',],
@@ -51,35 +52,38 @@ export class UpdateprofilePage {
 
   public items: Array<any> = [];
   public itemRef: firebase.database.Reference = firebase.database().ref('Escorts');
+    public itemsRef: firebase.database.Reference = firebase.database().ref('Escorts');
   ionViewDidLoad() {
 
-    console.log('ionViewDidLoad ProfilePage');
+    console.log('ionViewDidLoad UpdateProfilePage');
     this.items = [];
 
     // var appData = window.localStorage.getItem('app-name');
 
     var appData = "tanyongting1234@gmail.com";
     this.itemRef.orderByChild("Email").equalTo(appData).once('value', (snap) => {
+      this.key = Object.keys(snap.val());
       snap.forEach(itemSnap => {
         this.items.push(itemSnap.val());
         this.date = itemSnap.child("DOB").val();
+        this.ages = itemSnap.child("Age").val();
         return false;
 
       });
       this.myDate = this.date;
-      console.log(this.date);
+     
     });
 
   }
   public getAge() {
 
-    var selDate = new Date().getFullYear() - new Date(this.myForm.value.DOB).getFullYear();
+    var selDate = new Date().getFullYear() - new Date(this.myForm.value.myDate).getFullYear();
     this.ages = selDate.toString();
     document.getElementById('age').getElementsByTagName('input')[0].value = this.ages;
     this.myForm.value.age = this.ages;
     if (selDate < 18 || selDate > 70) {
       this.AgeError = true;
-      this.isenabled = false;
+      this.isenabled = true;
     }
     else {
       this.AgeError = false;
@@ -87,5 +91,28 @@ export class UpdateprofilePage {
     }
 
   }
-  
+  Update() {
+
+    try {
+       console.log(this.key);
+      this.isenabled = false;
+      this.itemsRef.update((this.key) ={
+        Name: this.myForm.value.Name,
+        Username: this.myForm.value.Username,
+        Tel: this.myForm.value.tel,
+
+
+        Address: this.myForm.value.address,
+        Age: this.ages,
+        DOB: this.myForm.value.myDate,
+        PlateNo: this.myForm.value.plateNo,
+        IC: this.myForm.value.IC,
+
+      });
+
+    } catch (e) {
+      console.log(e);
+
+    }
+  }
 }

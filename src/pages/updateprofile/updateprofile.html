@@ -2,8 +2,8 @@
 
   <ion-navbar color="danger">
 
-    <ion-icon name="menu"></ion-icon>
-  
+
+
     <ion-title style="text-align: center;">Update Profile</ion-title>
   </ion-navbar>
 
@@ -11,32 +11,33 @@
 
 
 <ion-content padding>
-  <ion-list *ngFor="let item of items ">
+ 
+  <ion-list *ngFor="let item of items " >
     <form [formGroup]="myForm">
       <ion-item>
         <ion-label color="primary">Name:</ion-label>
         <ion-input formControlName="Name" [class.invalid]="!myForm.get('Name').valid && (myForm.get('Name').dirty || submitAttempt)"
-          value="{{ item.Name}}"></ion-input>
+          placeholder="Text Input" value="{{ item.Name }}"></ion-input>
       </ion-item>
       <div class="error" *ngIf="!myForm.get('Name').valid && myForm.get('Name').touched">
         <p>Please enter a valid name.</p>
       </div>
       <ion-item>
-        <ion-label color="primary" fixed>Username:</ion-label>
-        <ion-input formControlName="Username" [class.invalid]="!myForm.get('Username').valid  && (myForm.get('Username').dirty || submitAttempt)"
-          value="{{ item.Username}}"></ion-input>
+        <ion-label color="primary">Username:</ion-label>
+        <ion-input formControlName="Username" value="{{ item.Username }}" [class.invalid]="!myForm.get('Username').valid  && (myForm.get('Username').dirty || submitAttempt)"
+          placeholder="Text Input"></ion-input>
       </ion-item>
       <div class="error" *ngIf="!myForm.get('Username').valid  && myForm.get('Username').touched">
         <p>Please enter a valid username.</p>
       </div>
       <ion-item>
-        <ion-label color="primary" fixed text-wrap>Personal Contact:</ion-label>
-        <ion-input formControlName="tel" type="tel" placeholder="Tel Input" [class.invalid]="!myForm.get('tel').valid  && (myForm.get('tel').dirty || submitAttempt)"
-          value="{{ item.Tel}}"></ion-input>
+        <ion-label color="primary" text-wrap>Personal Contact:</ion-label>
+        <ion-input formControlName="tel" type="tel"  value="{{ item.Tel }}" placeholder="Tel Input" [class.invalid]="!myForm.get('tel').valid  && (myForm.get('tel').dirty || submitAttempt)"></ion-input>
       </ion-item>
       <div class="error" *ngIf="!myForm.get('tel').valid && myForm.get('tel').touched">
         <p>Please enter a valid phone number of 8 characters.</p>
       </div>
+
       <ion-item>
         <ion-label color="primary">Gender:</ion-label>
         <ion-label> {{ item.Gender}}</ion-label>
@@ -44,8 +45,7 @@
 
       <ion-item>
         <ion-label color="primary">IC:</ion-label>
-        <ion-input formControlName="IC" placeholder="Text Input" [class.invalid]="!myForm.get('IC').valid  && (myForm.get('IC').dirty || submitAttempt)"
-          value="{{ item.IC}}"></ion-input>
+        <ion-input formControlName="IC" placeholder="Text Input"  value="{{ item.IC }}" [class.invalid]="!myForm.get('IC').valid  && (myForm.get('IC').dirty || submitAttempt)"></ion-input>
       </ion-item>
       <div class="error" *ngIf="!myForm.get('IC').valid  && myForm.get('IC').touched">
         <p>Enter valid IC.</p>
@@ -54,23 +54,24 @@
 
       <ion-item>
         <ion-label color="primary">Address:</ion-label>
-        <ion-input formControlName="address" value="{{ item.Address}}"></ion-input>
+        <ion-input formControlName="address"  value="{{ item.Address }}" placeholder="Address Input"></ion-input>
       </ion-item>
       <div class="error" *ngIf="!myForm.get('address').valid  && myForm.get('address').touched">
         <p>Please enter a valid address.</p>
       </div>
 
       <ion-item>
-        <ion-label color="primary">License Plate:</ion-label>
-        <ion-input formControlName="plateNo" type="text" value="{{ item.PlateNo}}"></ion-input>
+        <ion-label color="primary" text-wrap>License Plate:</ion-label>
+        <ion-input formControlName="plateNo" type="text"  value="{{ item.PlateNo }}" placeholder="License Plate"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label color="primary">Date of birth:</ion-label>
-        <ion-datetime [(ngModel)]="myDate" formControlName="myDate" displayFormat="DD MMM YYYY" (ionChange)="getAge()" pickerFormat="DD MMM YYYY">{{ item.DOB }}</ion-datetime>
+        <ion-datetime formControlName="myDate" [(ngModel)]="myDate" displayFormat="DD/MM/YYYY"  (ionChange)="getAge()" pickerFormat="DDDD MMMM YYYY"></ion-datetime>
       </ion-item>
+
       <ion-item>
         <ion-label color="primary">Age:</ion-label>
-        <ion-input formControlName="age" id="age" type="text" value="{{ item.Age}}" [disabled]="true" [class.invalid]="mismatchedPasswords"></ion-input>
+        <ion-input formControlName="age" id="age" type="text" value="{{ item.Age }}" [disabled]="true"></ion-input>
       </ion-item>
       <div *ngIf="AgeError">
         <p>Age must be between 18 & 70.</p>
@@ -82,8 +83,10 @@
 
 
 
+
+
     </form>
   </ion-list>
-  <button ion-button [disabled]="!myForm.valid || !isenabled"  (click)="Update()">Update 
+  <button ion-button [disabled]=" !myForm.valid || !isenabled" (click)="Update()">Update 
 </button>
 </ion-content>
