@@ -32,9 +32,9 @@ export class ProfilePage {
     console.log('ionViewDidLoad ProfilePage');
     this.items = [];
 
-    // var appData = window.localStorage.getItem('app-name');
+    var appData = window.localStorage.getItem('app-name');
 
-    var appData = "tanyongting1234@gmail.com";
+  //  var appData = "tanyongting1234@gmail.com";
     this.itemRef.orderByChild("Email").equalTo(appData).once('value', (snap) => {
      
       snap.forEach(itemSnap => {

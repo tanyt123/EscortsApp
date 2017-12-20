@@ -6,7 +6,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import * as firebase from 'firebase/app';
 import { Http } from '@angular/http';
-
+import { Navbar } from 'ionic-angular';
+import { ViewChild } from '@angular/core';
 import { HomePage } from '../home/home';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { BookingPage } from '../booking/booking';
@@ -16,6 +17,7 @@ import { BookingPage } from '../booking/booking';
   templateUrl: 'login.html',
 })
 export class LoginPage {
+  @ViewChild(Navbar) navBar: Navbar;
   private authState: Observable<firebase.User>;
   private currentUser: firebase.User;
   email: '';
@@ -29,8 +31,14 @@ export class LoginPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
+    this.setBackButtonAction();
   }
-
+  setBackButtonAction() {
+    this.navBar.backButtonClick = () => {
+      //Write here wherever you wanna do
+      this.navCtrl.push(HomePage);
+    }
+  }
 
 
   Login() {
@@ -41,19 +49,19 @@ export class LoginPage {
           firebase.auth().onAuthStateChanged((user) => {
 
             if (user.emailVerified) {
-              window.localStorage.setItem('app-name',this.email);
+              window.localStorage.setItem('app-name', this.email);
               this.navCtrl.push(BookingPage);
 
               this.navCtrl.setRoot(BookingPage);
 
             }
             else if (!user.emailVerified) {
-             let alert = this.alertCtrl.create({
-                              message: "Email not verified. Please verify again.",
-                            buttons: [{ text: "Ok"} ]
-                        });
+              let alert = this.alertCtrl.create({
+                message: "Email not verified. Please verify again.",
+                buttons: [{ text: "Ok" }]
+              });
 
-                        alert.present();
+              alert.present();
               user.sendEmailVerification();
             }
 

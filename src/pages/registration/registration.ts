@@ -96,34 +96,33 @@ export class RegistrationPage {
     else {
       this.AgeError = false;
       this.isenabled = true;
+      console.log(this.isenabled)
     }
 
   }
   Register() {
-
-
-
     try {
       this.isenabled = false;
-      this.itemsRef.push({
-        Name: this.myForm.value.Name,
-        Username: this.myForm.value.Username,
-        Tel: this.myForm.value.tel,
-        Email: this.myForm.value.email,
-        Password: this.myForm.value.password,
-        Address: this.myForm.value.address,
-        Age: this.ages,
-        DOB: this.myForm.value.DOB,
-        PlateNo: this.myForm.value.plateNo,
-        IC: this.myForm.value.IC,
-        Gender: this.myForm.value.gender
-      });
       this.afAuth.auth.createUserWithEmailAndPassword(this.myForm.value.email, this.myForm.value.password).then(auth => {
 
         let user: any = firebase.auth().currentUser;
         firebase.auth().onAuthStateChanged(function (user) {
           user.sendEmailVerification();
         });
+        this.itemsRef.push({
+          Name: this.myForm.value.Name,
+          Username: this.myForm.value.Username,
+          Tel: this.myForm.value.tel,
+          Email: this.myForm.value.email,
+          Password: this.myForm.value.password,
+          Address: this.myForm.value.address,
+          Age: this.ages,
+          DOB: this.myForm.value.DOB,
+          PlateNo: this.myForm.value.plateNo,
+          IC: this.myForm.value.IC,
+          Gender: this.myForm.value.gender
+        });
+
 
 
 

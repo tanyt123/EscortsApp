@@ -24,7 +24,9 @@ export class UpdateprofilePage {
   isenabled: boolean = true;
   public key;
   public date;
-
+  public email;
+  public gender;
+  public password;
   changeDate = '';
   correct_data;
   public myDate: string
@@ -52,7 +54,9 @@ export class UpdateprofilePage {
 
   public items: Array<any> = [];
   public itemRef: firebase.database.Reference = firebase.database().ref('Escorts');
-    public itemsRef: firebase.database.Reference = firebase.database().ref('Escorts');
+  public itemsRef: firebase.database.Reference;
+
+
   ionViewDidLoad() {
 
     console.log('ionViewDidLoad UpdateProfilePage');
@@ -67,14 +71,18 @@ export class UpdateprofilePage {
         this.items.push(itemSnap.val());
         this.date = itemSnap.child("DOB").val();
         this.ages = itemSnap.child("Age").val();
+        this.email = itemSnap.child("Email").val();
+        this.gender = itemSnap.child("Gender").val();
+        this.password = itemSnap.child("Password").val();
         return false;
 
       });
       this.myDate = this.date;
-     
+      this.itemsRef = firebase.database().ref('Escorts/' + this.key);
     });
 
   }
+
   public getAge() {
 
     var selDate = new Date().getFullYear() - new Date(this.myForm.value.myDate).getFullYear();
@@ -94,22 +102,22 @@ export class UpdateprofilePage {
   Update() {
 
     try {
-       console.log(this.key);
-      this.isenabled = false;
-      this.itemsRef.update((this.key) ={
+      console.log(this.key);
+
+      this.itemsRef.update({
         Name: this.myForm.value.Name,
         Username: this.myForm.value.Username,
         Tel: this.myForm.value.tel,
-
-
         Address: this.myForm.value.address,
         Age: this.ages,
         DOB: this.myForm.value.myDate,
         PlateNo: this.myForm.value.plateNo,
         IC: this.myForm.value.IC,
-
+        Email: this.email,
+        Gender: this.gender,
+        Password: this.password,
       });
-
+      console.log(this.itemsRef)
     } catch (e) {
       console.log(e);
 
