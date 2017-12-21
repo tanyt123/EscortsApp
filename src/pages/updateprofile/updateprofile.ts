@@ -5,12 +5,9 @@ import firebase from 'firebase';
 import { FormsModule } from "@angular/forms";
 import { FormControl, FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { ViewChild } from '@angular/core'
-/**
- * Generated class for the UpdateprofilePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { AlertController } from 'ionic-angular';
+import { ProfilePage } from '../profile/profile';
+import { Navbar } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -18,6 +15,7 @@ import { ViewChild } from '@angular/core'
   templateUrl: 'updateprofile.html',
 })
 export class UpdateprofilePage {
+
   myForm: FormGroup;
   public ages: string;
   public AgeError: boolean = false;
@@ -30,7 +28,7 @@ export class UpdateprofilePage {
   changeDate = '';
   correct_data;
   public myDate: string
-  constructor(public navCtrl: NavController, public navParams: NavParams, private nativeStorage: NativeStorage, public formBuilder: FormBuilder) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private nativeStorage: NativeStorage, public formBuilder: FormBuilder) {
     this.myForm = formBuilder.group({
       Name: ['', Validators.required],
       Username: ['', Validators.required],
@@ -58,7 +56,7 @@ export class UpdateprofilePage {
 
 
   ionViewDidLoad() {
-
+ 
     console.log('ionViewDidLoad UpdateProfilePage');
     this.items = [];
 
@@ -91,7 +89,7 @@ export class UpdateprofilePage {
     this.myForm.value.age = this.ages;
     if (selDate < 18 || selDate > 70) {
       this.AgeError = true;
-      this.isenabled = true;
+      this.isenabled = false;
     }
     else {
       this.AgeError = false;
@@ -103,7 +101,7 @@ export class UpdateprofilePage {
 
     try {
       console.log(this.key);
-
+      this.isenabled = false;
       this.itemsRef.update({
         Name: this.myForm.value.Name,
         Username: this.myForm.value.Username,
@@ -117,7 +115,24 @@ export class UpdateprofilePage {
         Gender: this.gender,
         Password: this.password,
       });
-      console.log(this.itemsRef)
+      console.log(this.itemsRef);
+      let alert = this.alertCtrl.create({
+        title: 'Profile updated!',
+        buttons: [
+          {
+            text: 'OK',
+            handler: data => {
+                   this.navCtrl.push(ProfilePage);
+                   this.navCtrl.setRoot(ProfilePage);
+                   this.navCtrl.setRoot(ProfilePage);
+            }
+          }
+        ],
+
+      });
+      alert.present();
+
+    
     } catch (e) {
       console.log(e);
 

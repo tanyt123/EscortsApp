@@ -6,12 +6,14 @@ import { FormsModule } from "@angular/forms";
 import { FormControl, FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { ViewChild } from '@angular/core'
 import { UpdateprofilePage } from '../updateprofile/updateprofile';
+import { Navbar } from 'ionic-angular';
 @IonicPage()
 @Component({
   selector: 'page-profile',
   templateUrl: 'profile.html',
 })
 export class ProfilePage {
+   @ViewChild(Navbar) navBar: Navbar;
   myForm: FormGroup;
   public ages: string;
   public AgeError: boolean = false;
@@ -32,9 +34,9 @@ export class ProfilePage {
     console.log('ionViewDidLoad ProfilePage');
     this.items = [];
 
-    var appData = window.localStorage.getItem('app-name');
+  //  var appData = window.localStorage.getItem('app-name');
 
-  //  var appData = "tanyongting1234@gmail.com";
+    var appData = "tanyongting1234@gmail.com";
     this.itemRef.orderByChild("Email").equalTo(appData).once('value', (snap) => {
      
       snap.forEach(itemSnap => {

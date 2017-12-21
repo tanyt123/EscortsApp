@@ -107,6 +107,9 @@
 
     </form>
   </ion-list>
+    <div style="display:flex; flex-direction:column;justify-content:center">
+    <button ion-button (click)="takePhoto()">Lets take a picture!</button>
+  </div>
   <button ion-button [disabled]="!myForm.valid || !isenabled" (click)="Register()">Register 
 </button>
   <!-- <ion-footer>

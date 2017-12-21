@@ -20,8 +20,10 @@ export class LoginPage {
   @ViewChild(Navbar) navBar: Navbar;
   private authState: Observable<firebase.User>;
   private currentUser: firebase.User;
+  public itemRef: firebase.database.Reference = firebase.database().ref('Escorts');
   email: '';
   password: '';
+  name="";
   public loading: Loading;
   constructor(public navCtrl: NavController,
     private alertCtrl: AlertController, private toastCtrl: ToastController, public loadingCtrl: LoadingController, public navParams: NavParams, private afAuth: AngularFireAuth, private nativeStorage: NativeStorage) {
@@ -32,6 +34,7 @@ export class LoginPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
     this.setBackButtonAction();
+
   }
   setBackButtonAction() {
     this.navBar.backButtonClick = () => {
@@ -49,8 +52,17 @@ export class LoginPage {
           firebase.auth().onAuthStateChanged((user) => {
 
             if (user.emailVerified) {
-              window.localStorage.setItem('app-name', this.email);
-              this.navCtrl.push(BookingPage);
+              window.localStorage.setItem('email', this.email);
+              this.itemRef.orderByChild("Email").equalTo(this.email).once('value', (snap) => {
+                snap.forEach(itemSnap => {
+            
+                  this.name = itemSnap.child("Name").val();
+                   window.localStorage.setItem('name', this.name);
+                  return false;
+
+                });
+              }),
+                this.navCtrl.push(BookingPage);
 
               this.navCtrl.setRoot(BookingPage);
 

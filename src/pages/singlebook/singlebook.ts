@@ -9,14 +9,15 @@ import firebase from 'firebase';
 })
 export class SinglebookPage {
   public index;
-  public AgeError: boolean = false;
+  isenabled: boolean = true;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   public items: Array<any> = [];
   public itemRef: firebase.database.Reference = firebase.database().ref('Bookings');
-  public itemRefs: firebase.database.Reference = firebase.database().ref('Bookings');
+  public itemRefs: firebase.database.Reference;
   ionViewDidLoad() {
+    var appData = window.localStorage.getItem('name');
     this.index = this.navParams.get('index');
     this.itemRef.on('value', itemSnapshot => {
       var key = Object.keys(itemSnapshot.val())[this.index];
@@ -24,7 +25,7 @@ export class SinglebookPage {
         this.items.push(itemkeySnapshot.val());
         console.log(this.items);
       });
-
+      this.itemRefs = firebase.database().ref('Bookings/' + key);
       return false;
 
     });
@@ -32,6 +33,18 @@ export class SinglebookPage {
 
 
 
+  }
+  Accept() {
+    try {
+      this.isenabled = false;
+      this.itemRefs.update({
+
+      })
+    }
+    catch (e) {
+      console.log(e);
+
+    }
   }
 }
 
