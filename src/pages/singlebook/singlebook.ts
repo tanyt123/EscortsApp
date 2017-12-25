@@ -1,35 +1,38 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, PickerColumnOption } from 'ionic-angular';
 import firebase from 'firebase';
-
+import { SchedulePage } from '../schedule/schedule';
+import { AlertController } from 'ionic-angular';
 @IonicPage()
 @Component({
   selector: 'page-singlebook',
   templateUrl: 'singlebook.html',
 })
 export class SinglebookPage {
-  public index;
+  public key;
+  public name;
   isenabled: boolean = true;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
   }
 
   public items: Array<any> = [];
   public itemRef: firebase.database.Reference = firebase.database().ref('Bookings');
   public itemRefs: firebase.database.Reference;
   ionViewDidLoad() {
-    var appData = window.localStorage.getItem('name');
-    this.index = this.navParams.get('index');
-    this.itemRef.on('value', itemSnapshot => {
-      var key = Object.keys(itemSnapshot.val())[this.index];
-      this.itemRef.child(key).on('value', itemkeySnapshot => {
+    this.name = window.localStorage.getItem('name');
+    this.key = this.navParams.get('key');
+ 
+      this.itemRef.child(this.key).once('value', (itemkeySnapshot) => {
+
         this.items.push(itemkeySnapshot.val());
         console.log(this.items);
+        this.itemRefs = firebase.database().ref('Bookings/' + this.key);
       });
-      this.itemRefs = firebase.database().ref('Bookings/' + key);
-      return false;
+    
 
-    });
 
+
+    return false;
 
 
 
@@ -38,8 +41,17 @@ export class SinglebookPage {
     try {
       this.isenabled = false;
       this.itemRefs.update({
-
+        Status: "Accepted",
+        Driver: this.name,
       })
+      let alert = this.alertCtrl.create({
+          title: 'You have accepted the booking!',
+          buttons: ['OK']
+        });
+        alert.present();
+      
+        this.navCtrl.push(SchedulePage);
+      this.navCtrl.setRoot(SchedulePage);
     }
     catch (e) {
       console.log(e);

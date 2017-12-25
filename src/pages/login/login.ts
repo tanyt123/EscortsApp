@@ -26,7 +26,9 @@ export class LoginPage {
   name="";
   public loading: Loading;
   constructor(public navCtrl: NavController,
-    private alertCtrl: AlertController, private toastCtrl: ToastController, public loadingCtrl: LoadingController, public navParams: NavParams, private afAuth: AngularFireAuth, private nativeStorage: NativeStorage) {
+    private alertCtrl: AlertController, private toastCtrl: ToastController,
+     public loadingCtrl: LoadingController, public navParams: NavParams, 
+     private afAuth: AngularFireAuth, private nativeStorage: NativeStorage) {
 
 
   }
@@ -40,6 +42,7 @@ export class LoginPage {
     this.navBar.backButtonClick = () => {
       //Write here wherever you wanna do
       this.navCtrl.push(HomePage);
+      this.navCtrl.setRoot(HomePage);
     }
   }
 

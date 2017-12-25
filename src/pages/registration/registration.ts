@@ -38,7 +38,8 @@ export class RegistrationPage {
     private file: File, private filePath: FilePath, public formBuilder: FormBuilder,
     public actionSheetCtrl: ActionSheetController,
     public toastCtrl: ToastController, public platform: Platform,
-    public loadingCtrl: LoadingController, private sms: SMS, private afAuth: AngularFireAuth, afDatabase: AngularFireDatabase, public alertCtrl: AlertController) {
+    public loadingCtrl: LoadingController, private sms: SMS, private afAuth: AngularFireAuth, 
+    afDatabase: AngularFireDatabase, public alertCtrl: AlertController) {
     this.itemsRef = afDatabase.list('Escorts');
 
     this.myForm = formBuilder.group({
@@ -60,18 +61,22 @@ export class RegistrationPage {
       rePassword: ['', Validators.compose([Validators.minLength(8), Validators.maxLength(25), Validators.required])],
     })
   }
+  options: CameraOptions = {
+    quality: 100,
+    destinationType: this.camera.DestinationType.DATA_URL,
+    encodingType: this.camera.EncodingType.JPEG,
+    mediaType: this.camera.MediaType.PICTURE
+  }
+
+
+
+
   takePhoto() {
     this.camera.getPicture(this.options).then((imageData) => {
       this.imageURL = 'data:image/jpeg;base64,' + imageData;
     }, (err) => {
       console.log(err);
     });
-  }
-  options: CameraOptions = {
-    quality: 100,
-    destinationType: this.camera.DestinationType.DATA_URL,
-    encodingType: this.camera.EncodingType.JPEG,
-    mediaType: this.camera.MediaType.PICTURE
   }
   matchingPasswords() {
 
@@ -122,19 +127,25 @@ export class RegistrationPage {
         firebase.auth().onAuthStateChanged(function (user) {
           user.sendEmailVerification();
         });
+        
         this.itemsRef.push({
           Name: this.myForm.value.Name,
           Username: this.myForm.value.Username,
           Tel: this.myForm.value.tel,
           Email: this.myForm.value.email,
-          Password: this.myForm.value.password,
+
           Address: this.myForm.value.address,
           Age: this.ages,
           DOB: this.myForm.value.DOB,
           PlateNo: this.myForm.value.plateNo,
           IC: this.myForm.value.IC,
-          Gender: this.myForm.value.gender
-        });
+          Gender: this.myForm.value.gender,
+
+        }).then((itemsRef) => {
+          this.itemsRef.push({
+            Key: itemsRef.key
+          });
+        });;
 
 
 
@@ -157,11 +168,12 @@ export class RegistrationPage {
           });
           alert.present();
         });
+      this.isenabled = true;
     }
 
     catch (e) {
       console.log(e);
-
+      this.isenabled = true;
     }
 
   }

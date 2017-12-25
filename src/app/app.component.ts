@@ -19,6 +19,8 @@ import { SinglebookPage } from '../pages/singlebook/singlebook';
 import { MenuController } from 'ionic-angular';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { UpdateprofilePage } from '../pages/updateprofile/updateprofile';
+import { ReauthenticatePage } from '../pages/reauthenticate/reauthenticate';
+import { SchedulePage } from '../pages/schedule/schedule';
 @Component({
   templateUrl: 'app.html'
 })
@@ -35,13 +37,14 @@ export class MyApp {
 
       this.afAuth.authState.subscribe(auth => {
         if (!auth)
-          this.rootPage =ProfilePage;
+          this.rootPage = BookingPage;
         else
-          this.rootPage = ProfilePage;
+          this.rootPage = BookingPage;
       });
       this.pages = [
         { title: 'Profile', component: ProfilePage },
         { title: 'Bookings', component: BookingPage },
+         { title: 'MySchedule', component: SchedulePage },
         { title: 'Logout', component: null },
       ];
       this.activePage = this.pages[1];

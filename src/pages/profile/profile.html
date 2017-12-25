@@ -1,9 +1,8 @@
-
 <ion-header>
 
-<ion-navbar color="danger" enable-menu-with-back-views="false" >
+  <ion-navbar color="danger" enable-menu-with-back-views="false">
 
-    <button persistent="true"  ion-button class="damn" menuToggle>
+    <button persistent="true" ion-button class="damn" menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title style="text-align: center;">Profile</ion-title>
@@ -13,65 +12,78 @@
 
 
 <ion-content padding>
- <ion-list *ngFor="let item of items ">
-  
-    <ion-item >
-    <ion-label color="primary">Name:</ion-label>
-    <ion-label>{{ item.Name}}</ion-label>
-  </ion-item>
+  <ion-list *ngFor="let item of items ">
 
-  <ion-item>
-    <ion-label color="primary">Username:</ion-label>
-    <ion-label> {{ item.Username}}</ion-label>
-  </ion-item>
-
-  <ion-item>
-    <ion-label color="primary"    text-wrap>Personal Contact:</ion-label>
-    <ion-label>{{ item.Tel}}</ion-label>
-  </ion-item>
-
- <ion-item >
-  <ion-label color="primary">Gender:</ion-label>
-<ion-label> {{ item.Gender}}</ion-label>
+    <ion-item>
+      <ion-label color="primary">Name:</ion-label>
+      <ion-label>{{ item.Name}}</ion-label>
     </ion-item>
 
-  <ion-item>
-    <ion-label color="primary"  >IC:</ion-label>
-    <ion-label> {{ item.IC}}</ion-label>
-  </ion-item>
+    <ion-item>
+      <ion-label color="primary">Username:</ion-label>
+      <ion-label> {{ item.Username}}</ion-label>
+    </ion-item>
 
-  
+    <ion-item>
+      <ion-label color="primary" text-wrap>Personal Contact:</ion-label>
+      <ion-label>{{ item.Tel}}</ion-label>
+    </ion-item>
 
-  <ion-item>
-  <ion-label color="primary"  >Address:</ion-label>
-    <ion-label >{{ item.Address}}</ion-label>
-  </ion-item>
+    <ion-item>
+      <ion-label color="primary">Gender:</ion-label>
+      <ion-label> {{ item.Gender}}</ion-label>
+    </ion-item>
 
-
-   <ion-item>
-  <ion-label color="primary" >License Plate:</ion-label>
-    <ion-label>{{ item.PlateNo}}</ion-label>
-  </ion-item>
-
-      <ion-item>
-        <ion-label color="primary">Date of birth:</ion-label>
-        <ion-datetime  [(ngModel)]="myDate" >{{ item.DOB }}</ion-datetime>
-      </ion-item>
-        <ion-item>
-        <ion-label color="primary">Age:</ion-label>
-        <ion-label> {{ item.Age}}</ion-label>
-      </ion-item>
-
-  
+    <ion-item>
+      <ion-label color="primary">IC:</ion-label>
+      <ion-label> {{ item.IC}}</ion-label>
+    </ion-item>
 
 
 
+    <ion-item>
+      <ion-label color="primary">Address:</ion-label>
+      <ion-label>{{ item.Address}}</ion-label>
+    </ion-item>
 
 
- 
+    <ion-item>
+      <ion-label color="primary">License Plate:</ion-label>
+      <ion-label>{{ item.PlateNo}}</ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="primary">Date of birth:</ion-label>
+      <ion-datetime [(ngModel)]="myDate">{{ item.DOB }}</ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary">Age:</ion-label>
+      <ion-label> {{ item.Age}}</ion-label>
+    </ion-item>
+
+
+
+
+
+
+
+
 
 
   </ion-list>
-    <button ion-button  (click)="Update()">Update My Profile 
-</button>
+
+
+  <div class="row">
+    <div class="col">
+      <button ion-button class="react" (click)="Update()">Update My Profile
+     </button>
+    </div>
+
+
+    <div class="col">
+      <button ion-button class="react" (click)="Delete()">Delete My Profile
+        </button>
+    </div>
+  </div>
+
 </ion-content>

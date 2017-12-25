@@ -100,7 +100,7 @@ export class UpdateprofilePage {
   Update() {
 
     try {
-      console.log(this.key);
+     
       this.isenabled = false;
       this.itemsRef.update({
         Name: this.myForm.value.Name,
@@ -111,9 +111,6 @@ export class UpdateprofilePage {
         DOB: this.myForm.value.myDate,
         PlateNo: this.myForm.value.plateNo,
         IC: this.myForm.value.IC,
-        Email: this.email,
-        Gender: this.gender,
-        Password: this.password,
       });
       console.log(this.itemsRef);
       let alert = this.alertCtrl.create({
