@@ -68,6 +68,9 @@
   <ion-label color="primary" text-wrap  >License Plate:</ion-label>
     <ion-input formControlName="plateNo" type="text"  placeholder="License Plate"></ion-input>
   </ion-item>
+    <div class="error" *ngIf="!myForm.get('plateNo').valid  && myForm.get('plateNo').touched">
+    <p>Please enter a valid car plate.</p>
+</div>
       <ion-item>
         <ion-label color="primary">Date of birth:</ion-label>
         <ion-datetime formControlName="DOB" displayFormat="DD/MM/YYYY" (ionChange)="getAge()" pickerFormat="DDDD MMMM YYYY"></ion-datetime>
@@ -100,19 +103,20 @@
           [class.invalid]="!myForm.get('rePassword').valid  && (myForm.get('rePassword').dirty  || submitAttempt)"></ion-input>
       </ion-item>
   
-       <div class='form-text error' *ngIf="myForm.get('rePassword').touched && mismatchedPasswords && myForm.get('password').valid">
+       <div class='form-text error' *ngIf="myForm.get('rePassword').touched && mismatchedPasswords && myForm.get('password').touched">
         <p>Passwords do not match.</p>
        </div>
       
 
     </form>
   </ion-list>
-    <div style="display:flex; flex-direction:column;justify-content:center">
-    <button ion-button (click)="takePhoto()">Lets take a picture!</button>
-  </div>
+
   <button ion-button [disabled]="!myForm.valid || !isenabled" (click)="Register()">Register 
 </button>
   <!-- <ion-footer>
+        <div style="display:flex; flex-direction:column;justify-content:center">
+    <button ion-button (click)="takePhoto()">Lets take a picture!</button>
+  </div>
   <ion-toolbar color="primary">
     <ion-buttons>
       <button ion-button icon-left (click)="presentActionSheet()">

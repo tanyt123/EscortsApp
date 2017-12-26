@@ -141,11 +141,9 @@ export class RegistrationPage {
           IC: this.myForm.value.IC,
           Gender: this.myForm.value.gender,
 
-        }).then((itemsRef) => {
-          this.itemsRef.push({
-            Key: itemsRef.key
+       
           });
-        });;
+
 
 
 
@@ -167,13 +165,15 @@ export class RegistrationPage {
             buttons: ['OK']
           });
           alert.present();
+        this.myForm.get('email').setErrors({Mismatch: true})
+            this.isenabled = true;
         });
-      this.isenabled = true;
+    
     }
 
     catch (e) {
       console.log(e);
-      this.isenabled = true;
+    
     }
 
   }

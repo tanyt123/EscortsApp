@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Nav } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Nav, Refresher } from 'ionic-angular';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { MenuController } from 'ionic-angular';
 import firebase from 'firebase';
@@ -21,20 +21,20 @@ export interface PageInterface {
 })
 export class BookingPage {
   public itemss: Array<any> = [];
- items: Observable<any[]>;
-    itemsRef: AngularFireList<any>;
+  items: Observable<any[]>;
+  itemsRef: AngularFireList<any>;
   public itemRef: firebase.database.Reference = firebase.database().ref('Bookings');
-  constructor(public navCtrl: NavController, public navParams: NavParams, 
-  public menuCtrl: MenuController, afDatabase: AngularFireDatabase) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+    public menuCtrl: MenuController, afDatabase: AngularFireDatabase) {
     this.itemsRef = afDatabase.list('Bookings',
-    ref => ref.orderByChild('Status').equalTo(""));
+      ref => ref.orderByChild('Status').equalTo(""));
     this.items = this.itemsRef.snapshotChanges().map(changes => {
-  return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
-     });
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    });
   }
   gotoPage(key) {
     this.navCtrl.push(SinglebookPage, {
-     key: key
+      key: key
     });
 
   }
@@ -55,9 +55,28 @@ export class BookingPage {
         return false;
 
       });
-  
+
     });
 
   }
+ /* doRefresh(refresher: Refresher) {
+      this.itemsRef = this.afDatabase.list('Bookings',
+      ref => ref.orderByChild('Status').equalTo(""));
+    this.items = this.itemsRef.snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    });
 
+      // simulate a network request that would take longer
+      // than just pulling from out local json file
+      setTimeout(() => {
+        refresher.complete();
+
+        const toast = this.toastCtrl.create({
+          message: 'Sessions have been updated.',
+          duration: 3000
+        });
+        toast.present();
+      }, 1000);
+    });
+  }*/
 }

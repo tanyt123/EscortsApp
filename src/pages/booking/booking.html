@@ -9,12 +9,17 @@
 </ion-header>
 
 <ion-content padding>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
-<ion-list>
-  <ion-item *ngFor="let item of items | async" (click)="gotoPage(item.key)">
+<ion-list *ngFor="let item of items | async" [hidden]="items === 0">
+  <ion-item  (click)="gotoPage(item.key)">
    <p>Time: {{ item.Starttime }}</p>   
-      <p >Time: {{ item.key }}</p>   
+    
   </ion-item>
 </ion-list>
-
+  <ion-list-header *ngIf="( items | async)?.length==0">
+      No Bookings Found
+  </ion-list-header>
 </ion-content>

@@ -43,9 +43,9 @@ export class ProfilePage {
     console.log('ionViewDidLoad ProfilePage');
     this.items = [];
 
-    //  var appData = window.localStorage.getItem('email');
+     var appData = window.localStorage.getItem('email');
   console.log(this.key);
-    var appData = "tanyongting1234@gmail.com";
+    //var appData = "tanyongting1234@gmail.com";
     this.itemRef.orderByChild("Email").equalTo(appData).once('value', (snap) => {
       this.key = Object.keys(snap.val());
       snap.forEach(itemSnap => {
@@ -72,7 +72,7 @@ myModal.present();
     console.log(this.key);
     var user = firebase.auth().currentUser;
 
-    let alert = this.alertCtrl.create({
+  /*  let alert = this.alertCtrl.create({
       message: "ReEnter Credentials.",
       cssClass: 'buttonCss',
       inputs: [
@@ -135,7 +135,7 @@ myModal.present();
 
     alert.present();
 
-
+*/
   }
 
 }
