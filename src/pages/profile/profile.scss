@@ -2,19 +2,40 @@ page-profile {
 
   .label{
       float: right;
+          width:80px;
   }
+  
+
    .react{
        margin: auto;
         display:block;
         background-color: red;
    }
-.buttonCss {
-        
-  button.alert-button:nth-child(1){
-      color: red;
-    }
+.margin{
+padding-top: 50px;
+}
+  .item, .item-divider {
+  border-color: red;
+}  
+.ion-item{ 
+		border: 1px solid #c8c7cc;
+		margin-top : 20px;
+		
+	
+	
+	}
+    .ion-item1{ 
+		border: 1px solid #c8c7cc;
+	
+		
+	
+	
+	}
+ion-item [disabled] {
+   color: black;
 
-
-
+}
+.date{
+    padding-right: 85px;
 }
 }

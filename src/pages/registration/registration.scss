@@ -10,6 +10,34 @@ border-bottom: none;
  
   
 
+} 
+ .ion-select{
+   
+     
+      padding-right: 170px;
+        min-width: 275px !important;
+  }
+.alert-ios .alert-radio-label{
+white-space: pre-line;
+}
+
+.alert-md .alert-radio-label{
+white-space: pre-line;
+}
+
+.alert-wp .alert-radio-label{
+white-space: pre-line;
+}
+
+.alert-radio-label {
+   white-space: normal!important;
+}
+  ion-item [disabled] {
+   color: black;
+
+}
+.date{
+    padding-right: 175px;
 }
     }
 

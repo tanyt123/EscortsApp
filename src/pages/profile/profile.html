@@ -52,9 +52,9 @@
       <ion-label>{{ item.PlateNo}}</ion-label>
     </ion-item>
 
-    <ion-item>
+    <ion-item disabled >
       <ion-label color="primary">Date of birth:</ion-label>
-      <ion-datetime [(ngModel)]="myDate">{{ item.DOB }}</ion-datetime>
+      <ion-datetime  [(ngModel)]="myDate"   class="date">{{ item.DOB }}</ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label color="primary">Age:</ion-label>
@@ -85,5 +85,47 @@
         </button>
     </div>
   </div>
+<ion-list [formGroup]="myForm" class="margin">
+    <ion-item class="ion-item">
+      <ion-label  color="primary">New Email:</ion-label>
+      <ion-input formControlName="newEmail"  (ionChange)="matchingEmails()" [class.invalid]="!myForm.get('newEmail').valid 
+       && (myForm.get('newEmail').dirty)"></ion-input>
+    </ion-item>
+    <div class="error" *ngIf="!myForm.get('newEmail').valid && myForm.get('newEmail').touched">
+      <p>Please enter a valid email.</p>
+    </div>
+    <ion-item class="ion-item1">
+      <ion-label color="primary" text-wrap>Confirm Email:</ion-label>
+      <ion-input formControlName="cfmEmail" (ionChange)="matchingEmails()" 
+      [class.invalid]="!myForm.get('cfmEmail').valid 
+       && (myForm.get('cfmEmail').dirty)"></ion-input>
+    </ion-item>
+    <div class='form-text error' *ngIf="myForm.get('newEmail').touched && mismatchedEmails && myForm.get('cfmEmail').touched">
+      <p>Emails do not match.</p>
+    </div>
+  </ion-list>
+ <!-- <form [formGroup]="myForm" class="margin">
+ 
+ <div class="row">
+      <span class = "input-label">New Email:</span>
+      <input type = "text" formControlName="newEmail"  (ionChange)="matchingEmails()" [class.invalid]="!myForm.get('newEmail').valid 
+       && (myForm.get('newEmail').dirty)" placeholder = "New Email" />
+
+      <div class="error" *ngIf="!myForm.get('newEmail').valid && myForm.get('newEmail').touched">
+        <p>Please enter a valid email.</p>
+      </div>
+ </div>
+  <div class="row">
+      <span class = "input-label">Confirm Email:</span>
+      <input type = "text" formControlName="cfmEmail" (ionChange)="matchingEmails()" 
+      [class.invalid]="!myForm.get('cfmEmail').valid 
+       && (myForm.get('cfmEmail').dirty)" placeholder = "Confirm Email" />
+
+</div>
+  </form>
+-->
+
+    <button ion-button [disabled]="!myForm.valid " (click)="UpdateEmail()">Update My Email
+</button>
 
 </ion-content>

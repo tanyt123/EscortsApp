@@ -33,17 +33,17 @@
     <p>Please enter a valid phone number of 8 characters.</p>
 </div>
   <ion-item>
-    <ion-label color="primary" >Email:</ion-label>
+    <ion-label  color="primary" >Email:</ion-label>
     <ion-input formControlName="email" type="email" placeholder="Email Input" ></ion-input>
   </ion-item>
    <div class="error" *ngIf="!myForm.get('email').valid && myForm.get('email').touched">
     <p>Please enter a valid email.</p>
 </div>
- <ion-item >
-  <ion-label color="primary">Gender:</ion-label>
-  <ion-select formControlName="gender" >
-    <ion-option value="f">Female</ion-option>
-    <ion-option value="m">Male</ion-option>
+ <ion-item text-wrap>
+  <ion-label color="primary"  >Gender:</ion-label>
+  <ion-select class="ion-select" formControlName="gender"  text-wrap>
+    <ion-option text-wrap value="f">Female </ion-option>
+    <ion-option text-wrap value="m">Male</ion-option>
   </ion-select>
     </ion-item>
 
@@ -71,14 +71,14 @@
     <div class="error" *ngIf="!myForm.get('plateNo').valid  && myForm.get('plateNo').touched">
     <p>Please enter a valid car plate.</p>
 </div>
-      <ion-item>
-        <ion-label color="primary">Date of birth:</ion-label>
-        <ion-datetime formControlName="DOB" displayFormat="DD/MM/YYYY" (ionChange)="getAge()" pickerFormat="DDDD MMMM YYYY"></ion-datetime>
+      <ion-item >
+        <ion-label color="primary" text-wrap>Date of birth:</ion-label>
+        <ion-datetime class="date" formControlName="DOB" displayFormat="DD/MM/YYYY" (ionChange)="getAge()" pickerFormat="DDDD MMMM YYYY"></ion-datetime>
       </ion-item>
 
-      <ion-item>
+      <ion-item disabled>
         <ion-label color="primary">Age:</ion-label>
-        <ion-input formControlName="age" id="age" type="text" [disabled]="true" placeholder="" [class.invalid]="mismatchedPasswords"></ion-input>
+        <ion-input formControlName="age" id="age" type="text"  placeholder="" [class.invalid]="mismatchedPasswords"></ion-input>
       </ion-item>
       <div *ngIf="AgeError">
         <p>Age must be between 18 & 70.</p>

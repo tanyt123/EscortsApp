@@ -9,8 +9,8 @@ import { UpdateprofilePage } from '../updateprofile/updateprofile';
 import { Navbar } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { AlertController } from 'ionic-angular';
-import { ModalController} from 'ionic-angular';
-import { ReauthenticatePage} from '../reauthenticate/reauthenticate';
+import { ModalController } from 'ionic-angular';
+import { ReauthenticatePage } from '../reauthenticate/reauthenticate';
 import { AngularFireAuthModule, AngularFireAuth, AngularFireAuthProvider, AUTH_PROVIDERS } from 'angularfire2/auth';
 @IonicPage()
 @Component({
@@ -24,15 +24,19 @@ export class ProfilePage {
   public AgeError: boolean = false;
   isenabled: boolean = false;
   public date;
+  public mismatchedEmails: boolean = false;
   public key;
   changeDate = '';
   correct_data;
   public myDate: string;
   private currentUser: firebase.User;
   constructor(public navCtrl: NavController, private afAuth: AngularFireAuth, public navParams: NavParams, public alertCtrl: AlertController
-    , private nativeStorage: NativeStorage, public modalCtrl: ModalController,public formBuilder: FormBuilder) {
+    , private nativeStorage: NativeStorage, public modalCtrl: ModalController, public formBuilder: FormBuilder) {
 
-
+    this.myForm = formBuilder.group({
+      newEmail: ['', Validators.compose([Validators.maxLength(70), Validators.pattern('^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$'), Validators.required])],
+      cfmEmail: ['', Validators.compose([Validators.maxLength(70), Validators.pattern('^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$'), Validators.required])],
+    });
   }
 
   public items: Array<any> = [];
@@ -43,9 +47,9 @@ export class ProfilePage {
     console.log('ionViewDidLoad ProfilePage');
     this.items = [];
 
-     var appData = window.localStorage.getItem('email');
-  console.log(this.key);
-    //var appData = "tanyongting1234@gmail.com";
+    // var appData = window.localStorage.getItem('email');
+    console.log(this.key);
+    var appData = "tanyongting1234@gmail.com";
     this.itemRef.orderByChild("Email").equalTo(appData).once('value', (snap) => {
       this.key = Object.keys(snap.val());
       snap.forEach(itemSnap => {
@@ -56,90 +60,110 @@ export class ProfilePage {
       });
       this.myDate = this.date;
       this.itemsRef = firebase.database().ref('Escorts/' + this.key);
-    
+
     });
 
   }
   Update() {
     this.navCtrl.push(UpdateprofilePage);
   }
+  matchingEmails() {
+
+
+    if (this.myForm.value.newEmail !== this.myForm.value.cfmEmail) {
+      this.myForm.get('cfmEmail').setErrors({ Mismatch: true })
+      this.mismatchedEmails = true;
+
+    }
+    else {
+
+      this.mismatchedEmails = false;
+    }
+  }
   Delete() {
-    const myModalOptions: ModalOptions ={
-     enableBackdropDismiss : false
+    const myModalOptions: ModalOptions = {
+      enableBackdropDismiss: false
     };
-const myModal = this.modalCtrl.create(ReauthenticatePage);
-myModal.present();
+    const myModal = this.modalCtrl.create(ReauthenticatePage);
+    myModal.present();
     console.log(this.key);
     var user = firebase.auth().currentUser;
-
-  /*  let alert = this.alertCtrl.create({
-      message: "ReEnter Credentials.",
-      cssClass: 'buttonCss',
-      inputs: [
-        {
-          name: 'Email',
-          placeholder: 'Email'
-
-        },
-        {
-          name: 'Password',
-          placeholder: 'Password'
-        },
-      ],
-      buttons: [
-        {
-          text: 'OK',
-          cssClass: 'buttonOkCss',
-          handler: data => {
-            var cred = firebase.auth.EmailAuthProvider.credential(
-              data.Email,
-              data.Password
-            );
-            user.reauthenticateWithCredential(cred).then(() => {
-              user.delete().then(() => {
-
-                this.itemsRef.remove();
-
-                let alert = this.alertCtrl.create({
-                  message: "User deleted.",
-                  buttons: [
-                    {
-                      text: 'OK',
-                        cssClass: 'buttonOkCss',
-                        
-                      handler: data => {
-                        this.navCtrl.push(HomePage);
-                        this.navCtrl.setRoot(HomePage);
-
-                      }
-                    }
-                  ],
-                });
-                alert.present();
-              }).catch(function (error) {
-                console.log(error);
-              });
-            }).catch(function (error) {
-              console.log(error);
-            });
-         
-
-          },
-
-        }, {
-          text: 'Cancel',
-          role: 'cancel'
-        },
-      ],
-    });
-
-    alert.present();
-
-*/
+  }
+  UpdateEmail() {
+    const myModalOptions: ModalOptions = {
+      enableBackdropDismiss: false
+    };
+    const myModal = this.modalCtrl.create(ReauthenticatePage, { Email: this.myForm.value.newEmail });
+    myModal.present();
+    console.log(this.key);
+    var user = firebase.auth().currentUser;
   }
 
 }
-
+    /*  let alert = this.alertCtrl.create({
+        message: "ReEnter Credentials.",
+        cssClass: 'buttonCss',
+        inputs: [
+          {
+            name: 'Email',
+            placeholder: 'Email'
+  
+          },
+          {
+            name: 'Password',
+            placeholder: 'Password'
+          },
+        ],
+        buttons: [
+          {
+            text: 'OK',
+            cssClass: 'buttonOkCss',
+            handler: data => {
+              var cred = firebase.auth.EmailAuthProvider.credential(
+                data.Email,
+                data.Password
+              );
+              user.reauthenticateWithCredential(cred).then(() => {
+                user.delete().then(() => {
+  
+                  this.itemsRef.remove();
+  
+                  let alert = this.alertCtrl.create({
+                    message: "User deleted.",
+                    buttons: [
+                      {
+                        text: 'OK',
+                          cssClass: 'buttonOkCss',
+                          
+                        handler: data => {
+                          this.navCtrl.push(HomePage);
+                          this.navCtrl.setRoot(HomePage);
+  
+                        }
+                      }
+                    ],
+                  });
+                  alert.present();
+                }).catch(function (error) {
+                  console.log(error);
+                });
+              }).catch(function (error) {
+                console.log(error);
+              });
+           
+  
+            },
+  
+          }, {
+            text: 'Cancel',
+            role: 'cancel'
+          },
+        ],
+      });
+  
+      alert.present();
+  
+  */
 
 
 

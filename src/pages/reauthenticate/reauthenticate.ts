@@ -9,8 +9,8 @@ import { ProfilePage } from '../profile/profile';
   templateUrl: 'reauthenticate.html',
 })
 export class ReauthenticatePage {
-  email: '';
-  password: '';
+  email: "null";
+  password: "null";
   public key;
   appData;
   constructor(public navCtrl: NavController, public navParams: NavParams, public view: ViewController, public alertCtrl: AlertController) {
@@ -22,7 +22,10 @@ export class ReauthenticatePage {
     console.log('ionViewDidLoad ReauthenticatePage');
 
     //  this.appData = window.localStorage.getItem('email');
-
+    this.email = this.navParams.get('Email');
+    this.password = this.navParams.get('Password');
+    console.log(this.email);
+    console.log(this.password);
     this.appData = "tanyongting1234@gmail.com";
     this.itemRef.orderByChild("Email").equalTo(this.appData).once('value', (snap) => {
       this.key = Object.keys(snap.val());
@@ -40,9 +43,56 @@ export class ReauthenticatePage {
       this.password
     );
     user.reauthenticateWithCredential(cred).then(() => {
-      user.delete().then(() => {
-        var password = this.navParams.get('password');
-        if (!password) {
+      if (this.password !== "null") {
+        user.updatePassword(this.password).then(() => {
+          let alert = this.alertCtrl.create({
+            message: "Password changed.",
+            buttons: [
+              {
+                text: 'OK',
+                cssClass: 'buttonOkCss',
+
+                handler: data => {
+                  this.navCtrl.push(ProfilePage);
+                  this.navCtrl.setRoot(ProfilePage);
+
+                }
+              }
+            ],
+          });
+          alert.present();
+        }).catch(function (error) {
+          console.log(error);
+        });
+      }
+      else if (this.email !== "null") {
+        user.updateEmail(this.email).then(() => {
+          user.sendEmailVerification();
+          let alert = this.alertCtrl.create({
+            message: "Email changed.A verification has been sent.",
+            buttons: [
+              {
+                text: 'OK',
+                cssClass: 'buttonOkCss',
+
+                handler: data => {
+                  this.navCtrl.push(ProfilePage);
+                  this.navCtrl.setRoot(ProfilePage);
+
+                }
+              }
+            ],
+          });
+          alert.present();
+        }).catch(function (error) {
+          console.log(error);
+
+        });
+      }
+      else {
+        user.delete().then(() => {
+          var password = this.navParams.get('password');
+
           this.itemsRef.remove();
           let alert = this.alertCtrl.create({
             message: "User deleted.",
@@ -60,32 +110,12 @@ export class ReauthenticatePage {
             ],
           });
           alert.present();
-        }
-        else {
-          user.updatePassword(password).then(() => {
-            let alert = this.alertCtrl.create({
-              message: "Password changed.",
-              buttons: [
-                {
-                  text: 'OK',
-                  cssClass: 'buttonOkCss',
+        }).catch(function (error) {
+          console.log(error);
+        });
 
-                  handler: data => {
-                    this.navCtrl.push(ProfilePage);
-                    this.navCtrl.setRoot(ProfilePage);
+      }
 
-                  }
-                }
-              ],
-            });
-            alert.present();
-          }).catch(function (error) {
-
-          });
-        }
-      }).catch(function (error) {
-        console.log(error);
-      });
     }).catch(function (error) {
       console.log(error);
     });
