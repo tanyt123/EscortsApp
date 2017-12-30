@@ -25,7 +25,7 @@ export class BookingPage {
   public itemss: Array<any> = [];
   items: Observable<any[]>;
   itemsRef: AngularFireList<any>;
-  selectedDate: string = new Date().toJSON().split('T')[0];
+  selectedDate;
  today = new Date().toJSON().split('T')[0];
   public itemRef: firebase.database.Reference = firebase.database().ref('Bookings');
   constructor(public navCtrl: NavController, public navParams: NavParams,
@@ -39,19 +39,38 @@ export class BookingPage {
           items.Status === '' || items.Status === 'Cancelled'
         );
     });
+  console.log(this.items);  
 
   }
   Filter() {
+    // console.log(this.selectedDate)
+    // this.items = this.itemsRef.snapshotChanges().map(changes => {
+
+    //   return changes.map(c =>
+    //     ({ key: c.payload.key, ...c.payload.val() })).filter(items =>
+    //       (items.Status === '' || items.Status === 'Cancelled') && items.Date === this.selectedDate
+    //     );
+        
+    // });
+    console.log("Hi")
+ this.items = this.items.map(item => {
+   return item.filter(items => items.Gender === 'Female')
+ })
+this.items = this.items.map(item => {
+   return item.filter(items => items.Address === 'SG  ')
+ })
+  }
+  FilterDate() {
+     console.log(this.selectedDate)
     this.items = this.itemsRef.snapshotChanges().map(changes => {
 
       return changes.map(c =>
         ({ key: c.payload.key, ...c.payload.val() })).filter(items =>
-          (items.Status === '' || items.Status === 'Cancelled') && items.Gender === 'Female'
+          (items.Status === '' || items.Status === 'Cancelled') && items.Date === this.selectedDate
         );
     });
 
   }
-
   gotoPage(key) {
  
     this.navCtrl.push(SinglebookPage, {
