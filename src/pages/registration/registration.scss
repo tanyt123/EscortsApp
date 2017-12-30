@@ -36,6 +36,11 @@ white-space: pre-line;
    color: black;
 
 }
+input[disabled] {
+color:#000 !important;
+background: none !important;
+opacity: 1 !important;
+}
 .date{
     padding-right: 175px;
 }

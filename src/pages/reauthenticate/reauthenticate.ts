@@ -9,8 +9,8 @@ import { ProfilePage } from '../profile/profile';
   templateUrl: 'reauthenticate.html',
 })
 export class ReauthenticatePage {
-  email: "null";
-  password: "null";
+  email;
+  password; 
   public key;
   appData;
   constructor(public navCtrl: NavController, public navParams: NavParams, public view: ViewController, public alertCtrl: AlertController) {
@@ -26,7 +26,7 @@ export class ReauthenticatePage {
     this.password = this.navParams.get('Password');
     console.log(this.email);
     console.log(this.password);
-    this.appData = "tanyongting1234@gmail.com";
+    this.appData = "153707h@mymail.nyp.edu.sg";
     this.itemRef.orderByChild("Email").equalTo(this.appData).once('value', (snap) => {
       this.key = Object.keys(snap.val());
       this.itemsRef = firebase.database().ref('Escorts/' + this.key);
@@ -43,10 +43,11 @@ export class ReauthenticatePage {
       this.password
     );
     user.reauthenticateWithCredential(cred).then(() => {
-      if (this.password !== "null") {
+      if (this.password ) {
+        console.log(this.email)
         user.updatePassword(this.password).then(() => {
           let alert = this.alertCtrl.create({
-            message: "Password changed.",
+            message: "Password changed",
             buttons: [
               {
                 text: 'OK',
@@ -65,30 +66,7 @@ export class ReauthenticatePage {
           console.log(error);
         });
       }
-      else if (this.email !== "null") {
-        user.updateEmail(this.email).then(() => {
-          user.sendEmailVerification();
-          let alert = this.alertCtrl.create({
-            message: "Email changed.A verification has been sent.",
-            buttons: [
-              {
-                text: 'OK',
-                cssClass: 'buttonOkCss',
-
-                handler: data => {
-                  this.navCtrl.push(ProfilePage);
-                  this.navCtrl.setRoot(ProfilePage);
-
-                }
-              }
-            ],
-          });
-          alert.present();
-        }).catch(function (error) {
-          console.log(error);
-
-        });
-      }
+    
       else {
         user.delete().then(() => {
           var password = this.navParams.get('password');
@@ -117,7 +95,22 @@ export class ReauthenticatePage {
       }
 
     }).catch(function (error) {
-      console.log(error);
+   let alert = this.alertCtrl.create({
+            message: error,
+            buttons: [
+              {
+                text: 'OK',
+                cssClass: 'buttonOkCss',
+
+                handler: data => {
+                  this.navCtrl.push(HomePage);
+                  this.navCtrl.setRoot(HomePage);
+
+                }
+              }
+            ],
+          });
+          alert.present();
     });
   }
 }

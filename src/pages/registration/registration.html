@@ -76,9 +76,9 @@
         <ion-datetime class="date" formControlName="DOB" displayFormat="DD/MM/YYYY" (ionChange)="getAge()" pickerFormat="DDDD MMMM YYYY"></ion-datetime>
       </ion-item>
 
-      <ion-item disabled>
+      <ion-item disabled >
         <ion-label color="primary">Age:</ion-label>
-        <ion-input formControlName="age" id="age" type="text"  placeholder="" [class.invalid]="mismatchedPasswords"></ion-input>
+        <ion-input disabled formControlName="age" id="age" type="text"  placeholder="" [class.invalid]="mismatchedPasswords"></ion-input>
       </ion-item>
       <div *ngIf="AgeError">
         <p>Age must be between 18 & 70.</p>

@@ -24,7 +24,7 @@ export class ProfilePage {
   public AgeError: boolean = false;
   isenabled: boolean = false;
   public date;
-  public mismatchedEmails: boolean = false;
+  public mismatchedPasswords: boolean = false;
   public key;
   changeDate = '';
   correct_data;
@@ -34,8 +34,8 @@ export class ProfilePage {
     , private nativeStorage: NativeStorage, public modalCtrl: ModalController, public formBuilder: FormBuilder) {
 
     this.myForm = formBuilder.group({
-      newEmail: ['', Validators.compose([Validators.maxLength(70), Validators.pattern('^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$'), Validators.required])],
-      cfmEmail: ['', Validators.compose([Validators.maxLength(70), Validators.pattern('^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$'), Validators.required])],
+      newPassword: ['', Validators.compose([Validators.maxLength(70), Validators.pattern('^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$'), Validators.required])],
+      cfmPassword: ['', Validators.compose([Validators.maxLength(70), Validators.pattern('^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$'), Validators.required])],
     });
   }
 
@@ -47,11 +47,12 @@ export class ProfilePage {
     console.log('ionViewDidLoad ProfilePage');
     this.items = [];
 
-    // var appData = window.localStorage.getItem('email');
-    console.log(this.key);
+    // var appData = window.localStorage.getItem('Email');
+    
     var appData = "tanyongting1234@gmail.com";
     this.itemRef.orderByChild("Email").equalTo(appData).once('value', (snap) => {
       this.key = Object.keys(snap.val());
+      console.log(this.key);
       snap.forEach(itemSnap => {
         this.items.push(itemSnap.val());
         this.date = itemSnap.child("DOB").val();
@@ -67,17 +68,17 @@ export class ProfilePage {
   Update() {
     this.navCtrl.push(UpdateprofilePage);
   }
-  matchingEmails() {
+  matchingPasswords() {
 
 
-    if (this.myForm.value.newEmail !== this.myForm.value.cfmEmail) {
-      this.myForm.get('cfmEmail').setErrors({ Mismatch: true })
-      this.mismatchedEmails = true;
+    if (this.myForm.value.newPassword !== this.myForm.value.cfmPassword) {
+      this.myForm.get('cfmPassword').setErrors({ Mismatch: true })
+      this.mismatchedPasswords = true;
 
     }
     else {
 
-      this.mismatchedEmails = false;
+      this.mismatchedPasswords = false;
     }
   }
   Delete() {
@@ -89,11 +90,11 @@ export class ProfilePage {
     console.log(this.key);
     var user = firebase.auth().currentUser;
   }
-  UpdateEmail() {
+  UpdatePassword() {
     const myModalOptions: ModalOptions = {
       enableBackdropDismiss: false
     };
-    const myModal = this.modalCtrl.create(ReauthenticatePage, { Email: this.myForm.value.newEmail });
+    const myModal = this.modalCtrl.create(ReauthenticatePage, { Password: this.myForm.value.newPassword });
     myModal.present();
     console.log(this.key);
     var user = firebase.auth().currentUser;
@@ -105,8 +106,8 @@ export class ProfilePage {
         cssClass: 'buttonCss',
         inputs: [
           {
-            name: 'Email',
-            placeholder: 'Email'
+            name: 'Password',
+            placeholder: 'Password'
   
           },
           {
@@ -119,8 +120,8 @@ export class ProfilePage {
             text: 'OK',
             cssClass: 'buttonOkCss',
             handler: data => {
-              var cred = firebase.auth.EmailAuthProvider.credential(
-                data.Email,
+              var cred = firebase.auth.PasswordAuthProvider.credential(
+                data.Password,
                 data.Password
               );
               user.reauthenticateWithCredential(cred).then(() => {

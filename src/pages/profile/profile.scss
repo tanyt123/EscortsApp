@@ -26,16 +26,33 @@ padding-top: 50px;
 	}
     .ion-item1{ 
 		border: 1px solid #c8c7cc;
-	
-		
-	
-	
 	}
-ion-item [disabled] {
+  ion-item [disabled] {
    color: black;
 
 }
-.date{
-    padding-right: 85px;
+input[disabled] {
+color:#000 !important;
+background: none !important;
+opacity: 1 !important;
 }
+.item-input-disabled ion-label {
+color:#000 !important;
+background: none !important;
+opacity: 1 !important;
+}
+.ion-datetime-picker
+{
+    color:#000 !important;
+background: none !important;
+opacity: 1 !important;
+    padding-right: 75px;
+    }
+    .date
+{
+    color:#488aff !important;
+background: none !important;
+opacity: 1 !important;
+    }
+
 }

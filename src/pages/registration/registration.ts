@@ -32,6 +32,7 @@ export class RegistrationPage {
   public mismatchedPasswords: boolean = false;
   public age: number;
   myForm: FormGroup;
+   minDate = new Date().toISOString();
   public error: string;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private camera: Camera, private transfer: Transfer,

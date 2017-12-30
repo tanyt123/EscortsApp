@@ -1,7 +1,8 @@
+"
 <ion-header>
   <ion-navbar color="danger">
 
-    <button persistent="true"  ion-button class="damn" menuToggle>
+    <button persistent="true" ion-button class="damn" menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title style="text-align: center;">Booking Request</ion-title>
@@ -9,17 +10,31 @@
 </ion-header>
 
 <ion-content padding>
-    <ion-refresher (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
+  <div class="row">
+    <div class="col">Date</div>
 
-<ion-list *ngFor="let item of items | async" [hidden]="items === 0">
-  <ion-item  (click)="gotoPage(item.key)">
-   <p>Time: {{ item.Starttime }}</p>   
-    
-  </ion-item>
-</ion-list>
+    <div class="col">Start Time</div>
+    <div class="col">End Time</div>
+    <div class="col"><button ion-button (click)="Filter()">Filter</button></div>
+  </div>
+  <ion-list class="row">
+    <ion-item class="col">
+        <ion-input  class="date" type="date" pickerFormat="MMMM YYYY"  displayFormat="DD/MM/YYYY" [(ngModel)]="selectedDate" [min]="today" pickerFormat="DDDD MMMM YYYY"  novalidate></ion-input>
+    </ion-item>
+    <ion-item class="col">
+     <ion-select class="ion-select" text-wrap>
+    <ion-option text-wrap value="f">Female </ion-option>
+    <ion-option text-wrap value="m">Male</ion-option>
+  </ion-select>
+    </ion-item>
+  </ion-list>
+  <ion-list *ngFor="let item of items | async" [hidden]="items === 0">
+    <ion-item (click)="gotoPage(item.key)">
+      <p>Time: {{ item.startTime }}</p>
+
+    </ion-item>
+  </ion-list>
   <ion-list-header *ngIf="( items | async)?.length==0">
-      No Bookings Found
+    No Bookings Found
   </ion-list-header>
 </ion-content>
