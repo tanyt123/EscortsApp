@@ -27,6 +27,10 @@ export class BookingPage {
   items: Observable<any[]>;
   itemsRef: AngularFireList<any>;
   selectedDate;
+  structure;
+  toggle :boolean = true;
+   DateClicked :boolean = false;
+   public buttonClicked: boolean = false;
  today = new Date().toJSON().split('T')[0];
   public itemRef: firebase.database.Reference = firebase.database().ref('Bookings');
   constructor(public navCtrl: NavController, public navParams: NavParams,
@@ -44,9 +48,15 @@ export class BookingPage {
 
   }
   Filter() {
-        const myModal = this.modalCtrl.create(FiltersPage);
-    myModal.present();
-  }
+  this.buttonClicked = !this.buttonClicked;
+    this.toggle = !this.toggle;
+  this.DateClicked = false;
+}
+Date(){
+  console.log('clicked');
+this.DateClicked = this.DateClicked = true;
+}
+
     // console.log(this.selectedDate)
     // this.items = this.itemsRef.snapshotChanges().map(changes => {
 
@@ -64,17 +74,29 @@ export class BookingPage {
 //    return item.filter(items => items.Address === 'SG  ')
 // })
 
-  // FilterDate() {
-  //    console.log(this.selectedDate)
-  //   this.items = this.itemsRef.snapshotChanges().map(changes => {
+  FilterDate() {
+     
+       this.items = this.itemsRef.snapshotChanges().map(changes => {
 
-  //     return changes.map(c =>
-  //       ({ key: c.payload.key, ...c.payload.val() })).filter(items =>
-  //         (items.Status === '' || items.Status === 'Cancelled') && items.Date === this.selectedDate
-  //       );
-  //   });
+      return changes.map(c =>
+        ({ key: c.payload.key, ...c.payload.val() })).filter(items =>
+          items.Status === '' || items.Status === 'Cancelled'
+        );
+    });
 
-  // }
+   if(this.selectedDate){
+    this.items = this.items.map(item => {
+    return item.filter(items => items.Date === this.selectedDate)
+  })
+
+  console.log('Hi');
+   }
+  else{
+     console.log('Bye');
+    return;
+  }
+      
+  }
   gotoPage(key) {
  
     this.navCtrl.push(SinglebookPage, {
@@ -95,7 +117,7 @@ export class BookingPage {
   }
   ionViewDidLoad() {
 console.log(new Date(), '----', new Date().toJSON().split('T')[0]);
-
+this.structure = {lower: -5, upper: 5}
 
   
 

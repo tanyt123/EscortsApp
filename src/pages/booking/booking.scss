@@ -7,8 +7,41 @@ page-booking {
   
 
 }
+ .modal_content {
+  position: fixed;
+    top: 20%;
+    left: 50%;
+    right: 0;
+    width: 50%;
+    height: 70%;
+ }
 .text{
  padding-top: 20px ;
  border: 1px  solid black;
 }
+input[type=date]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    display: none;
 }
+
+.ion-row {
+ border: 1px  solid black;
+box-shadow: none !important;
+}
+  ion-icon {
+        font-size: 30px;
+        padding-top: 10px;
+        padding-right: 10px
+       }
+ #hidden-button{
+    background-color: white; 
+    width: 100%;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+.item-inner, ion-item {
+  border-bottom-color: transparent !important;
+  box-shadow: none !important;
+}
+}
+

@@ -38,9 +38,9 @@ export class MyApp {
 
       this.afAuth.authState.subscribe(auth => {
         if (!auth)
-          this.rootPage = ProfilePage;
+          this.rootPage = BookingPage;
         else
-          this.rootPage = ProfilePage;
+          this.rootPage = BookingPage;
       });
       this.pages = [
         { title: 'Profile', component: ProfilePage },
