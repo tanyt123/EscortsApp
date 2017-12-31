@@ -21,6 +21,7 @@ import { NativeStorage } from '@ionic-native/native-storage';
 import { UpdateprofilePage } from '../pages/updateprofile/updateprofile';
 import { ReauthenticatePage } from '../pages/reauthenticate/reauthenticate';
 import { SchedulePage } from '../pages/schedule/schedule';
+import { FiltersPage } from '../pages/filters/filters';
 @Component({
   templateUrl: 'app.html'
 })
@@ -37,9 +38,9 @@ export class MyApp {
 
       this.afAuth.authState.subscribe(auth => {
         if (!auth)
-          this.rootPage = BookingPage;
+          this.rootPage = ProfilePage;
         else
-          this.rootPage = BookingPage;
+          this.rootPage = ProfilePage;
       });
       this.pages = [
         { title: 'Profile', component: ProfilePage },

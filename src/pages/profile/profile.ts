@@ -24,7 +24,7 @@ export class ProfilePage {
   public AgeError: boolean = false;
   isenabled: boolean = false;
   public date;
-  public mismatchedPasswords: boolean = false;
+  public mismatchedPasswords: boolean = true;
   public key;
   changeDate = '';
   correct_data;
@@ -34,8 +34,8 @@ export class ProfilePage {
     , private nativeStorage: NativeStorage, public modalCtrl: ModalController, public formBuilder: FormBuilder) {
 
     this.myForm = formBuilder.group({
-      newPassword: ['', Validators.compose([Validators.maxLength(70), Validators.pattern('^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$'), Validators.required])],
-      cfmPassword: ['', Validators.compose([Validators.maxLength(70), Validators.pattern('^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$'), Validators.required])],
+      password: ['', Validators.compose([Validators.minLength(8), Validators.maxLength(25), Validators.required])],
+      rePassword: ['', Validators.compose([Validators.minLength(8), Validators.maxLength(25), Validators.required])],
     });
   }
 
@@ -47,9 +47,9 @@ export class ProfilePage {
     console.log('ionViewDidLoad ProfilePage');
     this.items = [];
 
-    // var appData = window.localStorage.getItem('Email');
+     var appData = window.localStorage.getItem('Email');
     
-    var appData = "tanyongting1234@gmail.com";
+    //var appData = "tanyongting1234@gmail.com";
     this.itemRef.orderByChild("Email").equalTo(appData).once('value', (snap) => {
       this.key = Object.keys(snap.val());
       console.log(this.key);
@@ -71,8 +71,8 @@ export class ProfilePage {
   matchingPasswords() {
 
 
-    if (this.myForm.value.newPassword !== this.myForm.value.cfmPassword) {
-      this.myForm.get('cfmPassword').setErrors({ Mismatch: true })
+    if (this.myForm.value.password !== this.myForm.value.rePassword) {
+      this.myForm.get('rePassword').setErrors({ Mismatch: true })
       this.mismatchedPasswords = true;
 
     }
@@ -94,7 +94,7 @@ export class ProfilePage {
     const myModalOptions: ModalOptions = {
       enableBackdropDismiss: false
     };
-    const myModal = this.modalCtrl.create(ReauthenticatePage, { Password: this.myForm.value.newPassword });
+    const myModal = this.modalCtrl.create(ReauthenticatePage, { Password: this.myForm.value.password });
     myModal.present();
     console.log(this.key);
     var user = firebase.auth().currentUser;

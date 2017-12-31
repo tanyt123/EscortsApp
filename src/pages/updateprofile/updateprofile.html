@@ -39,8 +39,8 @@
       </div>
 
       <ion-item>
-        <ion-label color="primary">Gender:</ion-label>
-        <ion-label> {{ item.Gender}}</ion-label>
+        <ion-label color="primary" >Gender:</ion-label>
+        <ion-label class="genders"> {{ item.Gender}}</ion-label>
       </ion-item>
 
       <ion-item>
@@ -66,7 +66,7 @@
       </ion-item>
       <ion-item>
         <ion-label color="primary">Date of birth:</ion-label>
-        <ion-datetime formControlName="myDate" [(ngModel)]="myDate" displayFormat="DD/MM/YYYY"  (ionChange)="getAge()" pickerFormat="DDDD MMMM YYYY"></ion-datetime>
+        <ion-datetime class="date" formControlName="myDate" [(ngModel)]="myDate" displayFormat="DD/MM/YYYY"  (ionChange)="getAge()" pickerFormat="DDDD MMMM YYYY"></ion-datetime>
       </ion-item>
 
       <ion-item>

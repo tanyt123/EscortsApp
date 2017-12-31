@@ -24,6 +24,10 @@ import { NativeStorage } from '@ionic-native/native-storage';
 import { UpdateprofilePage } from '../pages/updateprofile/updateprofile';
 import {ReauthenticatePage} from '../pages/reauthenticate/reauthenticate';
 import { SchedulePage } from '../pages/schedule/schedule';
+import { FiltersPage } from '../pages/filters/filters';
+
+
+
 export const firebaseConfig = {
   apiKey: "AIzaSyCFU9g3inPp81yQU14fYANC7vf31SpkqKk",
   authDomain: "sharedmedicalfyp-1cfcf.firebaseapp.com",
@@ -45,7 +49,8 @@ export const firebaseConfig = {
     SinglebookPage,
     UpdateprofilePage,
     ReauthenticatePage,
-    SchedulePage
+    SchedulePage,
+    FiltersPage
   ],
   imports: [
     BrowserModule,
@@ -74,7 +79,8 @@ export const firebaseConfig = {
     SinglebookPage,
     UpdateprofilePage,
     ReauthenticatePage,
-    SchedulePage  
+    SchedulePage  ,
+    FiltersPage
   ],
   providers: [
     StatusBar,

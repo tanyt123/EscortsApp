@@ -55,7 +55,7 @@ export class LoginPage {
           firebase.auth().onAuthStateChanged((user) => {
 
             if (user.emailVerified) {
-              window.localStorage.setItem('email', this.email);
+              window.localStorage.setItem('Email', this.email);
               this.itemRef.orderByChild("Email").equalTo(this.email).once('value', (snap) => {
                 snap.forEach(itemSnap => {
             

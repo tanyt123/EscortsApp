@@ -1,0 +1,33 @@
+
+
+<ion-header >
+
+  <ion-navbar>
+   
+    <ion-buttons end>
+      <button ion-button (click)="CloseModal()">Close</button>
+    </ion-buttons> 
+  </ion-navbar>
+
+</ion-header>
+<ion-content padding class="view">
+   <div class="overlay" ></div>
+ <ion-scroll class="modal_content">
+    <ion-list>
+
+  
+
+    <ion-item class="ro">
+      <ion-label color="primary">Password:</ion-label>
+      <ion-input [(ngModel)]="password" placeholder="Text Input" type="password" text-wrap></ion-input>
+
+    </ion-item>
+    <button ion-button class="but" text-center (click)="Confirm()" [disabled]=" !password">Confirm
+</button>
+
+
+
+
+  </ion-list>
+  </ion-scroll>
+</ion-content>

@@ -5,8 +5,9 @@ import { MenuController } from 'ionic-angular';
 import firebase from 'firebase';
 import { SinglebookPage } from '../singlebook/singlebook';
 import { Observable } from 'rxjs/Observable';
+import { FiltersPage } from '../filters/filters';
 import 'rxjs/add/operator/map'
-
+import { ModalController } from 'ionic-angular';
 export interface PageInterface {
   title: string;
   pageName: string;
@@ -29,7 +30,7 @@ export class BookingPage {
  today = new Date().toJSON().split('T')[0];
   public itemRef: firebase.database.Reference = firebase.database().ref('Bookings');
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    public menuCtrl: MenuController, afDatabase: AngularFireDatabase) {
+    public menuCtrl: MenuController, afDatabase: AngularFireDatabase,public modalCtrl: ModalController) {
     this.itemsRef = afDatabase.list('Bookings',
       ref => ref.orderByChild('startTime'));
     this.items = this.itemsRef.snapshotChanges().map(changes => {
@@ -43,6 +44,9 @@ export class BookingPage {
 
   }
   Filter() {
+        const myModal = this.modalCtrl.create(FiltersPage);
+    myModal.present();
+  }
     // console.log(this.selectedDate)
     // this.items = this.itemsRef.snapshotChanges().map(changes => {
 
@@ -52,25 +56,25 @@ export class BookingPage {
     //     );
         
     // });
-    console.log("Hi")
- this.items = this.items.map(item => {
-   return item.filter(items => items.Gender === 'Female')
- })
-this.items = this.items.map(item => {
-   return item.filter(items => items.Address === 'SG  ')
- })
-  }
-  FilterDate() {
-     console.log(this.selectedDate)
-    this.items = this.itemsRef.snapshotChanges().map(changes => {
+ 
+//  this.items = this.items.map(item => {
+//    return item.filter(items => items.Gender === 'Female')
+//  })
+// this.items = this.items.map(item => {
+//    return item.filter(items => items.Address === 'SG  ')
+// })
 
-      return changes.map(c =>
-        ({ key: c.payload.key, ...c.payload.val() })).filter(items =>
-          (items.Status === '' || items.Status === 'Cancelled') && items.Date === this.selectedDate
-        );
-    });
+  // FilterDate() {
+  //    console.log(this.selectedDate)
+  //   this.items = this.itemsRef.snapshotChanges().map(changes => {
 
-  }
+  //     return changes.map(c =>
+  //       ({ key: c.payload.key, ...c.payload.val() })).filter(items =>
+  //         (items.Status === '' || items.Status === 'Cancelled') && items.Date === this.selectedDate
+  //       );
+  //   });
+
+  // }
   gotoPage(key) {
  
     this.navCtrl.push(SinglebookPage, {

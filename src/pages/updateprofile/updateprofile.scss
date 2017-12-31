@@ -1,8 +1,17 @@
 page-updateprofile {
 .label {
-    width:100px;
- 
-  
+    width:120px;
+}
+input[disabled] {
+color:#000 !important;
+background: none !important;
+opacity: 1 !important;
+}
 
+.genders{
+    padding-right: 80px
+}
+.date{
+    padding-right: 135px 
 }
 }

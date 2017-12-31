@@ -10,7 +10,8 @@ import { ProfilePage } from '../profile/profile';
 })
 export class ReauthenticatePage {
   email;
-  password; 
+  passwords; 
+  password;
   public key;
   appData;
   constructor(public navCtrl: NavController, public navParams: NavParams, public view: ViewController, public alertCtrl: AlertController) {
@@ -21,12 +22,12 @@ export class ReauthenticatePage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad ReauthenticatePage');
 
-    //  this.appData = window.localStorage.getItem('email');
+      this.appData = window.localStorage.getItem('email');
     this.email = this.navParams.get('Email');
-    this.password = this.navParams.get('Password');
+    this.passwords = this.navParams.get('Password');
     console.log(this.email);
-    console.log(this.password);
-    this.appData = "153707h@mymail.nyp.edu.sg";
+    console.log(this.passwords);
+    //this.appData = "153707h@mymail.nyp.edu.sg";
     this.itemRef.orderByChild("Email").equalTo(this.appData).once('value', (snap) => {
       this.key = Object.keys(snap.val());
       this.itemsRef = firebase.database().ref('Escorts/' + this.key);
@@ -43,9 +44,9 @@ export class ReauthenticatePage {
       this.password
     );
     user.reauthenticateWithCredential(cred).then(() => {
-      if (this.password ) {
+      if (this.passwords ) {
         console.log(this.email)
-        user.updatePassword(this.password).then(() => {
+        user.updatePassword(this.passwords).then(() => {
           let alert = this.alertCtrl.create({
             message: "Password changed",
             buttons: [
@@ -55,7 +56,7 @@ export class ReauthenticatePage {
 
                 handler: data => {
                   this.navCtrl.push(ProfilePage);
-                  this.navCtrl.setRoot(ProfilePage);
+                   this.navCtrl.setRoot(ProfilePage);
 
                 }
               }
@@ -94,19 +95,15 @@ export class ReauthenticatePage {
 
       }
 
-    }).catch(function (error) {
+    }).catch(error => {
    let alert = this.alertCtrl.create({
-            message: error,
+            message: error.message,
             buttons: [
               {
                 text: 'OK',
                 cssClass: 'buttonOkCss',
 
-                handler: data => {
-                  this.navCtrl.push(HomePage);
-                  this.navCtrl.setRoot(HomePage);
-
-                }
+              
               }
             ],
           });
