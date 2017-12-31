@@ -10,7 +10,7 @@ import { ProfilePage } from '../profile/profile';
 })
 export class ReauthenticatePage {
   email;
-  passwords; 
+  passwords;
   password;
   public key;
   appData;
@@ -22,7 +22,7 @@ export class ReauthenticatePage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad ReauthenticatePage');
 
-      this.appData = window.localStorage.getItem('email');
+    this.appData = window.localStorage.getItem('email');
     this.email = this.navParams.get('Email');
     this.passwords = this.navParams.get('Password');
     console.log(this.email);
@@ -44,7 +44,7 @@ export class ReauthenticatePage {
       this.password
     );
     user.reauthenticateWithCredential(cred).then(() => {
-      if (this.passwords ) {
+      if (this.passwords) {
         console.log(this.email)
         user.updatePassword(this.passwords).then(() => {
           let alert = this.alertCtrl.create({
@@ -56,7 +56,11 @@ export class ReauthenticatePage {
 
                 handler: data => {
                   this.navCtrl.push(ProfilePage);
-                   this.navCtrl.setRoot(ProfilePage);
+                  this.navCtrl.setRoot(ProfilePage)
+                    .then(() => {
+                      this.navCtrl.popToRoot();
+
+                    });
 
                 }
               }
@@ -67,7 +71,7 @@ export class ReauthenticatePage {
           console.log(error);
         });
       }
-    
+
       else {
         user.delete().then(() => {
           var password = this.navParams.get('password');
@@ -96,18 +100,18 @@ export class ReauthenticatePage {
       }
 
     }).catch(error => {
-   let alert = this.alertCtrl.create({
-            message: error.message,
-            buttons: [
-              {
-                text: 'OK',
-                cssClass: 'buttonOkCss',
+      let alert = this.alertCtrl.create({
+        message: error.message,
+        buttons: [
+          {
+            text: 'OK',
+            cssClass: 'buttonOkCss',
 
-              
-              }
-            ],
-          });
-          alert.present();
+
+          }
+        ],
+      });
+      alert.present();
     });
   }
 }

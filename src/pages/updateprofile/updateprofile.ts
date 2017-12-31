@@ -120,9 +120,11 @@ export class UpdateprofilePage {
             text: 'OK',
             handler: data => {
                    this.navCtrl.push(ProfilePage);
-                   this.navCtrl.setRoot(ProfilePage);
-                   this.navCtrl.setRoot(ProfilePage);
-            }
+                   this.navCtrl.setRoot(ProfilePage).then(() =>{
+    this.navCtrl.popToRoot();
+                   
+            });
+          }
           }
         ],
 

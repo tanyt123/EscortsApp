@@ -51,7 +51,11 @@ export class SinglebookPage {
         alert.present();
       
         this.navCtrl.push(SchedulePage);
-      this.navCtrl.setRoot(SchedulePage);
+      this.navCtrl.setRoot(SchedulePage)
+      .then(() =>{
+    this.navCtrl.popToRoot();
+                   
+            });
     }
     catch (e) {
       console.log(e);
