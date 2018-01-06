@@ -11,6 +11,7 @@ import { ViewChild } from '@angular/core';
 import { HomePage } from '../home/home';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { BookingPage } from '../booking/booking';
+import { ResetPage } from '../reset/reset';
 @IonicPage()
 @Component({
   selector: 'page-login',
@@ -45,7 +46,9 @@ export class LoginPage {
       this.navCtrl.setRoot(HomePage);
     }
   }
-
+Reset(){
+ this.navCtrl.push(ResetPage);
+}
 
   Login() {
     this.afAuth.auth.signInWithEmailAndPassword(this.email, this.password)
@@ -60,7 +63,7 @@ export class LoginPage {
                 snap.forEach(itemSnap => {
             
                   this.name = itemSnap.child("Name").val();
-                   window.localStorage.setItem('name', this.name);
+                   window.localStorage.setItem('Name', this.name);
                   return false;
 
                 });

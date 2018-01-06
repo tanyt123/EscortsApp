@@ -55,8 +55,8 @@ export class ReauthenticatePage {
                 cssClass: 'buttonOkCss',
 
                 handler: data => {
-                  this.navCtrl.push(ProfilePage);
-                  this.navCtrl.setRoot(ProfilePage)
+                  this.navCtrl.push(HomePage);
+                  this.navCtrl.setRoot(HomePage)
                     .then(() => {
                       this.navCtrl.popToRoot();
 
@@ -72,32 +72,32 @@ export class ReauthenticatePage {
         });
       }
 
-      else {
-        user.delete().then(() => {
-          var password = this.navParams.get('password');
+      // else {
+      //   user.delete().then(() => {
+      //     var password = this.navParams.get('password');
 
-          this.itemsRef.remove();
-          let alert = this.alertCtrl.create({
-            message: "User deleted.",
-            buttons: [
-              {
-                text: 'OK',
-                cssClass: 'buttonOkCss',
+      //     this.itemsRef.remove();
+      //     let alert = this.alertCtrl.create({
+      //       message: "User deleted.",
+      //       buttons: [
+      //         {
+      //           text: 'OK',
+      //           cssClass: 'buttonOkCss',
 
-                handler: data => {
-                  this.navCtrl.push(HomePage);
-                  this.navCtrl.setRoot(HomePage);
+      //           handler: data => {
+      //             this.navCtrl.push(HomePage);
+      //             this.navCtrl.setRoot(HomePage);
 
-                }
-              }
-            ],
-          });
-          alert.present();
-        }).catch(function (error) {
-          console.log(error);
-        });
+      //           }
+      //         }
+      //       ],
+      //     });
+      //     alert.present();
+      //   }).catch(function (error) {
+      //     console.log(error);
+      //   });
 
-      }
+      // }
 
     }).catch(error => {
       let alert = this.alertCtrl.create({

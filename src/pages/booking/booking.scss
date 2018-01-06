@@ -15,6 +15,14 @@ page-booking {
     width: 50%;
     height: 70%;
  }
+  .modal_contents {
+  position: fixed;
+    top: 27%;
+    left: 45%;
+    right: 0;
+    width: 50%;
+    height: 70%;
+ }
 .text{
  padding-top: 20px ;
  border: 1px  solid black;
@@ -26,7 +34,10 @@ input[type=date]::-webkit-inner-spin-button {
 
 .ion-row {
  border: 1px  solid black;
+       padding-top:0px !important;
+  padding-bottom:0px !important;
 box-shadow: none !important;
+   text-align: left;
 }
   ion-icon {
         font-size: 30px;
@@ -38,10 +49,65 @@ box-shadow: none !important;
     width: 100%;
     box-shadow: none;
     -webkit-box-shadow: none;
+           padding-top:0px !important;
+  padding-bottom:0px !important;
 }
 .item-inner, ion-item {
   border-bottom-color: transparent !important;
   box-shadow: none !important;
 }
+.ion-header{
+     border: 1px  solid black;
+        text-align: left;
+        height: 40px;   
+       padding-top:0px !important;
+  padding-bottom:0px !important;
+background-color: gray;
+box-shadow: none !important;
 }
+.dropdate{
+    border: 1px  solid black;
+     
+      
+       padding-top:0px !important;
+  padding-bottom:0px !important;
+background-color: lightgrey;
+box-shadow: none !important;
+white-space:normal;
 
+}
+.item.item-input input{
+
+       }
+.pickup{
+    border: 1px  solid black;
+    border-left: 1px  solid black;
+    width: 1%;
+}
+.date{
+    right: 5%;
+        width:115%;
+    float:left
+}
+.gender{
+    background-color: lightgrey;
+    
+}
+.list .item-radio .radio-icon    {
+  color: white;
+}
+.list .item-radio input:checked ~ .item-content, .list .item-radio .item-content    {
+  background-color: black;
+  color: white;
+}
+.radio{
+   position:relative;
+  
+    
+      display: inline-block;
+}
+.ion-item-divider{
+    background-color: lightgrey;
+    color: black;
+}
+}

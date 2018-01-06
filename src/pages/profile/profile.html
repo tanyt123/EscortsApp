@@ -80,10 +80,10 @@
     </div>
 
 
-    <div class="col">
+    <!--<div class="col">
       <button ion-button class="react" (click)="Delete()">Delete My Profile
         </button>
-    </div>
+    </div>-->
   </div>
 <ion-list [formGroup]="myForm" class="margin">
     <ion-item class="ion-item">
@@ -131,7 +131,7 @@
   </form>
 -->
 
-    <button ion-button [disabled]=" mismatchedPasswords || !myForm.valid" (click)="UpdatePassword()">Update My Password
+    <button ion-button [disabled]=" mismatchedPasswords || !myForm.valid" class="react" (click)="UpdatePassword()">Update My Password
 </button>
 
 </ion-content>

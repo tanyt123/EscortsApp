@@ -12,6 +12,8 @@ export class SinglebookPage {
   public key;
   public name;
   isenabled: boolean = true;
+  status;
+  button: boolean;
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
   }
 
@@ -21,7 +23,13 @@ export class SinglebookPage {
   ionViewDidLoad() {
     this.name = window.localStorage.getItem('name');
     this.key = this.navParams.get('key');
- 
+  this.status = this.navParams.get('Status');
+  if(this.status ==='Pending'){
+    this.button = true;
+  }
+    if(this.status ==='Accepted'){
+    this.button = false;
+  }
       this.itemRef.child(this.key).once('value', (itemkeySnapshot) => {
 
         this.items.push(itemkeySnapshot.val());
@@ -46,6 +54,31 @@ export class SinglebookPage {
       })
       let alert = this.alertCtrl.create({
           title: 'You have accepted the booking!',
+          buttons: ['OK']
+        });
+        alert.present();
+      
+        this.navCtrl.push(SchedulePage);
+      this.navCtrl.setRoot(SchedulePage)
+      .then(() =>{
+    this.navCtrl.popToRoot();
+                   
+            });
+    }
+    catch (e) {
+      console.log(e);
+
+    }
+  }
+    Cancel() {
+    try {
+      this.isenabled = false;
+      this.itemRefs.update({
+        Status: "Cancelled",
+        Driver: "",
+      })
+      let alert = this.alertCtrl.create({
+          title: 'You have cancelled the booking!',
           buttons: ['OK']
         });
         alert.present();

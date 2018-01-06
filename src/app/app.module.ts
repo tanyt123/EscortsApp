@@ -25,7 +25,7 @@ import { UpdateprofilePage } from '../pages/updateprofile/updateprofile';
 import {ReauthenticatePage} from '../pages/reauthenticate/reauthenticate';
 import { SchedulePage } from '../pages/schedule/schedule';
 import { FiltersPage } from '../pages/filters/filters';
-
+import { ResetPage } from '../pages/reset/reset';
 
 
 export const firebaseConfig = {
@@ -50,7 +50,8 @@ export const firebaseConfig = {
     UpdateprofilePage,
     ReauthenticatePage,
     SchedulePage,
-    FiltersPage
+    FiltersPage,
+    ResetPage
   ],
   imports: [
     BrowserModule,
@@ -80,7 +81,8 @@ export const firebaseConfig = {
     UpdateprofilePage,
     ReauthenticatePage,
     SchedulePage  ,
-    FiltersPage
+    FiltersPage,
+    ResetPage
   ],
   providers: [
     StatusBar,

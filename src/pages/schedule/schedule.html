@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar color="danger">
 
-    <button persistent="true"  ion-button class="damn" menuToggle>
+    <button persistent="true" ion-button class="damn" menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title style="text-align: center;">My Schedule</ion-title>
@@ -10,5 +10,48 @@
 
 
 <ion-content padding>
+    <ion-grid>
+    <ion-row>
+      <ion-col color="primary" col-10>
+        <h3>{{(items | async)?.length}} records found </h3>
+      </ion-col>
 
+      <ion-col color="primary">
+        <img src="../assets/imgs/filter.png" class="image" (click)="Filter()">
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+ <ion-list text-wrap *ngFor="let item of items | async">
+    <ion-item (click)="gotoPage(item.key)" *ngIf="toggle">
+      <p>Time: {{ item.startTime }}</p>
+
+    </ion-item>
+  </ion-list>
+      <ion-grid *ngIf="buttonClicked" class="modal_content">
+        <button id="hidden-button">
+    <ion-row class="ion-header" >
+      <ion-col>
+        Filter
+      </ion-col>
+    </ion-row>
+      </button>
+        <button id="hidden-button" (click)="Date()">
+       
+    <ion-row class="ion-row">
+      <ion-col>
+        Date
+      </ion-col>
+      <ion-icon name="arrow-dropdown" *ngIf="!visible"></ion-icon>
+   <ion-icon name="arrow-dropup" *ngIf="visible"></ion-icon>
+    </ion-row>
+     </button>
+        <button id="hidden-button">
+    <ion-row *ngIf="DateClicked"  >
+    <ion-item class="dropdate" text-wrap >
+        <ion-input clearInput class="date" type="date" pickerFormat="MMMM YYYY" (ionChange)="Filters()" displayFormat="DD/MM/YYYY" [(ngModel)]="selectedDate" [min]="today" pickerFormat="DDDD MMMM YYYY"   required></ion-input>
+    </ion-item>
+      
+    </ion-row>
+  </button>
+      </ion-grid>
 </ion-content>

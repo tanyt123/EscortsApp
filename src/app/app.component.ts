@@ -22,6 +22,7 @@ import { UpdateprofilePage } from '../pages/updateprofile/updateprofile';
 import { ReauthenticatePage } from '../pages/reauthenticate/reauthenticate';
 import { SchedulePage } from '../pages/schedule/schedule';
 import { FiltersPage } from '../pages/filters/filters';
+import { ResetPage } from '../pages/reset/reset';
 @Component({
   templateUrl: 'app.html'
 })
@@ -38,9 +39,9 @@ export class MyApp {
 
       this.afAuth.authState.subscribe(auth => {
         if (!auth)
-          this.rootPage = BookingPage;
+          this.rootPage =BookingPage;
         else
-          this.rootPage = BookingPage;
+          this.rootPage =  HomePage;
       });
       this.pages = [
         { title: 'Profile', component: ProfilePage },

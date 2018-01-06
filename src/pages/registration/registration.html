@@ -75,13 +75,15 @@
         <ion-label color="primary" text-wrap>Date of birth:</ion-label>
         <ion-datetime class="date" formControlName="DOB" displayFormat="DD/MM/YYYY" (ionChange)="getAge()" pickerFormat="DDDD MMMM YYYY"></ion-datetime>
       </ion-item>
-
+  <div class="error" *ngIf="!myForm.get('DOB').valid  && myForm.get('DOB').touched">
+    <p>Please enter your birthdate.</p>
+</div>
       <ion-item disabled >
         <ion-label color="primary">Age:</ion-label>
         <ion-input disabled formControlName="age" id="age" type="text"  placeholder="" [class.invalid]="mismatchedPasswords"></ion-input>
       </ion-item>
       <div *ngIf="AgeError">
-        <p>Age must be between 18 & 70.</p>
+        <p>You must be between 18 & 70.</p>
       </div>
       <ion-item>
         <ion-label color="primary" stacked>Password:</ion-label>

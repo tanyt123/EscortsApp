@@ -60,9 +60,9 @@ export class UpdateprofilePage {
     console.log('ionViewDidLoad UpdateProfilePage');
     this.items = [];
 
-    // var appData = window.localStorage.getItem('app-name');
+     var appData = window.localStorage.getItem('Email');
 
-    var appData = "tanyongting1234@gmail.com";
+    //var appData = "tanyongting1234@gmail.com";
     this.itemRef.orderByChild("Email").equalTo(appData).once('value', (snap) => {
       this.key = Object.keys(snap.val());
       snap.forEach(itemSnap => {
@@ -71,7 +71,7 @@ export class UpdateprofilePage {
         this.ages = itemSnap.child("Age").val();
         this.email = itemSnap.child("Email").val();
         this.gender = itemSnap.child("Gender").val();
-        this.password = itemSnap.child("Password").val();
+   
         return false;
 
       });
