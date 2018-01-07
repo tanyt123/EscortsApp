@@ -24,7 +24,7 @@ import { ModalController } from 'ionic-angular';
 export class SchedulePage {
   items: Observable<any[]>;
   itemsRef: AngularFireList<any>;
-    timeMin2: any;
+  timeMin2: any;
   Genders;
   timeMax2: any;
   PickUpClicked: boolean = false;
@@ -34,9 +34,9 @@ export class SchedulePage {
   gender: boolean = false;
   male: boolean = true;
   female: boolean = true;
-    DateClicked: boolean = false;
+  DateClicked: boolean = false;
   public buttonClicked: boolean = false;
-    toggle: boolean = true;
+  toggle: boolean = true;
   name;
   selectedDate;
   today = new Date().toJSON().split('T')[0];
@@ -45,15 +45,16 @@ export class SchedulePage {
     this.itemsRef = afDatabase.list('Bookings',
       ref => ref.orderByChild('startTime')
     );
-    this.name = 'q';
+    var email = window.localStorage.getItem('Email');
+    console.log(email);
     this.items = this.itemsRef.snapshotChanges().map(changes => {
       return changes.map(c =>
         ({ key: c.payload.key, ...c.payload.val() })).filter(items =>
-          items.Driver === 'q' && items.Status === 'Accepted');
+          items.Driver === email && items.Status === 'Accepted');
     });
-  
+
   }
- Filter() {
+  Filter() {
     this.buttonClicked = !this.buttonClicked;
     this.toggle = !this.toggle;
     this.DateClicked = false;
@@ -110,6 +111,10 @@ export class SchedulePage {
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad SchedulePage');
+    this.selectedDate = this.today;
+    this.items = this.items.map(item => {
+      return item.filter(items => items.Date === this.selectedDate)
+    })
   }
 
 }

@@ -25,7 +25,7 @@ export interface PageInterface {
 export class BookingPage {
   public itemss: Array<any> = [];
   items: Observable<any[]>;
-   times: Observable<any[]>;
+ public times: Array<any> = [];
   itemsRef: AngularFireList<any>;
   selectedDate;
   timeMin2: any;
@@ -56,14 +56,23 @@ export class BookingPage {
           (items.Status === 'Pending' || items.Status === 'Cancelled') && items.Date >= this.today);
     });
 
-    this.times =     this.items.map(time => {
-       const speakers = time.map(r => r.startTime);
-        const distinctSpeakers = [...new Set(speakers)]; 
-        return distinctSpeakers;
-      }
-      );
+    // this.times =     this.items.map(time => {
+    //    const speakers = time.map(r => r.startTime);
+    //     const distinctSpeakers = [...new Set(speakers)]; 
+    //     return distinctSpeakers;
+    //   }
+    //   );
     
+
+            
   }
+ 
+
+
+
+ 
+  
+   
   Filter() {
     this.buttonClicked = !this.buttonClicked;
     this.toggle = !this.toggle;
@@ -136,6 +145,7 @@ export class BookingPage {
     });
 
     if (this.selectedDate) {
+       console.log('Fly')
       let loading = this.loadingCtrl.create({
         content: 'Please wait...'
       });
@@ -144,7 +154,7 @@ export class BookingPage {
 
       setTimeout(() => {
         loading.dismiss();
-      }, 3000);
+      }, 2000);
       this.items = this.items.map(item => {
         return item.filter(items => items.Date === this.selectedDate)
       })
@@ -152,6 +162,7 @@ export class BookingPage {
 
 
     if (this.Genders === 'Female') {
+      console.log('Hi')
       let loading = this.loadingCtrl.create({
         content: 'Please wait...'
       });
@@ -160,7 +171,7 @@ export class BookingPage {
 
       setTimeout(() => {
         loading.dismiss();
-      }, 3000);
+      }, 2000);
       this.female = false;
       this.male = true;
       this.items = this.items.map(item => {
@@ -169,6 +180,7 @@ export class BookingPage {
       this.Genders = null;
     }
     else if (this.Genders === 'Male') {
+        console.log('Bye')
       let loading = this.loadingCtrl.create({
         content: 'Please wait...'
       });
@@ -177,7 +189,7 @@ export class BookingPage {
 
       setTimeout(() => {
         loading.dismiss();
-      }, 3000);
+      }, 2000);
       this.male = false;
       this.female = true;
       this.items = this.items.map(item => {
@@ -186,6 +198,7 @@ export class BookingPage {
       this.Genders = null;
     }
     else if (this.Genders === 'All') {
+        console.log('Die')
       let loading = this.loadingCtrl.create({
         content: 'Please wait...'
       });
@@ -194,7 +207,7 @@ export class BookingPage {
 
       setTimeout(() => {
         loading.dismiss();
-      }, 3000);
+      }, 2000);
       this.male = true;
       this.female = true;
       this.Genders = null;

@@ -13,7 +13,7 @@
     <ion-grid>
     <ion-row>
       <ion-col color="primary" col-10>
-        <h3>{{(items | async)?.length}} records found </h3>
+        <h3>You have {{(items | async)?.length}} bookings for the day! </h3>
       </ion-col>
 
       <ion-col color="primary">
@@ -21,11 +21,18 @@
       </ion-col>
     </ion-row>
   </ion-grid>
- <ion-list text-wrap *ngFor="let item of items | async">
-    <ion-item (click)="gotoPage(item.key)" *ngIf="toggle">
-      <p>Time: {{ item.startTime }}</p>
+  <ion-list text-wrap *ngFor="let item of (items | async) ">
+    <ion-item-divider *ngIf="toggle" sticky class="ion-item-divider">
+      <ion-label>Start Time: {{ item.startTime }}
+      </ion-label>
 
+    </ion-item-divider>
+    <ion-item (click)="gotoPage(item.key)" *ngIf="toggle">
+      <p>Address: {{ item.Address }}</p>
+      <p>Gender : {{ item.Gender }}</p>
+      <p>Contact : {{ item.Contact }}</p>
     </ion-item>
+
   </ion-list>
       <ion-grid *ngIf="buttonClicked" class="modal_content">
         <button id="hidden-button">

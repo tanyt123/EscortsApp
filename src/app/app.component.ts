@@ -39,9 +39,9 @@ export class MyApp {
 
       this.afAuth.authState.subscribe(auth => {
         if (!auth)
-          this.rootPage =BookingPage;
+          this.rootPage =SchedulePage;
         else
-          this.rootPage =  HomePage;
+          this.rootPage =  SchedulePage;
       });
       this.pages = [
         { title: 'Profile', component: ProfilePage },
@@ -77,6 +77,7 @@ export class MyApp {
     else {
 
       this.nav.setRoot(HomePage);
+      this.activePage = this.pages[1];
     }
   }
   checkActive(page) {

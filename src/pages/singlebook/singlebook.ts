@@ -13,6 +13,7 @@ export class SinglebookPage {
   public name;
   isenabled: boolean = true;
   status;
+  email;
   button: boolean;
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
   }
@@ -21,7 +22,7 @@ export class SinglebookPage {
   public itemRef: firebase.database.Reference = firebase.database().ref('Bookings');
   public itemRefs: firebase.database.Reference;
   ionViewDidLoad() {
-    this.name = window.localStorage.getItem('name');
+    this.email = window.localStorage.getItem('Email');
     this.key = this.navParams.get('key');
   this.status = this.navParams.get('Status');
   if(this.status ==='Pending'){
@@ -50,7 +51,7 @@ export class SinglebookPage {
       this.isenabled = false;
       this.itemRefs.update({
         Status: "Accepted",
-        Driver: this.name,
+        Driver: this.email,
       })
       let alert = this.alertCtrl.create({
           title: 'You have accepted the booking!',
