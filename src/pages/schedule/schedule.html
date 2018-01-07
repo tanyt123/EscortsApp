@@ -55,7 +55,7 @@
         <button id="hidden-button">
     <ion-row *ngIf="DateClicked"  >
     <ion-item class="dropdate" text-wrap >
-        <ion-input clearInput class="date" type="date" pickerFormat="MMMM YYYY" (ionChange)="Filters()" displayFormat="DD/MM/YYYY" [(ngModel)]="selectedDate" [min]="today" pickerFormat="DDDD MMMM YYYY"   required></ion-input>
+        <ion-input  class="date" type="date" pickerFormat="MMMM YYYY" (ionChange)="Filters()" displayFormat="DD/MM/YYYY" [(ngModel)]="selectedDate" [min]="today" pickerFormat="DDDD MMMM YYYY"   required></ion-input>
     </ion-item>
       
     </ion-row>

@@ -39,9 +39,9 @@ export class MyApp {
 
       this.afAuth.authState.subscribe(auth => {
         if (!auth)
-          this.rootPage =HomePage;
+          this.rootPage =BookingPage;
         else
-          this.rootPage =  BookingPage;
+          this.rootPage =  HomePage;
       });
       this.pages = [
         { title: 'Profile', component: ProfilePage },
@@ -68,8 +68,7 @@ export class MyApp {
     });
   }
   openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
+console.log(page);
     if (page.component) {
       this.nav.setRoot(page.component);
       this.activePage = page;

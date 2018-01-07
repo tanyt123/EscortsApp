@@ -4,6 +4,7 @@ import firebase from 'firebase';
 import { SchedulePage } from '../schedule/schedule';
 import { BookingPage } from '../booking/booking';
 import { AlertController } from 'ionic-angular';
+
 @IonicPage()
 @Component({
   selector: 'page-singlebook',
@@ -15,10 +16,16 @@ export class SinglebookPage {
   isenabled: boolean = true;
   status;
   email;
+  
   button: boolean;
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
   }
-
+ pages = [
+       
+         { title: 'MySchedule', component: SchedulePage },
+     
+      ];
+    
   public items: Array<any> = [];
   public itemRef: firebase.database.Reference = firebase.database().ref('Bookings');
   public itemRefs: firebase.database.Reference;
