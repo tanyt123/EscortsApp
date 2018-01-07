@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, PickerColumnOption } from 'ionic-angular';
 import firebase from 'firebase';
 import { SchedulePage } from '../schedule/schedule';
+import { BookingPage } from '../booking/booking';
 import { AlertController } from 'ionic-angular';
 @IonicPage()
 @Component({
@@ -59,8 +60,8 @@ export class SinglebookPage {
         });
         alert.present();
       
-        this.navCtrl.push(SchedulePage);
-      this.navCtrl.setRoot(SchedulePage)
+        this.navCtrl.push(BookingPage);
+      this.navCtrl.setRoot(BookingPage)
       .then(() =>{
     this.navCtrl.popToRoot();
                    
