@@ -26,8 +26,9 @@ import {ReauthenticatePage} from '../pages/reauthenticate/reauthenticate';
 import { SchedulePage } from '../pages/schedule/schedule';
 import { FiltersPage } from '../pages/filters/filters';
 import { ResetPage } from '../pages/reset/reset';
-
-
+import { MobilePage } from '../pages/mobile/mobile';
+import { NgxPhoneSelectModule } from 'ngx-phone-select';
+import { TextMaskModule } from 'angular2-text-mask';
 export const firebaseConfig = {
   apiKey: "AIzaSyCFU9g3inPp81yQU14fYANC7vf31SpkqKk",
   authDomain: "sharedmedicalfyp-1cfcf.firebaseapp.com",
@@ -51,10 +52,12 @@ export const firebaseConfig = {
     ReauthenticatePage,
     SchedulePage,
     FiltersPage,
-    ResetPage
+    ResetPage,
+    MobilePage
   ],
   imports: [
     BrowserModule,
+     TextMaskModule,
     ReactiveFormsModule,
     IonicModule.forRoot(MyApp, {
       menuType: 'push',
@@ -64,6 +67,7 @@ export const firebaseConfig = {
         }
       }
     }),
+    NgxPhoneSelectModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
@@ -82,7 +86,8 @@ export const firebaseConfig = {
     ReauthenticatePage,
     SchedulePage  ,
     FiltersPage,
-    ResetPage
+    ResetPage,
+    MobilePage
   ],
   providers: [
     StatusBar,

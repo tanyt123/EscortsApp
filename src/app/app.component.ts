@@ -23,6 +23,9 @@ import { ReauthenticatePage } from '../pages/reauthenticate/reauthenticate';
 import { SchedulePage } from '../pages/schedule/schedule';
 import { FiltersPage } from '../pages/filters/filters';
 import { ResetPage } from '../pages/reset/reset';
+import { MobilePage } from '../pages/mobile/mobile';
+import { NgxPhoneSelectModule } from 'ngx-phone-select';
+import { TextMaskModule } from 'angular2-text-mask';
 @Component({
   templateUrl: 'app.html'
 })
@@ -39,9 +42,9 @@ export class MyApp {
 
       this.afAuth.authState.subscribe(auth => {
         if (!auth)
-          this.rootPage =BookingPage;
+          this.rootPage = MobilePage;
         else
-          this.rootPage =  HomePage;
+          this.rootPage =  MobilePage;
       });
       this.pages = [
         { title: 'Profile', component: ProfilePage },

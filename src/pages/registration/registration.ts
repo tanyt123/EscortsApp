@@ -25,8 +25,10 @@ import { FormControl, FormBuilder, FormGroup, Validators, ValidatorFn, AbstractC
 
 export class RegistrationPage {
   imageURL;
+  public recaptchaVerifier:firebase.auth.RecaptchaVerifier;
   itemsRef: AngularFireList<any>;
   public ages: string;
+   masks: any;
   public AgeError: boolean = false;
   isenabled: boolean = false;
   public mismatchedPasswords: boolean = false;
@@ -42,7 +44,10 @@ export class RegistrationPage {
     public loadingCtrl: LoadingController, private sms: SMS, private afAuth: AngularFireAuth, 
     afDatabase: AngularFireDatabase, public alertCtrl: AlertController) {
     this.itemsRef = afDatabase.list('Escorts');
-
+ this.masks = {
+            tel: ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
+          };
+          
     this.myForm = formBuilder.group({
       Name: ['', Validators.required],
       Username: ['', Validators.required],
@@ -98,7 +103,7 @@ export class RegistrationPage {
 
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad RegistrationPage');
+    this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
 
   }
 
@@ -120,15 +125,19 @@ export class RegistrationPage {
 
   }
   Register() {
+     const appVerifier = this.recaptchaVerifier;
+  const phoneNumberString =  "+" + this.myForm.value.code +this.myForm.value.tel;
     try {
       this.isenabled = false;
-      this.afAuth.auth.createUserWithEmailAndPassword(this.myForm.value.email, this.myForm.value.password).then(auth => {
+      this.afAuth.auth.createUserWithEmailAndPassword(this.myForm.value.email, this.myForm.value.password).
+      then(auth => {
 
         let user: any = firebase.auth().currentUser;
         firebase.auth().onAuthStateChanged(function (user) {
           user.sendEmailVerification();
         });
-        
+       
+          
         this.itemsRef.push({
           Name: this.myForm.value.Name,
           Username: this.myForm.value.Username,
@@ -176,8 +185,20 @@ export class RegistrationPage {
       console.log(e);
     
     }
+  this.afAuth.auth.signInWithEmailAndPassword(this.myForm.value.email, this.myForm.value.password)
+          .then(function(result) {
 
-  }
+  }).catch(err => {
+          // Handle error
+          let alert = this.alertCtrl.create({
+            title: 'Error',
+            message: err.message,
+            buttons: ['OK']
+          });
+          alert.present();
+        this.myForm.get('tel').setErrors({Mismatch: true})
+            this.isenabled = true;
+        });
 
 
 }
