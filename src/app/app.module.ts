@@ -29,6 +29,11 @@ import { ResetPage } from '../pages/reset/reset';
 import { MobilePage } from '../pages/mobile/mobile';
 import { NgxPhoneSelectModule } from 'ngx-phone-select';
 import { TextMaskModule } from 'angular2-text-mask';
+import { RequestPage } from '../pages/request/request';
+import { Calendar } from '@ionic-native/calendar';
+import { AddEventPage } from '../pages/add-event/add-event';
+import { CalendarModule } from "ion2-calendar";
+import { MySchedulePage } from '../pages/my-schedule/my-schedule';
 export const firebaseConfig = {
   apiKey: "AIzaSyCFU9g3inPp81yQU14fYANC7vf31SpkqKk",
   authDomain: "sharedmedicalfyp-1cfcf.firebaseapp.com",
@@ -53,11 +58,15 @@ export const firebaseConfig = {
     SchedulePage,
     FiltersPage,
     ResetPage,
-    MobilePage
+    MobilePage,
+     AddEventPage,
+      RequestPage,
+      MySchedulePage
   ],
   imports: [
     BrowserModule,
      TextMaskModule,
+   CalendarModule,
     ReactiveFormsModule,
     IonicModule.forRoot(MyApp, {
       menuType: 'push',
@@ -72,6 +81,7 @@ export const firebaseConfig = {
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     FormsModule,
+  
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -87,10 +97,14 @@ export const firebaseConfig = {
     SchedulePage  ,
     FiltersPage,
     ResetPage,
-    MobilePage
+    MobilePage,
+     AddEventPage,
+      RequestPage,
+      MySchedulePage
   ],
   providers: [
     StatusBar,
+     Calendar,
     SplashScreen,
     File,
     NativeStorage,

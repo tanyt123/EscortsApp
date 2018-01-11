@@ -1,130 +1,54 @@
 <ion-header>
-  <ion-navbar color="danger">
-
+ <ion-navbar color="danger"  enable-menu-with-back-views="false">
+    <ion-title style="text-align: center;">Choose Date For Booking </ion-title>
     <button persistent="true" ion-button class="damn" menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title style="text-align: center;">Booking Request</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="selectedDate()">
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-grid>
-    <ion-row>
-      <ion-col color="primary" col-10>
-        <h3>{{(items | async)?.length}} records found </h3>
-      </ion-col>
+  <!--<div class="calendar-header">
+    <ion-row class="calendar-month">
+      <ion-col col-2 (click)="goToLastMonth()"><ion-icon name="arrow-back"></ion-icon></ion-col>
+      <ion-col col-8>{{currentMonth}} {{currentYear}}</ion-col>
+      <ion-col col-2 (click)="goToNextMonth()"><ion-icon name="arrow-forward"></ion-icon></ion-col>
+    </ion-row>
+  </div>
+  <div class="calendar-body">
+    <ion-grid>
+      <ion-row class="calendar-weekday">
+        <ion-col>Su</ion-col>
+        <ion-col>Mo</ion-col>
+        <ion-col>Tu</ion-col>
+        <ion-col>We</ion-col>
+        <ion-col>Th</ion-col>
+        <ion-col>Fr</ion-col>
+        <ion-col>Sa</ion-col>
+      </ion-row>
+      <ion-row class="calendar-date">
+        <ion-col col-1 *ngFor="let lastDay of daysInLastMonth" class="last-month" (click)="goToLastMonth()">{{lastDay}}</ion-col>
+        <ion-col col-1 *ngFor="let day of daysInThisMonth" (click)="selectDate(day)">
+          <span class="currentDate" *ngIf="currentDate === day; else otherDate">{{day}}</span>
+        
+          <ng-template #otherDate class="otherDate">
+            {{day}}<br>
+            <div class="event-bullet" *ngIf="checkEvent(day)"></div>
+          </ng-template>
+        </ion-col>
+        <ion-col col-1 *ngFor="let nextDay of daysInNextMonth" class="next-month" (click)="goToNextMonth()">{{nextDay}}</ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>-->
+<ion-calendar [(ngModel)]="date"
+              (onChange)="onChange($event)"
+              [type]="type"
+              [format]="'YYYY-MM-DD'">
+</ion-calendar>
 
-      <ion-col color="primary">
-        <img src="../assets/imgs/filter.png" class="image" (click)="Filter()">
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-  <!--<ion-item class="col" >
-  
-        <ion-input  class="date" type="date" pickerFormat="MMMM YYYY" (input)="FilterDate()" displayFormat="DD/MM/YYYY" [(ngModel)]="selectedDate" [min]="today" pickerFormat="DDDD MMMM YYYY"  novalidate></ion-input>
-    </ion-item>
-    <ion-item class="col">
-     <ion-select class="ion-select" text-wrap>
-    <ion-option text-wrap value="f">Female </ion-option>
-    <ion-option text-wrap value="m">Male</ion-option>
-  </ion-select>
-    </ion-item>-->
-
-  <ion-list text-wrap *ngFor="let item of (items | async) ">
-    <ion-item-divider *ngIf="toggle" sticky class="ion-item-divider">
-      <ion-label>Start Time: {{ item.startTime }}
-      </ion-label>
-
-    </ion-item-divider>
-    <ion-item (click)="gotoPage(item.key)" *ngIf="toggle">
-      <p>Address: {{ item.Address }}</p>
-      <p>Gender : {{ item.Gender }}</p>
-      <p>Contact : {{ item.Contact }}</p>
-    </ion-item>
-
-  </ion-list>
-  <ion-grid *ngIf="buttonClicked" class="modal_content">
-    <button id="hidden-button">
-    <ion-row class="ion-header" >
-      <ion-col>
-        Filter
-      </ion-col>
-    </ion-row>
-      </button>
-    <button id="hidden-button" (click)="Date()">
-       
-    <ion-row class="ion-row">
-      <ion-col>
-        Date
-      </ion-col>
-      <ion-icon name="arrow-dropdown" *ngIf="!visible"></ion-icon>
-   <ion-icon name="arrow-dropup" *ngIf="visible"></ion-icon>
-    </ion-row>
-     </button>
-    <button id="hidden-button">
-    <ion-row *ngIf="DateClicked"  >
-    <ion-item class="dropdate" text-wrap >
-        <ion-input class="date" type="date" pickerFormat="MMMM YYYY" (ionChange)="Filters()" displayFormat="DD/MM/YYYY" [(ngModel)]="selectedDate" [min]="today" pickerFormat="DDDD MMMM YYYY"   required></ion-input>
-    </ion-item>
-      
-    </ion-row>
-  </button>
-    <button id="hidden-button" (click)="Gender()">
-       
-    <ion-row class="ion-row">
-      <ion-col>
-        Gender
-      </ion-col>
-      <ion-icon name="arrow-dropdown" *ngIf="!gender"></ion-icon>
-   <ion-icon name="arrow-dropup" *ngIf="gender"></ion-icon>
-    </ion-row>
-     </button>
-    <button id="hidden-button">
-    <ion-row *ngIf="GenderClicked" radio-group (ionChange)="FilterGender()" [(ngModel)]="Genders">
-        <ion-item *ngIf="!male || !female" class="gender">
-    <ion-label> All Genders</ion-label>
-    <ion-radio  value="All"> </ion-radio>
-    </ion-item>
-    <ion-item *ngIf="female" class="gender">
-    <ion-label> Female</ion-label>
-    <ion-radio  value="Female"> </ion-radio>
-    </ion-item>
-     <ion-item *ngIf="male" class="gender">
-         <ion-label> Male</ion-label>
-    <ion-radio  value="Male"></ion-radio>
-  </ion-item>
-    
-      
-    </ion-row>
-  </button>
-    <!--<button id="hidden-button" (click)="PickUp()">
-    <ion-row class="ion-row" >
-      <ion-col >
-       Pick Up
-      </ion-col>
-         <ion-icon name="arrow-dropdown" *ngIf="!pickup"></ion-icon>
-   <ion-icon name="arrow-dropup" *ngIf="pickup"></ion-icon>
-    </ion-row>
-     </button>
-    <button id="hidden-button">
-    <ion-row *ngIf="PickUpClicked" >
-      <ion-item col-4>
-        <ion-badge color="primary" text-wrap>{{this.timeMin2}}</ion-badge>
-      </ion-item>
-         <ion-item col>
-            <ion-input class="pickup" color="primary" type="number"></ion-input>
-      </ion-item>
-      <ion-item col>
-    <ion-badge color="primary" item-right >{{this.timeMax2}}</ion-badge>
-    </ion-item>
-      <ion-item>
-      <ion-range dualKnobs="true" pin="true" min="-10" max="10" value="0" (ionChange)="setBadge(structure)" [(ngModel)]="structure" color="dark">
-      </ion-range>
-    </ion-item>
-  
-  </ion-row>
- </button>-->
-  </ion-grid>
 </ion-content>

@@ -1,5 +1,11 @@
+
+
+
+import { AddEventPage } from '../add-event/add-event';
+  import { RequestPage } from '../request/request';
+import { Calendar } from '@ionic-native/calendar';
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Nav, Refresher, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Nav, Refresher, LoadingController, AlertController } from 'ionic-angular';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { MenuController } from 'ionic-angular';
 import firebase from 'firebase';
@@ -8,257 +14,128 @@ import { Observable } from 'rxjs/Observable';
 import { FiltersPage } from '../filters/filters';
 import 'rxjs/add/operator/map'
 import { ModalController } from 'ionic-angular';
-export interface PageInterface {
-  title: string;
-  pageName: string;
-  tabComponent?: any;
-  index?: number;
-  icon: string;
-  itemsRef: AngularFireList<any>;
-
-}
-@IonicPage()
 @Component({
   selector: 'page-booking',
-  templateUrl: 'booking.html',
+  templateUrl: 'booking.html'
 })
 export class BookingPage {
-  public itemss: Array<any> = [];
+  dates;
+  daysInThisMonth: any;
+  daysInLastMonth: any;
+date;
+  daysInNextMonth: any;
+  monthNames: string[];
+  currentMonth: any;
+  currentYear: any;
+  currentDate = new Date().getDate();
+  eventList: any;
+ today = new Date().toJSON().split('T')[0];
+  selectedEvent: any;
+  isSelected: any;
   items: Observable<any[]>;
- public times: Array<any> = [];
+  public times: Array<any> = [];
   itemsRef: AngularFireList<any>;
-  selectedDate;
-  timeMin2: any;
-  Genders;
-  timeMax2: any;
-  PickUpClicked: boolean = false;
-  GenderClicked: boolean = false;
-  visible: boolean = false;
-  pickup: boolean = false;
-  gender: boolean = false;
-  male: boolean = true;
-  female: boolean = true;
-  structure;
-  toggle: boolean = true;
-  DateClicked: boolean = false;
-  public buttonClicked: boolean = false;
-  today = new Date().toJSON().split('T')[0];
-  public itemRef: firebase.database.Reference = firebase.database().ref('Bookings');
-  constructor(public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController,
-    public menuCtrl: MenuController, afDatabase: AngularFireDatabase, public modalCtrl: ModalController) {
-    this.itemsRef = afDatabase.list('Bookings',
-      ref => ref.orderByChild('startTime')
-    );
-  
-    this.items = this.itemsRef.snapshotChanges().map(changes => {
-      return changes.map(c =>
-        ({ key: c.payload.key, ...c.payload.val() })).filter(items =>
-          (items.Status === 'Pending' || items.Status === 'Cancelled') && items.Date >= this.today);
-    });
+  constructor(private alertCtrl: AlertController,
+    public navCtrl: NavController,
+    private calendar: Calendar) { }
 
-    // this.times =     this.items.map(time => {
-    //    const speakers = time.map(r => r.startTime);
-    //     const distinctSpeakers = [...new Set(speakers)]; 
-    //     return distinctSpeakers;
-    //   }
-    //   );
-    
-
-            
-  }
- 
-
-
-
- 
-  
+  ionViewWillEnter() {
+    this.date = new Date();
+    this.monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    // this.getDaysOfMonth();
+    console.log(new Date())
+  }   
+  onChange($event) {
    
-  Filter() {
-    this.buttonClicked = !this.buttonClicked;
-    this.toggle = !this.toggle;
-    this.DateClicked = false;
-    this.PickUpClicked = false;
-    this.visible = false;
-    this.pickup = false;
-    this.gender = false;
-    this.GenderClicked = false;
-
-  }
-  Date() {
-    if (this.DateClicked == false) {
-      this.DateClicked = true;
-      this.visible = true;
-    }
-    else {
-      this.DateClicked = false;
-      this.visible = false;
-    }
-  }
-  Gender() {
-    if (this.GenderClicked == false) {
-      this.GenderClicked = true;
-      this.gender = true;
-    }
-    else {
-      this.GenderClicked = false;
-      this.gender = false;
-    }
+   this.dates = $event.format().split('T')[0];
+  console.log(this.dates);
   }
 
-  // console.log(this.selectedDate)
-  // this.items = this.itemsRef.snapshotChanges().map(changes => {
+  // getDaysOfMonth() {
+  //   this.daysInThisMonth = new Array();
+  //   this.daysInLastMonth = new Array();
+  //   this.daysInNextMonth = new Array();
+  //   this.currentMonth = this.monthNames[this.date.getMonth()];
+  //   this.currentYear = this.date.getFullYear();
+  //   var firstDayThisMonth = new Date(this.date.getFullYear(), this.date.getMonth(), 1).getDay();
+  //   var prevNumOfDays = new Date(this.date.getFullYear(), this.date.getMonth(), 0).getDate();
+  //   for (var i = prevNumOfDays - (firstDayThisMonth - 1); i <= prevNumOfDays; i++) {
+  //     this.daysInLastMonth.push(i);
+  //   }
 
-  //   return changes.map(c =>
-  //     ({ key: c.payload.key, ...c.payload.val() })).filter(items =>
-  //       (items.Status === '' || items.Status === 'Cancelled') && items.Date === this.selectedDate
-  //     );
+  //   var thisNumOfDays = new Date(this.date.getFullYear(), this.date.getMonth() + 1, 0).getDate();
+  //   for (var j = 0; j < thisNumOfDays; j++) {
+  //     this.daysInThisMonth.push(j + 1);
+  //   }
 
-  // });
+  //   var lastDayThisMonth = new Date(this.date.getFullYear(), this.date.getMonth() + 1, 0).getDay();
+  //   // var nextNumOfDays = new Date(this.date.getFullYear(), this.date.getMonth()+2, 0).getDate();
+  //   for (var k = 0; k < (6 - lastDayThisMonth); k++) {
+  //     this.daysInNextMonth.push(k + 1);
+  //   }
+  //   var totalDays = this.daysInLastMonth.length + this.daysInThisMonth.length + this.daysInNextMonth.length;
+  //   if (totalDays < 36) {
+  //     for (var l = (7 - lastDayThisMonth); l < ((7 - lastDayThisMonth) + 7); l++) {
+  //       this.daysInNextMonth.push(l);
+  //     }
+  //   }
+  // }
 
-  //  this.items = this.items.map(item => {
-  //    return item.filter(items => items.Gender === 'Female')
-  //  })
-  // this.items = this.items.map(item => {
-  //    return item.filter(items => items.Address === 'SG  ')
-  // })
-  setBadge(time) {
-    this.timeMin2 = this.structure.lower;
-    this.timeMax2 = this.structure.upper;
+  // goToLastMonth() {
+  //   this.date = new Date(this.date.getFullYear(), this.date.getMonth(), 0);
+  //   this.getDaysOfMonth();
+  //   this.currentDate = null;
+  // }
+
+  // goToNextMonth() {
+  //   this.date = new Date(this.date.getFullYear(), this.date.getMonth() + 2, 0);
+  //   this.getDaysOfMonth();
+  //   this.currentDate = null;
+  // }
+
+  // addEvent() {
+  //   this.navCtrl.push(AddEventPage);
+  // }
+
+  // // loadEventThisMonth() {
+  // //   this.eventList = new Array();
+  // //   var startDate = new Date(this.date.getFullYear(), this.date.getMonth(), 1);
+  // //   var endDate = new Date(this.date.getFullYear(), this.date.getMonth() + 1, 0);
+  // //   this.calendar.listEventsInRange(startDate, endDate).then(
+  // //     (msg) => {
+  // //       msg.forEach(item => {
+  // //         this.eventList.push(item);
+  // //       });
+  // //     },
+  // //     (err) => {
+  // //       console.log(err);
+  // //     }
+  // //   );
+  // // }
+
+  // checkEvent(day) {
+  //   var hasEvent = false;
+  //   var thisDate1 = this.date.getFullYear() + "-" + (this.date.getMonth() + 1) + "-" + day + " 00:00:00";
+  //   var thisDate2 = this.date.getFullYear() + "-" + (this.date.getMonth() + 1) + "-" + day + " 23:59:59";
+
+  //   return hasEvent;
+  // }
+
+  // selectDate(day) {
+
+  //   this.isSelected = false;
+  //   this.selectedEvent = new Array();
+  //   var thisDate1 = this.date.getFullYear() + "-" + (this.date.getMonth() + 1) + "-" + day + " 00:00:00";
+  //   console.log(thisDate1);
+  //   var thisDate2 = this.date.getFullYear() + "-" + (this.date.getMonth() + 1) + "-" + day + " 23:59:59";
+  //   this.currentDate = day;
+  // }
+  selectedDate() {
+  
+ this.navCtrl.push(RequestPage, {
+    date: this.dates
+});
   }
-  PickUp() {
-    if (this.PickUpClicked == false) {
-      this.PickUpClicked = true;
-      this.pickup = true;
-    }
-    else {
-      this.PickUpClicked = false;
-      this.pickup = false;
-    }
-  }
 
-  Filters() {
-    this.items = this.itemsRef.snapshotChanges().map(changes => {
-      return changes.map(c =>
-        ({ key: c.payload.key, ...c.payload.val() })).filter(items =>
-          (items.Status === 'Pending' || items.Status === 'Cancelled') && items.Date >= this.today
-        );
-    });
-
-    if (this.selectedDate) {
-       console.log('Fly')
-      let loading = this.loadingCtrl.create({
-        content: 'Please wait...'
-      });
-
-      loading.present();
-
-      setTimeout(() => {
-        loading.dismiss();
-      }, 2000);
-      this.items = this.items.map(item => {
-        return item.filter(items => items.Date === this.selectedDate)
-      })
-    }
-
-
-    if (this.Genders === 'Female') {
-      console.log('Hi')
-      let loading = this.loadingCtrl.create({
-        content: 'Please wait...'
-      });
-
-      loading.present();
-
-      setTimeout(() => {
-        loading.dismiss();
-      }, 2000);
-      this.female = false;
-      this.male = true;
-      this.items = this.items.map(item => {
-        return item.filter(items => items.Gender === this.Genders)
-      })
-      this.Genders = null;
-    }
-    else if (this.Genders === 'Male') {
-        console.log('Bye')
-      let loading = this.loadingCtrl.create({
-        content: 'Please wait...'
-      });
-
-      loading.present();
-
-      setTimeout(() => {
-        loading.dismiss();
-      }, 2000);
-      this.male = false;
-      this.female = true;
-      this.items = this.items.map(item => {
-        return item.filter(items => items.Gender === this.Genders)
-      })
-      this.Genders = null;
-    }
-    else if (this.Genders === 'All') {
-        console.log('Die')
-      let loading = this.loadingCtrl.create({
-        content: 'Please wait...'
-      });
-
-      loading.present();
-
-      setTimeout(() => {
-        loading.dismiss();
-      }, 2000);
-      this.male = true;
-      this.female = true;
-      this.Genders = null;
-    }
-
-  }
-  FilterGender() {
-    if (this.Genders) {
-      this.Filters();
-    }
-  }
-  gotoPage(key) {
-
-    this.navCtrl.push(SinglebookPage, {
-      key: key,
-      Status: 'Pending'
-    });
-
-  }
-  openMenu() {
-    this.menuCtrl.open();
-  }
-  toggleMenu() {
-    this.menuCtrl.toggle();
-  }
-  ionViewDidLoad() {
-    console.log(new Date(), '----', new Date().toJSON().split('T')[0]);
-    this.structure = { lower: -5, upper: 5 }
-    this.selectedDate= this.today;
-      this.items = this.items.map(item => {
-        return item.filter(items => items.Date === this.selectedDate)
-      })
-  }
-  /* doRefresh(refresher: Refresher) {
-       this.itemsRef = this.afDatabase.list('Bookings',
-       ref => ref.orderByChild('Status').equalTo(""));
-     this.items = this.itemsRef.snapshotChanges().map(changes => {
-       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
-     });
- 
-       // simulate a network request that would take longer
-       // than just pulling from out local json file
-       setTimeout(() => {
-         refresher.complete();
- 
-         const toast = this.toastCtrl.create({
-           message: 'Sessions have been updated.',
-           duration: 3000
-         });
-         toast.present();
-       }, 1000);
-     });
-   }*/
 }
+

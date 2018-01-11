@@ -48,6 +48,7 @@ export class SchedulePage {
     var email = window.localStorage.getItem('Email');
     console.log(email);
     this.items = this.itemsRef.snapshotChanges().map(changes => {
+     
       return changes.map(c =>
         ({ key: c.payload.key, ...c.payload.val() })).filter(items =>
           items.Driver === email && items.Status === 'Accepted');

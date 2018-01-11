@@ -4,7 +4,7 @@ import firebase from 'firebase';
 import { SchedulePage } from '../schedule/schedule';
 import { BookingPage } from '../booking/booking';
 import { AlertController } from 'ionic-angular';
-
+import { FormControl, FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 @IonicPage()
 @Component({
   selector: 'page-singlebook',
@@ -14,38 +14,42 @@ export class SinglebookPage {
   public key;
   public name;
   isenabled: boolean = true;
+    visible: boolean = false;
   status;
   email;
-  
+ myForm: FormGroup;
   button: boolean;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public formBuilder: FormBuilder, public alertCtrl: AlertController) {
+    this.myForm = formBuilder.group({
+     Rod : ['', Validators.required],
+
+    })
+
   }
- pages = [
-       
-         { title: 'MySchedule', component: SchedulePage },
-     
-      ];
-    
+
+
   public items: Array<any> = [];
   public itemRef: firebase.database.Reference = firebase.database().ref('Bookings');
   public itemRefs: firebase.database.Reference;
   ionViewDidLoad() {
     this.email = window.localStorage.getItem('Email');
     this.key = this.navParams.get('key');
-  this.status = this.navParams.get('Status');
-  if(this.status ==='Pending'){
-    this.button = true;
-  }
-    if(this.status ==='Accepted'){
-    this.button = false;
-  }
-      this.itemRef.child(this.key).once('value', (itemkeySnapshot) => {
+    this.status = this.navParams.get('Status');
+    if (this.status === 'Pending') {
+      this.button = true;
+         this.visible = false;
+    }
+    if (this.status === 'Accepted') {
+      this.button = false;
+      this.visible = true;
+    }
+    this.itemRef.child(this.key).once('value', (itemkeySnapshot) => {
 
-        this.items.push(itemkeySnapshot.val());
-        console.log(this.items);
-        this.itemRefs = firebase.database().ref('Bookings/' + this.key);
-      });
-    
+      this.items.push(itemkeySnapshot.val());
+      console.log(this.items);
+      this.itemRefs = firebase.database().ref('Bookings/' + this.key);
+    });
+
 
 
 
@@ -62,42 +66,43 @@ export class SinglebookPage {
         Driver: this.email,
       })
       let alert = this.alertCtrl.create({
-          title: 'You have accepted the booking!',
-          buttons: ['OK']
-        });
-        alert.present();
-      
-        this.navCtrl.push(BookingPage);
+        title: 'You have accepted the booking!',
+        buttons: ['OK']
+      });
+      alert.present();
+
+      this.navCtrl.push(BookingPage);
       this.navCtrl.setRoot(BookingPage)
-      .then(() =>{
-    this.navCtrl.popToRoot();
-                   
-            });
+        .then(() => {
+          this.navCtrl.popToRoot();
+
+        });
     }
     catch (e) {
       console.log(e);
 
     }
   }
-    Cancel() {
+  Cancel() {
     try {
       this.isenabled = false;
       this.itemRefs.update({
         Status: "Cancelled",
         Driver: "",
+        ROD : this.myForm.value.ROD,
       })
       let alert = this.alertCtrl.create({
-          title: 'You have cancelled the booking!',
-          buttons: ['OK']
-        });
-        alert.present();
-      
-        this.navCtrl.push(SchedulePage);
+        title: 'You have cancelled the booking!',
+        buttons: ['OK']
+      });
+      alert.present();
+
+      this.navCtrl.push(SchedulePage);
       this.navCtrl.setRoot(SchedulePage)
-      .then(() =>{
-    this.navCtrl.popToRoot();
-                   
-            });
+        .then(() => {
+          this.navCtrl.popToRoot();
+
+        });
     }
     catch (e) {
       console.log(e);

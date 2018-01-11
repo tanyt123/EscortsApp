@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, AlertController,NavParams } from 'ionic-angular';
 
 import firebase from 'firebase';
-
+import { Sim } from '@ionic-native/sim';
 import { FormsModule } from "@angular/forms";
 import { FormControl, FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 @IonicPage()
@@ -27,7 +27,7 @@ public recaptchaVerifier:firebase.auth.RecaptchaVerifier;
     this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
   'size': 'normal',
   'callback': function(response) {
-
+    
   },
   'expired-callback': function() {
 

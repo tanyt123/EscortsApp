@@ -25,6 +25,7 @@ export class LoginPage {
   email: '';
   password: '';
   name="";
+  gender;
   public loading: Loading;
   constructor(public navCtrl: NavController,
     private alertCtrl: AlertController, private toastCtrl: ToastController,
@@ -64,6 +65,8 @@ Reset(){
             
                   this.name = itemSnap.child("Name").val();
                    window.localStorage.setItem('Name', this.name);
+                    this.gender = itemSnap.child("Gender").val();
+                   window.localStorage.setItem('Gender', this.gender);
                   return false;
 
                 });

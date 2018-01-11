@@ -21,9 +21,11 @@ import { NativeStorage } from '@ionic-native/native-storage';
 import { UpdateprofilePage } from '../pages/updateprofile/updateprofile';
 import { ReauthenticatePage } from '../pages/reauthenticate/reauthenticate';
 import { SchedulePage } from '../pages/schedule/schedule';
+import { MySchedulePage } from '../pages/my-schedule/my-schedule';
 import { FiltersPage } from '../pages/filters/filters';
 import { ResetPage } from '../pages/reset/reset';
 import { MobilePage } from '../pages/mobile/mobile';
+import { RequestPage } from '../pages/request/request';
 import { NgxPhoneSelectModule } from 'ngx-phone-select';
 import { TextMaskModule } from 'angular2-text-mask';
 @Component({
@@ -42,9 +44,9 @@ export class MyApp {
 
       this.afAuth.authState.subscribe(auth => {
         if (!auth)
-          this.rootPage = MobilePage;
+          this.rootPage =  MySchedulePage;
         else
-          this.rootPage =  MobilePage;
+          this.rootPage =   MySchedulePage;
       });
       this.pages = [
         { title: 'Profile', component: ProfilePage },

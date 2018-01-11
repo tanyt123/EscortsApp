@@ -25,46 +25,50 @@ import { FormControl, FormBuilder, FormGroup, Validators, ValidatorFn, AbstractC
 
 export class RegistrationPage {
   imageURL;
-  public recaptchaVerifier:firebase.auth.RecaptchaVerifier;
+  public recaptchaVerifier: firebase.auth.RecaptchaVerifier;
   itemsRef: AngularFireList<any>;
   public ages: string;
-   masks: any;
+  masks: any;
   public AgeError: boolean = false;
   isenabled: boolean = false;
   public mismatchedPasswords: boolean = false;
   public age: number;
   myForm: FormGroup;
-   minDate = new Date().toISOString();
+  user: any;
+  minDate = new Date().toISOString();
   public error: string;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private camera: Camera, private transfer: Transfer,
     private file: File, private filePath: FilePath, public formBuilder: FormBuilder,
     public actionSheetCtrl: ActionSheetController,
     public toastCtrl: ToastController, public platform: Platform,
-    public loadingCtrl: LoadingController, private sms: SMS, private afAuth: AngularFireAuth, 
+    public loadingCtrl: LoadingController, private sms: SMS, private afAuth: AngularFireAuth,
     afDatabase: AngularFireDatabase, public alertCtrl: AlertController) {
     this.itemsRef = afDatabase.list('Escorts');
- this.masks = {
-            tel: ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
-          };
-          
+    this.masks = {
+      tel: ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
+    };
+
     this.myForm = formBuilder.group({
       Name: ['', Validators.required],
       Username: ['', Validators.required],
-      tel: ['', Validators.compose([Validators.minLength(8), Validators.maxLength(8), Validators.pattern('[0-9]*'), Validators.required])],
-      email: ['', Validators.compose([Validators.maxLength(70), Validators.pattern('^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$'), Validators.required])],
-
-      address: ['', Validators.required],
-
-
-      gender: ['', Validators.required],
+       gender: ['', Validators.required],
       IC: ['', Validators.compose([Validators.required, Validators.minLength(7), Validators.pattern('[a-zA-Z]{1}[0-9]{7}[a-zA-Z]{1}')])],
       plateNo: ['', Validators.required],
 
       age: ['',],
       DOB: ['', Validators.required],
+        address: ['', Validators.required],
+      tel: ['', Validators.compose([Validators.minLength(8), Validators.maxLength(8), Validators.pattern('[0-9]*'), Validators.required])],
+      email: ['', Validators.compose([Validators.maxLength(70), Validators.pattern('^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$'), Validators.required])],
+
+
+      code: ['', Validators.required],
+
+
       password: ['', Validators.compose([Validators.minLength(8), Validators.maxLength(25), Validators.required])],
       rePassword: ['', Validators.compose([Validators.minLength(8), Validators.maxLength(25), Validators.required])],
+
     })
   }
   options: CameraOptions = {
@@ -125,81 +129,106 @@ export class RegistrationPage {
 
   }
   Register() {
-     const appVerifier = this.recaptchaVerifier;
-  const phoneNumberString =  "+" + this.myForm.value.code +this.myForm.value.tel;
+    const appVerifier = this.recaptchaVerifier;
+    const phoneNumberString = "+" + this.myForm.value.code + this.myForm.value.tel;
     try {
       this.isenabled = false;
-      this.afAuth.auth.createUserWithEmailAndPassword(this.myForm.value.email, this.myForm.value.password).
-      then(auth => {
+      firebase.auth().signInWithPhoneNumber(phoneNumberString, appVerifier)
+        .then(confirmationResult => {
 
-        let user: any = firebase.auth().currentUser;
-        firebase.auth().onAuthStateChanged(function (user) {
-          user.sendEmailVerification();
-        });
-       
-          
-        this.itemsRef.push({
-          Name: this.myForm.value.Name,
-          Username: this.myForm.value.Username,
-          Tel: this.myForm.value.tel,
-          Email: this.myForm.value.email,
+          let prompt = this.alertCtrl.create({
+            title: 'Enter the Confirmation code',
+            inputs: [{ name: 'confirmationCode', placeholder: 'Confirmation Code' }],
+            buttons: [
+              {
+                text: 'Cancel',
+                handler: data => { console.log('Cancel clicked'); }
+              },
+              {
+                text: 'Send',
+                handler: data => {
+                  confirmationResult.confirm(data.confirmationCode)
+                    .then((result) => {
+                      // User signed in successfully.
+                      this.user = firebase.auth().currentUser;
+                      var credential = firebase.auth.EmailAuthProvider.credential(this.myForm.value.email, this.myForm.value.password);
+                      this.user.linkWithCredential(credential).then(auth => {
+                        console.log(this.user)
+                        this.user = firebase.auth().currentUser;
+                        firebase.auth().onAuthStateChanged(function (user) {
+                          user.sendEmailVerification();
+                        });
 
-          Address: this.myForm.value.address,
-          Age: this.ages,
-          DOB: this.myForm.value.DOB,
-          PlateNo: this.myForm.value.plateNo,
-          IC: this.myForm.value.IC,
-          Gender: this.myForm.value.gender,
 
-       
+                        this.itemsRef.push({
+                          Name: this.myForm.value.Name,
+                          Username: this.myForm.value.Username,
+                          Tel: this.myForm.value.tel,
+                          Email: this.myForm.value.email,
+
+                          Address: this.myForm.value.address,
+                          Age: this.ages,
+                          DOB: this.myForm.value.DOB,
+                          PlateNo: this.myForm.value.plateNo,
+                          IC: this.myForm.value.IC,
+                          Gender: this.myForm.value.gender,
+
+
+                        });
+
+
+
+
+
+
+                        let alert = this.alertCtrl.create({
+                          title: 'Email verification sent!',
+                          buttons: ['OK']
+                        });
+                        alert.present();
+                        this.myForm.reset();
+                        this.navCtrl.push(LoginPage);
+                      })
+                        .catch(err => {
+                          // Handle error
+                          let alert = this.alertCtrl.create({
+                            title: 'Error',
+                            message: err.message,
+                            buttons: ['OK']
+                          });
+                          alert.present();
+                          this.myForm.get('email').setErrors({ Mismatch: true })
+                          this.isenabled = true;
+                        });
+                    }).catch((error) => {
+                      let alert = this.alertCtrl.create({
+                        message: error.message,
+                        buttons: ['OK']
+                      });
+                      alert.present();
+
+                    });
+                }
+              }
+            ]
           });
-
-
-
-
-
-
-        let alert = this.alertCtrl.create({
-          title: 'Email verification sent!',
-          buttons: ['OK']
+          prompt.present();
+        })
+        .catch(function (error) {
+          console.error("SMS not sent", error);
         });
-        alert.present();
-        this.myForm.reset();
-        this.navCtrl.push(LoginPage);
-      })
-        .catch(err => {
-          // Handle error
-          let alert = this.alertCtrl.create({
-            title: 'Error',
-            message: err.message,
-            buttons: ['OK']
-          });
-          alert.present();
-        this.myForm.get('email').setErrors({Mismatch: true})
-            this.isenabled = true;
-        });
-    
+
+
+
+
     }
-
     catch (e) {
       console.log(e);
-    
+
     }
-  this.afAuth.auth.signInWithEmailAndPassword(this.myForm.value.email, this.myForm.value.password)
-          .then(function(result) {
 
-  }).catch(err => {
-          // Handle error
-          let alert = this.alertCtrl.create({
-            title: 'Error',
-            message: err.message,
-            buttons: ['OK']
-          });
-          alert.present();
-        this.myForm.get('tel').setErrors({Mismatch: true})
-            this.isenabled = true;
-        });
 
+  }
 
 }
   /*Register(Name,Username,tel,email,password,rePassword,address,age,Issuedate,ExpiryDate,gender,IC,plateNo){
