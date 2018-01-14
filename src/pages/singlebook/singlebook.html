@@ -57,7 +57,7 @@
     </ion-item>
     <ion-item>
 <button ion-button  class="but" *ngIf="button" text-center [disabled]="!isenabled" (click)="Accept()"> Accept</button>
-<button ion-button  class="but" *ngIf="!button" text-center [disabled]="!isenabled" (click)="Cancel()"> Cancel</button>
+<button ion-button  class="but" *ngIf="!button" text-center [disabled]="!isenabled || !myForm.valid" (click)="Cancel()"> Cancel</button>
     </ion-item>
   
     </form>

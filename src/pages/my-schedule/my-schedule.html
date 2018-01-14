@@ -1,21 +1,22 @@
-<!--
-  Generated template for the MySchedulePage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>MySchedule</ion-title>
-  </ion-navbar>
-
+    <ion-navbar color="danger">
+        <button persistent="true" ion-button class="damn" menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+        <ion-title style="text-align: center;">{{viewTitle}}</ion-title>
+        <ion-buttons end>
+            <button ion-button [disabled]="isToday" (click)="today()">Today</button>
+            <button ion-button (click)="changeMode('month')">M</button>
+            <button ion-button (click)="changeMode('week')">W</button>
+            <button ion-button (click)="changeMode('day')">D</button>
+        
+        </ion-buttons>
+    </ion-navbar>
 </ion-header>
 
-
-<ion-content padding>
-<ion-list>
-  <ion-item>
-  </ion-item>
-</ion-list>
+<ion-content class="has-header">
+    <calendar [eventSource]="eventSource"  [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate" (onCurrentDateChanged)="onCurrentDateChanged($event)"
+        (onEventSelected)="onEventSelected($event)" (onTitleChanged)="onViewTitleChanged($event)" (onTimeSelected)="onTimeSelected($event)"
+        step="30">
+    </calendar>
 </ion-content>

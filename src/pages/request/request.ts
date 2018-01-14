@@ -33,6 +33,8 @@ export class RequestPage {
   selectedDate;
   timeMin2: any;
   Genders;
+  
+   max: Observable<any[]>;
   timeMax2: any;
   PickUpClicked: boolean = false;
   GenderClicked: boolean = false;
@@ -61,9 +63,6 @@ export class RequestPage {
           (items.Status === 'Pending') && items.Date === this.selectedDate && items.EscortsGender === Gender);
     });
  
-   this.Genders =   this.items.map(time => {
-    time.map(r => r.Gender);
-    } );
 
 
 
@@ -79,9 +78,30 @@ export class RequestPage {
   }
 
   ionViewDidLoad() {
-  
+     var appData = window.localStorage.getItem('Email');
+  this.itemsRef.snapshotChanges().map(changes => {
+ 
+      return changes.map(c =>
+        ({ key: c.payload.key, ...c.payload.val() })).filter(items =>
+          (items.Driver === appData) &&  (items.Status === 'Accepted'));
+    }).subscribe(time => {
+var schedules = [];
+        
+            time.map(r => {
 
+                schedules.push(r);
 
+            
+
+            }
+
+            );
+    for(var i = 0; i< schedules.length ; i++ ){
+      if(schedules[i].Carpool === 'No'){
+        console.log('Yes') ;
+      }
+    }
+        });
   }
   setBackButtonAction() {
     this.navBar.backButtonClick = () => {

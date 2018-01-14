@@ -24,13 +24,13 @@ export class LoginPage {
   public itemRef: firebase.database.Reference = firebase.database().ref('Escorts');
   email: '';
   password: '';
-  name="";
+  name = "";
   gender;
   public loading: Loading;
   constructor(public navCtrl: NavController,
     private alertCtrl: AlertController, private toastCtrl: ToastController,
-     public loadingCtrl: LoadingController, public navParams: NavParams, 
-     private afAuth: AngularFireAuth, private nativeStorage: NativeStorage) {
+    public loadingCtrl: LoadingController, public navParams: NavParams,
+    private afAuth: AngularFireAuth, private nativeStorage: NativeStorage) {
 
 
   }
@@ -47,9 +47,9 @@ export class LoginPage {
       this.navCtrl.setRoot(HomePage);
     }
   }
-Reset(){
- this.navCtrl.push(ResetPage);
-}
+  Reset() {
+    this.navCtrl.push(ResetPage);
+  }
 
   Login() {
     this.afAuth.auth.signInWithEmailAndPassword(this.email, this.password)
@@ -62,11 +62,11 @@ Reset(){
               window.localStorage.setItem('Email', this.email);
               this.itemRef.orderByChild("Email").equalTo(this.email).once('value', (snap) => {
                 snap.forEach(itemSnap => {
-            
+
                   this.name = itemSnap.child("Name").val();
-                   window.localStorage.setItem('Name', this.name);
-                    this.gender = itemSnap.child("Gender").val();
-                   window.localStorage.setItem('Gender', this.gender);
+                  window.localStorage.setItem('Name', this.name);
+                  this.gender = itemSnap.child("Gender").val();
+                  window.localStorage.setItem('Gender', this.gender);
                   return false;
 
                 });

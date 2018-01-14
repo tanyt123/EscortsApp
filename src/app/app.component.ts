@@ -28,6 +28,7 @@ import { MobilePage } from '../pages/mobile/mobile';
 import { RequestPage } from '../pages/request/request';
 import { NgxPhoneSelectModule } from 'ngx-phone-select';
 import { TextMaskModule } from 'angular2-text-mask';
+import { HistoryPage } from '../pages/history/history';
 @Component({
   templateUrl: 'app.html'
 })
@@ -51,7 +52,8 @@ export class MyApp {
       this.pages = [
         { title: 'Profile', component: ProfilePage },
         { title: 'Bookings', component: BookingPage },
-         { title: 'MySchedule', component: SchedulePage },
+         { title: 'My Schedule', component: MySchedulePage },
+           { title: 'My History', component: HistoryPage },
         { title: 'Logout', component: null },
       ];
       this.activePage = this.pages[1];

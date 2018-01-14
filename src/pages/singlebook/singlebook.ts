@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, PickerColumnOption } from 'ionic-a
 import firebase from 'firebase';
 import { SchedulePage } from '../schedule/schedule';
 import { BookingPage } from '../booking/booking';
+import { MySchedulePage } from '../my-schedule/my-schedule';
 import { AlertController } from 'ionic-angular';
 import { FormControl, FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 @IonicPage()
@@ -88,8 +89,8 @@ export class SinglebookPage {
       this.isenabled = false;
       this.itemRefs.update({
         Status: "Cancelled",
-        Driver: "",
-        ROD : this.myForm.value.ROD,
+      
+        ROD : this.myForm.value.Rod,
       })
       let alert = this.alertCtrl.create({
         title: 'You have cancelled the booking!',
@@ -97,8 +98,8 @@ export class SinglebookPage {
       });
       alert.present();
 
-      this.navCtrl.push(SchedulePage);
-      this.navCtrl.setRoot(SchedulePage)
+      this.navCtrl.push(MySchedulePage);
+      this.navCtrl.setRoot(MySchedulePage)
         .then(() => {
           this.navCtrl.popToRoot();
 

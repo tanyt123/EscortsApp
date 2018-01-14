@@ -34,6 +34,11 @@ import { Calendar } from '@ionic-native/calendar';
 import { AddEventPage } from '../pages/add-event/add-event';
 import { CalendarModule } from "ion2-calendar";
 import { MySchedulePage } from '../pages/my-schedule/my-schedule';
+import { HistoryPage } from '../pages/history/history';
+import { NgCalendarModule  } from 'ionic2-calendar';
+import { MonthViewComponent } from 'ionic2-calendar/monthview';
+import { WeekViewComponent } from 'ionic2-calendar/weekview';
+import { DayViewComponent } from 'ionic2-calendar/dayview';
 export const firebaseConfig = {
   apiKey: "AIzaSyCFU9g3inPp81yQU14fYANC7vf31SpkqKk",
   authDomain: "sharedmedicalfyp-1cfcf.firebaseapp.com",
@@ -61,7 +66,8 @@ export const firebaseConfig = {
     MobilePage,
      AddEventPage,
       RequestPage,
-      MySchedulePage
+      MySchedulePage,
+      HistoryPage
   ],
   imports: [
     BrowserModule,
@@ -77,6 +83,7 @@ export const firebaseConfig = {
       }
     }),
     NgxPhoneSelectModule,
+     NgCalendarModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
@@ -100,7 +107,8 @@ export const firebaseConfig = {
     MobilePage,
      AddEventPage,
       RequestPage,
-      MySchedulePage
+      MySchedulePage,
+      HistoryPage
   ],
   providers: [
     StatusBar,
