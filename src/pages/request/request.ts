@@ -33,8 +33,9 @@ export class RequestPage {
   selectedDate;
   timeMin2: any;
   Genders;
-  
-   max: Observable<any[]>;
+  keys;
+  public DSEARef: firebase.database.Reference;
+  max: Observable<any[]>;
   timeMax2: any;
   PickUpClicked: boolean = false;
   GenderClicked: boolean = false;
@@ -44,6 +45,7 @@ export class RequestPage {
   male: boolean = true;
   female: boolean = true;
   structure;
+  email;
   toggle: boolean = true;
   DateClicked: boolean = false;
   public buttonClicked: boolean = false;
@@ -57,41 +59,86 @@ export class RequestPage {
     var Gender = window.localStorage.getItem('Gender');
     this.selectedDate = this.navParams.get('date');
     this.items = this.itemsRef.snapshotChanges().map(changes => {
- 
+
       return changes.map(c =>
         ({ key: c.payload.key, ...c.payload.val() })).filter(items =>
           (items.Status === 'Pending') && items.Date === this.selectedDate && items.EscortsGender === Gender);
     });
- 
- this.itemsRef.snapshotChanges().map(changes => {
-   
-  var appData = window.localStorage.getItem('Email');
-     
+
+    this.itemsRef.snapshotChanges().map(changes => {
+
+      this.email = window.localStorage.getItem('Email');
+
       return changes.map(c =>
         ({ key: c.payload.key, ...c.payload.val() })).filter(items =>
-          (items.Driver === appData) &&  (items.Status === 'Accepted')  && items.Date === this.selectedDate);
+          (items.Driver === this.email) && (items.Status === 'Accepted') && items.Date === this.selectedDate);
     }).subscribe(time => {
-var schedules = [];
+      var schedules = [];
 
-       schedules = time;
-   
-    for(var i = 0; i< schedules.length ; i++ ){
-      if(schedules[i].Carpool === 'No'){
-        console.log(schedules);
-var startTime =  (new Date(schedules[i].Date + " " + schedules[i].startTime));
-var endTime =  (new Date(schedules[i].Date + " " + schedules[i].endTime));
-console.log(startTime);
-      this.items = this.items.map(item => {
-         return item.filter(items => 
-        ( (new Date(items.Date + " " + items.startTime)) < 
-         startTime && (new Date(items.Date + " " + items.endTime)) < 
-         startTime) 
-         || ((new Date(items.Date + " " + items.startTime)) > 
-        endTime )
-      )})
+      schedules = time;
+
+      for (var i = 0; i < schedules.length; i++) {
+        var startTime = (new Date(schedules[i].Date + " " + schedules[i].startTime));
+        var endTime = (new Date(schedules[i].Date + " " + schedules[i].endTime));
+        var DSEA = this.email + "," + startTime + "," + endTime + "," + schedules[i].pickup;
+        if (schedules[i].Carpool === 'No') {
+          console.log(schedules);
+
+          console.log(startTime);
+          this.items = this.items.map(item => {
+            return item.filter(items =>
+              ((new Date(items.Date + " " + items.startTime)) <
+                startTime && (new Date(items.Date + " " + items.endTime)) <
+                startTime)
+              || ((new Date(items.Date + " " + items.startTime)) >
+                endTime)
+            )
+          })
+        }
+        if (schedules[i].Carpool === 'Yes') {
+          var ref = firebase.database().ref("EscortBookings");
+          if (ref) {
+            ref.orderByChild("DSEA").equalTo(DSEA).once('value', (snap) => {
+
+              if (snap.val()) {
+                if (parseInt(snap.val().Count) === 3) {
+                  this.items = this.items.map(item => {
+                    return item.filter(items =>
+                      ((new Date(items.Date + " " + items.startTime)) <
+                        startTime && (new Date(items.Date + " " + items.endTime)) <
+                        startTime)
+                      || ((new Date(items.Date + " " + items.startTime)) >
+                        endTime)
+                    )
+                  })
+                }
+              }
+            });
+          }
+          var count;
+          this.items.subscribe(time => {
+
+
+            time.map(r => {
+
+              var startTime1 = (new Date(r.Date + " " + r.startTime));
+              var EndTime1 = (new Date(r.Date + " " + r.endTime));
+              if (count < 3) {
+
+
+
+              }
+
+
+
+            }
+
+            );
+
+          });
+        }
       }
-    }
-        });
+    });
 
 
   }
@@ -106,7 +153,7 @@ console.log(startTime);
   }
 
   ionViewDidLoad() {
-    
+
   }
   setBackButtonAction() {
     this.navBar.backButtonClick = () => {
