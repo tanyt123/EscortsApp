@@ -83,7 +83,7 @@ export class RequestPage {
  
       return changes.map(c =>
         ({ key: c.payload.key, ...c.payload.val() })).filter(items =>
-          (items.Driver === appData) &&  (items.Status === 'Accepted'));
+          (items.Driver === appData) &&  (items.Status === 'Accepted')  && items.Date === this.selectedDate);
     }).subscribe(time => {
 var schedules = [];
         
@@ -98,7 +98,12 @@ var schedules = [];
             );
     for(var i = 0; i< schedules.length ; i++ ){
       if(schedules[i].Carpool === 'No'){
-        console.log('Yes') ;
+      this.items = this.items.map(item => {
+        return item.filter(items => ((new Date(items.Date + " " + items.startTime)) < 
+        (new Date(schedules[i].Date + " " + schedules[i].startTime))  && (new Date(items.Date + " " + items.endTime)) < 
+        (new Date(schedules[i].Date + " " + schedules[i].startTime))) || ((new Date(items.Date + " " + items.startTime)) > 
+        (new Date(schedules[i].Date + " " + schedules[i].endTime)) ))
+      })
       }
     }
         });

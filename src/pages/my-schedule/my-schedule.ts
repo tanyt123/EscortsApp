@@ -96,8 +96,8 @@ export class MySchedulePage {
         
             time.map(r => {
 
-                var startTime = (new Date(r.Date + " " + r.Time));
-                var EndTime = (new Date(r.Date + " " + r.EndTime));
+                var startTime = (new Date(r.Date + " " + r.startTime));
+                var EndTime = (new Date(r.Date + " " + r.endTime));
                 events.push({
                     title: "test",
                     key: r.key,
