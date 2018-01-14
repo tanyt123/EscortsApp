@@ -63,7 +63,35 @@ export class RequestPage {
           (items.Status === 'Pending') && items.Date === this.selectedDate && items.EscortsGender === Gender);
     });
  
+ this.itemsRef.snapshotChanges().map(changes => {
+   
+  var appData = window.localStorage.getItem('Email');
+     
+      return changes.map(c =>
+        ({ key: c.payload.key, ...c.payload.val() })).filter(items =>
+          (items.Driver === appData) &&  (items.Status === 'Accepted')  && items.Date === this.selectedDate);
+    }).subscribe(time => {
+var schedules = [];
 
+       schedules = time;
+   
+    for(var i = 0; i< schedules.length ; i++ ){
+      if(schedules[i].Carpool === 'No'){
+        console.log(schedules);
+var startTime =  (new Date(schedules[i].Date + " " + schedules[i].startTime));
+var endTime =  (new Date(schedules[i].Date + " " + schedules[i].endTime));
+console.log(startTime);
+      this.items = this.items.map(item => {
+         return item.filter(items => 
+        ( (new Date(items.Date + " " + items.startTime)) < 
+         startTime && (new Date(items.Date + " " + items.endTime)) < 
+         startTime) 
+         || ((new Date(items.Date + " " + items.startTime)) > 
+        endTime )
+      )})
+      }
+    }
+        });
 
 
   }
@@ -78,35 +106,7 @@ export class RequestPage {
   }
 
   ionViewDidLoad() {
-     var appData = window.localStorage.getItem('Email');
-  this.itemsRef.snapshotChanges().map(changes => {
- 
-      return changes.map(c =>
-        ({ key: c.payload.key, ...c.payload.val() })).filter(items =>
-          (items.Driver === appData) &&  (items.Status === 'Accepted')  && items.Date === this.selectedDate);
-    }).subscribe(time => {
-var schedules = [];
-        
-            time.map(r => {
-
-                schedules.push(r);
-
-            
-
-            }
-
-            );
-    for(var i = 0; i< schedules.length ; i++ ){
-      if(schedules[i].Carpool === 'No'){
-      this.items = this.items.map(item => {
-        return item.filter(items => ((new Date(items.Date + " " + items.startTime)) < 
-        (new Date(schedules[i].Date + " " + schedules[i].startTime))  && (new Date(items.Date + " " + items.endTime)) < 
-        (new Date(schedules[i].Date + " " + schedules[i].startTime))) || ((new Date(items.Date + " " + items.startTime)) > 
-        (new Date(schedules[i].Date + " " + schedules[i].endTime)) ))
-      })
-      }
-    }
-        });
+    
   }
   setBackButtonAction() {
     this.navBar.backButtonClick = () => {
