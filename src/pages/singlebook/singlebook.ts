@@ -22,6 +22,7 @@ export class SinglebookPage {
   email;
   keys;
   date;
+  count;
   pickup;
   startTime;
   endTime;
@@ -58,7 +59,7 @@ export class SinglebookPage {
     this.itemRef.child(this.key).once('value', (itemkeySnapshot) => {
       this.startTime = itemkeySnapshot.val().startTime;
       this.endTime = itemkeySnapshot.val().endTime;
-       this.date = itemkeySnapshot.val().Date;
+      this.date = itemkeySnapshot.val().Date;
       this.pickup = itemkeySnapshot.val().Pickup;
       this.items.push(itemkeySnapshot.val());
       this.itemRefs = firebase.database().ref('Bookings/' + this.key);
@@ -72,57 +73,77 @@ export class SinglebookPage {
 
 
   }
-   getRoundedTime(inDate) {
-        var d = new Date(); 
-        if(inDate) {
-          d = inDate;
-        }
-        var ratio = d.getMinutes() / 60;
-        // Past 30 min mark, return epoch at +1 hours and 0 minutes
-        if(ratio > 0.5){
-            return (d.getHours() + 1) * 3600;
-        }
-        // Before 30 minute mark, return epoch at 0 minutes
-        if(ratio < 0.5) {
-             return d.getHours() * 3600;
-        }
-        // Right on the 30 minute mark, return epoch at 30 minutes
-        return (d.getHours() * 3600) + 1800;
-}
-  Accept() {  
-    this.startTime =  this.getRoundedTime(new Date(this.date + " " + this.startTime));
-    this.endTime =  this.getRoundedTime(new Date(this.date + " " +  this.endTime));
-    var DSEA = this.email + "," + this.startTime + "," + this.endTime + "," + this.pickup
+  getRoundedTime(inDate) {
+    var d = new Date();
+    if (inDate) {
+      d = inDate;
+    }
+    var ratio = d.getMinutes() / 60;
+    // Past 30 min mark, return epoch at +1 hours and 0 minutes
+    if (ratio > 0.5) {
+      console.log(d.getHours());
+      return ((d.getHours() + 1) + ":00" );
+    }
+    // Before 30 minute mark, return epoch at 0 minutes
+    if (ratio < 0.5) {
+      console.log(d.getHours());
+      return (d.getHours() + ":00");
+    }
+    console.log(d.getHours());
+    // Right on the 30 minute mark, return epoch at 30 minutes
+    return (d.getHours() + ":" + (d.getMinutes()));
+  }
+  Accept() {
+    this.startTime = this.getRoundedTime(new Date(this.date + " " + this.startTime));
+    this.endTime = this.getRoundedTime(new Date(this.date + " " + this.endTime));
+    var DSEAD = this.email + "," + this.startTime + "," + this.endTime + "," + this.pickup + "," + this.date;
     try {
       this.isenabled = false;
-      this.itemRefs.update({
-        Status: "Accepted",
-        Driver: this.email,
-      });
+      // this.itemRefs.update({
+      //   Status: "Accepted",
+      //   Driver: this.email,
+      // });
+
       var ref = firebase.database().ref("EscortBookings");
       if (ref) {
-        ref.orderByChild("DSEA").equalTo(DSEA).once('value', (snap) => {
-        
-        
+        console.log('Hi');
+        ref.orderByChild("DSEAD").equalTo(DSEAD).once('value', (snap) => {
+
+
           if (snap.val()) {
-              this.keys = Object.keys(snap.val());
+            console.log('Hia');
+            snap.forEach(itemSnap => {
+  
+   this.count = parseInt(itemSnap.val().Count) + 1 ;
+
+   
+        return false;
+
+  
+
+      });
+            
+            this.keys = Object.keys(snap.val());
             this.DSEARef = firebase.database().ref('EscortBookings/' + this.keys);
+            console.log(this.DSEARef);
             this.DSEARef.update({
-           Count : parseInt(snap.val().Count) + 1 
+              Count: this.count
             });
           }
           else {
+            console.log('Hdaai');
             this.itemsRef.push({
-              DSEA: DSEA,
+              DSEAD: DSEAD,
               Count: 1
             })
           }
         });
       }
       else {
+        console.log('Haaai');
         this.itemsRef.push({
-          DSEA: DSEA,
-          Count : 1
+          DSEAD: DSEAD,
+          Count: 1
         })
       }
 
@@ -145,6 +166,9 @@ export class SinglebookPage {
     }
   }
   Cancel() {
+    this.startTime = this.getRoundedTime(new Date(this.date + " " + this.startTime));
+    this.endTime = this.getRoundedTime(new Date(this.date + " " + this.endTime));
+    var DSEAD = this.email + "," + this.startTime + "," + this.endTime + "," + this.pickup + "," + this.date;
     try {
       this.isenabled = false;
       this.itemRefs.update({
@@ -152,6 +176,17 @@ export class SinglebookPage {
 
         ROD: this.myForm.value.Rod,
       })
+      var ref = firebase.database().ref("EscortBookings");
+      ref.orderByChild("DSEAD").equalTo(DSEAD).once('value', (snap) => {
+        if (snap.val()) {
+          this.keys = Object.keys(snap.val());
+          this.DSEARef = firebase.database().ref('EscortBookings/' + this.keys);
+          this.DSEARef.update({
+            Count: parseInt(snap.val().Count) - 1
+          });
+        }
+
+      });
       let alert = this.alertCtrl.create({
         title: 'You have cancelled the booking!',
         buttons: ['OK']

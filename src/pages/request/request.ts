@@ -33,6 +33,8 @@ export class RequestPage {
   selectedDate;
   timeMin2: any;
   Genders;
+  startTimes;
+  endTimes;
   keys;
   public DSEARef: firebase.database.Reference;
   max: Observable<any[]>;
@@ -80,7 +82,9 @@ export class RequestPage {
       for (var i = 0; i < schedules.length; i++) {
         var startTime = (new Date(schedules[i].Date + " " + schedules[i].startTime));
         var endTime = (new Date(schedules[i].Date + " " + schedules[i].endTime));
-        var DSEA = this.email + "," + startTime + "," + endTime + "," + schedules[i].pickup;
+        this.startTimes = this.getRoundedTime(startTime);
+        this.endTimes = this.getRoundedTime(endTime);
+        var DSEAD = this.email + "," + startTime + "," + endTime + "," + schedules[i].pickup + "," + schedules[i].Date;
         if (schedules[i].Carpool === 'No') {
           console.log(schedules);
 
@@ -88,61 +92,84 @@ export class RequestPage {
           this.items = this.items.map(item => {
             return item.filter(items =>
               ((new Date(items.Date + " " + items.startTime)) <
-                startTime && (new Date(items.Date + " " + items.endTime)) <
-                startTime)
+                this.startTimes && (new Date(items.Date + " " + items.endTime)) <
+                this.startTimes)
               || ((new Date(items.Date + " " + items.startTime)) >
-                endTime)
+                this.endTimes)
             )
           })
         }
         if (schedules[i].Carpool === 'Yes') {
           var ref = firebase.database().ref("EscortBookings");
           if (ref) {
-            ref.orderByChild("DSEA").equalTo(DSEA).once('value', (snap) => {
+            ref.orderByChild("DSEAD").equalTo(DSEAD).once('value', (snap) => {
 
               if (snap.val()) {
-                if (parseInt(snap.val().Count) === 3) {
-                  this.items = this.items.map(item => {
-                    return item.filter(items =>
-                      ((new Date(items.Date + " " + items.startTime)) <
-                        startTime && (new Date(items.Date + " " + items.endTime)) <
-                        startTime)
-                      || ((new Date(items.Date + " " + items.startTime)) >
-                        endTime)
-                    )
-                  })
-                }
+                snap.forEach(itemSnap => {
+                  if (parseInt(itemSnap.val().Count) === 3) {
+
+                    this.items = this.items.map(item => {
+                      return item.filter(items =>
+                        ((new Date(items.Date + " " + items.startTime)) <
+                          startTime && (new Date(items.Date + " " + items.endTime)) <
+                          startTime)
+                        || ((new Date(items.Date + " " + items.startTime)) >
+                          endTime)
+                      
+                        
+                      )
+                    })
+                  }
+                  else {
+                    this.items = this.items.map(item => {
+                      return item.filter(items =>
+                        ((new Date(items.Date + " " + items.startTime)) <
+                          startTime && (new Date(items.Date + " " + items.endTime)) <
+                          startTime)
+                        || ((new Date(items.Date + " " + items.startTime)) >
+                          endTime)
+                        ||
+                        ((new Date(items.Date + " " + items.startTime)) >=
+                          startTime
+                          && (new Date(items.Date + " " + items.startTime)) <
+                          endTime && items.Carpool === 'Yes'
+                        )
+                      )
+                    })
+                  }
+                  return false;
+
+                });
+
               }
             });
           }
-          var count;
-          this.items.subscribe(time => {
-
-
-            time.map(r => {
-
-              var startTime1 = (new Date(r.Date + " " + r.startTime));
-              var EndTime1 = (new Date(r.Date + " " + r.endTime));
-              if (count < 3) {
-
-
-
-              }
-
-
-
-            }
-
-            );
-
-          });
         }
       }
     });
 
 
   }
-
+  getRoundedTime(inDate) {
+    var d = new Date();
+    if (inDate) {
+      d = inDate;
+    }
+    var ratio = d.getMinutes() / 60;
+    // Past 30 min mark, return epoch at +1 hours and 0 minutes
+    if (ratio > 0.5) {
+      console.log(d.getHours());
+      return ((d.getHours() + 1) + ":00");
+    }
+    // Before 30 minute mark, return epoch at 0 minutes
+    if (ratio < 0.5) {
+      console.log(d.getHours());
+      return (d.getHours() + ":00");
+    }
+    console.log(d.getHours());
+    // Right on the 30 minute mark, return epoch at 30 minutes
+    return (d.getHours() + ":" + (d.getMinutes()));
+  }
   gotoPage(key) {
 
     this.navCtrl.push(SinglebookPage, {
