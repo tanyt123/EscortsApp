@@ -315,7 +315,8 @@
       <ion-item>
         <ion-label color="primary" stacked>Password:</ion-label>
         <ion-input type="password" formControlName="password" placeholder="Password Input" (ionChange)="matchingPasswords()" max="25"
-          min="8" [class.invalid]="!myForm.get('password').valid  && (myForm.get('password').dirty || submitAttempt)"></ion-input>
+          min="8" [class.invalid]="!myForm.get('password').valid  && (myForm.get('password').dirty || submitAttempt)" ></ion-input>
+            <ion-icon name="eye" item-right (click)="toggleTextPassword()"></ion-icon>
       </ion-item>
       <div class="error" *ngIf="myForm.get('password').hasError('required') && myForm.get('password').touched">
         Password is required

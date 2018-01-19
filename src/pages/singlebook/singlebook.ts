@@ -24,8 +24,12 @@ export class SinglebookPage {
   date;
   count;
   pickup;
+  destination;
   startTime;
   endTime;
+  StartTime;
+  carpool;
+  EndTime;
   itemsRef: AngularFireList<any>;
   myForm: FormGroup;
   button: boolean;
@@ -61,6 +65,8 @@ export class SinglebookPage {
       this.endTime = itemkeySnapshot.val().endTime;
       this.date = itemkeySnapshot.val().Date;
       this.pickup = itemkeySnapshot.val().Pickup;
+      this.destination = itemkeySnapshot.val().Destination;
+      this.carpool = itemkeySnapshot.val().Carpool;
       this.items.push(itemkeySnapshot.val());
       this.itemRefs = firebase.database().ref('Bookings/' + this.key);
     });
@@ -82,83 +88,90 @@ export class SinglebookPage {
     // Past 30 min mark, return epoch at +1 hours and 0 minutes
     if (ratio > 0.5) {
       console.log(d.getHours());
-      return ((d.getHours() + 1) + ":00" );
+      return ((d.getHours() + 1) + ":00");
     }
     // Before 30 minute mark, return epoch at 0 minutes
-    if (ratio < 0.5) {
+    if (ratio <= 0.5) {
       console.log(d.getHours());
       return (d.getHours() + ":00");
     }
-    console.log(d.getHours());
-    // Right on the 30 minute mark, return epoch at 30 minutes
-    return (d.getHours() + ":" + (d.getMinutes()));
+
   }
   Accept() {
     this.startTime = this.getRoundedTime(new Date(this.date + " " + this.startTime));
     this.endTime = this.getRoundedTime(new Date(this.date + " " + this.endTime));
-    var DSEAD = this.email + "," + this.startTime + "," + this.endTime + "," + this.pickup + "," + this.date;
+    var EPD = this.email + "," + this.pickup + "," + this.destination;
+
     try {
       this.isenabled = false;
-      // this.itemRefs.update({
-      //   Status: "Accepted",
-      //   Driver: this.email,
-      // });
-
+      this.itemRefs.update({
+        Status: "Accepted",
+        Driver: this.email,
+      });
       var ref = firebase.database().ref("EscortBookings");
       if (ref) {
-        console.log('Hi');
-        ref.orderByChild("DSEAD").equalTo(DSEAD).once('value', (snap) => {
+        if (this.carpool === 'Yes') {
+
+          ref.orderByChild("EPD").equalTo(EPD).once('value', (snap) => {
+
+            if (snap.val()) {
+              console.log(new Date(snap.child("Date").val() + " " + this.startTime));
 
 
-          if (snap.val()) {
-            console.log('Hia');
-            snap.forEach(itemSnap => {
-  
-   this.count = parseInt(itemSnap.val().Count) + 1 ;
 
-   
-        return false;
+              snap.forEach(itemSnap => {
+                if (new Date(itemSnap.child("Date").val() + " " + this.startTime) >= new Date(itemSnap.child("Date").val() + " " + itemSnap.child("StartTime").val())
+                  && new Date(itemSnap.child("Date").val() + " " + this.startTime) <= new Date(itemSnap.child("Date").val() + " " + itemSnap.child("EndTime").val())) {
+                  this.count = parseInt(itemSnap.val().Count) + 1;
 
-  
+                }
+                else {
+                  console.log('Haaai');
+                  this.itemsRef.push({
+                    EPD: EPD,
+                    StartTime: this.startTime,
+                    EndTime: this.endTime,
+                    Date: this.date,
+                    Count: 1
+                  })
+                }
+                return false;
+              });
 
-      });
-            
-            this.keys = Object.keys(snap.val());
-            this.DSEARef = firebase.database().ref('EscortBookings/' + this.keys);
-            console.log(this.DSEARef);
-            this.DSEARef.update({
-              Count: this.count
-            });
-          }
-          else {
-            console.log('Hdaai');
-            this.itemsRef.push({
-              DSEAD: DSEAD,
-              Count: 1
-            })
-          }
+              this.keys = Object.keys(snap.val());
+              this.DSEARef = firebase.database().ref('EscortBookings/' + this.keys);
+              console.log(this.DSEARef);
+              this.DSEARef.update({
+                Count: this.count
+              });
+
+            }
+            else {
+              console.log('Haaai');
+              this.itemsRef.push({
+                EPD: EPD,
+                StartTime: this.startTime,
+                EndTime: this.endTime,
+                Date: this.date,
+                Count: 1
+              })
+            }
+          });
+        }
+
+        let alert = this.alertCtrl.create({
+          title: 'You have accepted the booking!',
+          buttons: ['OK']
         });
+        alert.present();
+
+        this.navCtrl.push(BookingPage);
+        this.navCtrl.setRoot(BookingPage)
+          .then(() => {
+            this.navCtrl.popToRoot();
+
+          });
       }
-      else {
-        console.log('Haaai');
-        this.itemsRef.push({
-          DSEAD: DSEAD,
-          Count: 1
-        })
-      }
-
-      let alert = this.alertCtrl.create({
-        title: 'You have accepted the booking!',
-        buttons: ['OK']
-      });
-      alert.present();
-
-      this.navCtrl.push(BookingPage);
-      this.navCtrl.setRoot(BookingPage)
-        .then(() => {
-          this.navCtrl.popToRoot();
-
-        });
     }
     catch (e) {
       console.log(e);
@@ -168,7 +181,7 @@ export class SinglebookPage {
   Cancel() {
     this.startTime = this.getRoundedTime(new Date(this.date + " " + this.startTime));
     this.endTime = this.getRoundedTime(new Date(this.date + " " + this.endTime));
-    var DSEAD = this.email + "," + this.startTime + "," + this.endTime + "," + this.pickup + "," + this.date;
+    var EPD = this.email + "," + this.date + "," + this.pickup + "," + this.destination;
     try {
       this.isenabled = false;
       this.itemRefs.update({
@@ -177,7 +190,7 @@ export class SinglebookPage {
         ROD: this.myForm.value.Rod,
       })
       var ref = firebase.database().ref("EscortBookings");
-      ref.orderByChild("DSEAD").equalTo(DSEAD).once('value', (snap) => {
+      ref.orderByChild("EPD").equalTo(EPD).once('value', (snap) => {
         if (snap.val()) {
           this.keys = Object.keys(snap.val());
           this.DSEARef = firebase.database().ref('EscortBookings/' + this.keys);

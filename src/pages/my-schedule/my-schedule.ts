@@ -20,6 +20,7 @@ export class MySchedulePage {
     dates;
     speakers;
     day = [];
+    events = [];
     items: Observable<any[]>;
     email = window.localStorage.getItem('Email');
     itemsRef: AngularFireList<any>;
@@ -31,13 +32,7 @@ export class MySchedulePage {
 
 
     }
-    getData(): Promise<any> {
-        return new Promise(resolve => {
-            this.items.subscribe(data => {
-                resolve(data);
-            })
-        })
-    }
+
     ionViewDidLoad() {
         console.log('ionViewDidLoad MySchedulePage');
         this.loadEvents();
@@ -52,18 +47,18 @@ export class MySchedulePage {
     }; // these are the variable used by the calendar.
 
     loadEvents() {
+        this.events = [];
         this.eventSource = this.createRandomEvents();
-
     }
     onViewTitleChanged(title) {
         this.viewTitle = title;
     }
     onEventSelected(event) {
 
-    this.navCtrl.push(SinglebookPage, {
-      key: event.key,
-      Status: 'Accepted'
-    });
+        this.navCtrl.push(SinglebookPage, {
+            key: event.key,
+            Status: 'Accepted'
+        });
 
     }
     changeMode(mode) {
@@ -85,20 +80,20 @@ export class MySchedulePage {
         this.isToday = today.getTime() === event.getTime();
     }
     createRandomEvents() {
-        var events = [];
+        this.events.length = 0;
         this.itemsRef.snapshotChanges().map(changes => {
 
             return changes.map(c =>
                 ({ key: c.payload.key, ...c.payload.val() })).filter(items =>
                     items.Driver === this.email && items.Status === 'Accepted');
         }).subscribe(time => {
+            this.events.length = 0;
 
-        
             time.map(r => {
 
                 var startTime = (new Date(r.Date + " " + r.startTime));
                 var EndTime = (new Date(r.Date + " " + r.endTime));
-                events.push({
+                this.events.push({
                     title: "test",
                     key: r.key,
                     startTime: startTime,
@@ -112,7 +107,7 @@ export class MySchedulePage {
 
             );
             this.myCalendar.loadEvents();
-            console.log(events);
+            console.log(this.events);
         });
 
 
@@ -156,8 +151,8 @@ export class MySchedulePage {
         //         });
         //     }
         // }
-        console.log(events);
-        return events;
+
+        return this.events;
     }
     onRangeChanged(ev) {
         console.log('range changed: startTime: ' + ev.startTime + ', endTime: ' + ev.endTime);

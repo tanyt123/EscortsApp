@@ -25,6 +25,7 @@ import { FormControl, FormBuilder, FormGroup, Validators, ValidatorFn, AbstractC
 
 export class RegistrationPage {
   imageURL;
+  isActiveToggleTextPassword: Boolean = true;
   public recaptchaVerifier: firebase.auth.RecaptchaVerifier;
   itemsRef: AngularFireList<any>;
   public ages: string;
@@ -52,13 +53,13 @@ export class RegistrationPage {
     this.myForm = formBuilder.group({
       Name: ['', Validators.required],
       Username: ['', Validators.required],
-       gender: ['', Validators.required],
+      gender: ['', Validators.required],
       IC: ['', Validators.compose([Validators.required, Validators.minLength(7), Validators.pattern('[a-zA-Z]{1}[0-9]{7}[a-zA-Z]{1}')])],
       plateNo: ['', Validators.required],
 
       age: ['',],
       DOB: ['', Validators.required],
-        address: ['', Validators.required],
+      address: ['', Validators.required],
       tel: ['', Validators.compose([Validators.minLength(8), Validators.maxLength(8), Validators.pattern('[0-9]*'), Validators.required])],
       email: ['', Validators.compose([Validators.maxLength(70), Validators.pattern('^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$'), Validators.required])],
 
@@ -87,6 +88,12 @@ export class RegistrationPage {
     }, (err) => {
       console.log(err);
     });
+  }
+  public toggleTextPassword(): void {
+    this.isActiveToggleTextPassword = (this.isActiveToggleTextPassword == true) ? false : true;
+  }
+  public getType() {
+    return this.isActiveToggleTextPassword ? 'password' : 'text';
   }
   matchingPasswords() {
 

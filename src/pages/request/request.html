@@ -32,15 +32,15 @@
     <ion-option text-wrap value="m">Male</ion-option>
   </ion-select>
     </ion-item>-->
-
+  <ion-searchbar (ionInput)="getItems($event)">Search Address</ion-searchbar>
   <ion-list text-wrap *ngFor="let item of (items | async) ">
     <ion-item-divider *ngIf="toggle" sticky class="ion-item-divider">
-      <ion-label>Start Time: {{ item.Time }}
+      <ion-label>Start Time: {{ item.startTime }}
       </ion-label>
 
     </ion-item-divider>
     <ion-row (click)="gotoPage(item.key)" *ngIf="toggle">
-      <ion-item  col-8>
+      <ion-item col-8>
         <p>Destination : {{ item.Destination }}</p>
 
         <p>Contact : {{ item.Contact }}</p>
