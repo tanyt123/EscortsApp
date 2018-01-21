@@ -16,6 +16,8 @@ import { AlertController } from 'ionic-angular';
 import { LoginPage } from '../login/login';
 import * as firebase from 'firebase';
 
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+
 import { FormControl, FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 @IonicPage()
 @Component({
@@ -25,11 +27,15 @@ import { FormControl, FormBuilder, FormGroup, Validators, ValidatorFn, AbstractC
 
 export class RegistrationPage {
   imageURL;
+  imageURI: any;
+  imageFileName: any;
   isActiveToggleTextPassword: Boolean = true;
   public recaptchaVerifier: firebase.auth.RecaptchaVerifier;
   itemsRef: AngularFireList<any>;
   public ages: string;
   masks: any;
+  public photos : any;
+  public base64Image : string;
   public AgeError: boolean = false;
   isenabled: boolean = false;
   public mismatchedPasswords: boolean = false;
@@ -72,22 +78,20 @@ export class RegistrationPage {
 
     })
   }
-  options: CameraOptions = {
-    quality: 100,
-    destinationType: this.camera.DestinationType.DATA_URL,
-    encodingType: this.camera.EncodingType.JPEG,
-    mediaType: this.camera.MediaType.PICTURE
-  }
-
-
-
-
   takePhoto() {
-    this.camera.getPicture(this.options).then((imageData) => {
-      this.imageURL = 'data:image/jpeg;base64,' + imageData;
-    }, (err) => {
-      console.log(err);
-    });
+    const options : CameraOptions = {
+      quality: 50, // picture quality
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
+    }
+    this.camera.getPicture(options) .then((imageData) => {
+        this.base64Image = "data:image/jpeg;base64," + imageData;
+        // this.photos.push(this.base64Image);
+        // this.photos.reverse();
+      }, (err) => {
+        console.log(err);
+      });
   }
   public toggleTextPassword(): void {
     this.isActiveToggleTextPassword = (this.isActiveToggleTextPassword == true) ? false : true;

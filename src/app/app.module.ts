@@ -15,6 +15,7 @@ import { AngularFireDatabaseModule, AngularFireDatabase } from 'angularfire2/dat
 import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
 import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
+import { CameraPage } from '../pages/camera/camera';
 import { FormsModule } from "@angular/forms";
 import { ReactiveFormsModule } from '@angular/forms';
 import { BookingPage } from '../pages/booking/booking';
@@ -22,7 +23,7 @@ import { ProfilePage } from '../pages/profile/profile';
 import { SinglebookPage } from '../pages/singlebook/singlebook';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { UpdateprofilePage } from '../pages/updateprofile/updateprofile';
-import {ReauthenticatePage} from '../pages/reauthenticate/reauthenticate';
+import { ReauthenticatePage } from '../pages/reauthenticate/reauthenticate';
 import { SchedulePage } from '../pages/schedule/schedule';
 import { FiltersPage } from '../pages/filters/filters';
 import { ResetPage } from '../pages/reset/reset';
@@ -35,16 +36,19 @@ import { AddEventPage } from '../pages/add-event/add-event';
 import { CalendarModule } from "ion2-calendar";
 import { MySchedulePage } from '../pages/my-schedule/my-schedule';
 import { HistoryPage } from '../pages/history/history';
-import { NgCalendarModule  } from 'ionic2-calendar';
+import { NgCalendarModule } from 'ionic2-calendar';
 import { MonthViewComponent } from 'ionic2-calendar/monthview';
 import { WeekViewComponent } from 'ionic2-calendar/weekview';
 import { DayViewComponent } from 'ionic2-calendar/dayview';
+import { Crop } from '@ionic-native/crop';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { CropPage } from '../pages/crop/crop';
 export const firebaseConfig = {
   apiKey: "AIzaSyCFU9g3inPp81yQU14fYANC7vf31SpkqKk",
   authDomain: "sharedmedicalfyp-1cfcf.firebaseapp.com",
   databaseURL: "https://sharedmedicalfyp-1cfcf.firebaseio.com",
   projectId: "sharedmedicalfyp-1cfcf",
-  storageBucket: "",
+  storageBucket: "test-dd62a.appspot.com",
   messagingSenderId: "865840865908"
 };
 
@@ -64,15 +68,17 @@ export const firebaseConfig = {
     FiltersPage,
     ResetPage,
     MobilePage,
-     AddEventPage,
-      RequestPage,
-      MySchedulePage,
-      HistoryPage
+    AddEventPage,
+    RequestPage,
+    MySchedulePage,
+    HistoryPage,
+    CameraPage,
+    CropPage
   ],
   imports: [
     BrowserModule,
-     TextMaskModule,
-   CalendarModule,
+    TextMaskModule,
+    CalendarModule,
     ReactiveFormsModule,
     IonicModule.forRoot(MyApp, {
       menuType: 'push',
@@ -82,13 +88,14 @@ export const firebaseConfig = {
         }
       }
     }),
+     ImageCropperModule,
     NgxPhoneSelectModule,
-     NgCalendarModule,
+    NgCalendarModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     FormsModule,
-  
+
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -101,23 +108,26 @@ export const firebaseConfig = {
     SinglebookPage,
     UpdateprofilePage,
     ReauthenticatePage,
-    SchedulePage  ,
+    SchedulePage,
     FiltersPage,
     ResetPage,
     MobilePage,
-     AddEventPage,
-      RequestPage,
-      MySchedulePage,
-      HistoryPage
+    AddEventPage,
+    RequestPage,
+    MySchedulePage,
+    HistoryPage,
+    CameraPage,
+    CropPage
   ],
   providers: [
     StatusBar,
-     Calendar,
+    Calendar,
     SplashScreen,
     File,
     NativeStorage,
     Transfer,
     Camera,
+    Crop,
     FilePath,
     SMS,
     AngularFireDatabaseModule,

@@ -10,6 +10,7 @@ import { FilePath } from '@ionic-native/file-path';
 import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
 import { BookingPage } from '../pages/booking/booking';
+import { CropPage } from '../pages/crop/crop';
 import firebase from 'firebase';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { ViewChild } from '@angular/core';
@@ -29,6 +30,7 @@ import { RequestPage } from '../pages/request/request';
 import { NgxPhoneSelectModule } from 'ngx-phone-select';
 import { TextMaskModule } from 'angular2-text-mask';
 import { HistoryPage } from '../pages/history/history';
+import { CameraPage } from '../pages/camera/camera';
 @Component({
   templateUrl: 'app.html'
 })
@@ -45,9 +47,9 @@ export class MyApp {
 
       this.afAuth.authState.subscribe(auth => {
         if (!auth)
-          this.rootPage =  BookingPage;
+          this.rootPage =  CameraPage;
         else
-          this.rootPage =   BookingPage;
+          this.rootPage =   CameraPage;
       });
       this.pages = [
         { title: 'Profile', component: ProfilePage },
@@ -59,20 +61,7 @@ export class MyApp {
       this.activePage = this.pages[1];
     });
 
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
-    }
 
-    this.camera.getPicture(options).then((imageData) => {
-      // imageData is either a base64 encoded string or a file URI
-      // If it's base64:
-      let base64Image = 'data:image/jpeg;base64,' + imageData;
-    }, (err) => {
-      // Handle error
-    });
   }
   openPage(page) {
 console.log(page);

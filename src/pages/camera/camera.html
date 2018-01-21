@@ -1,0 +1,16 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>camera</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+ <button ion-button full (click)="takePhoto()" >
+  <ion-icon name="camera"></ion-icon>Take Photo
+  </button>
+   <img [src]="base64Image" *ngIf="base64Image"/>
+<button ion-button (click)="Upload()" *ngIf="base64Image">Upload to Firebase!</button>
+</ion-content>
