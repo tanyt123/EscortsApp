@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams, ActionSheetController, ToastController, Platform, LoadingController, Loading } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,ModalController ,ActionSheetController, ToastController, Platform, LoadingController, Loading } from 'ionic-angular';
 import { File } from '@ionic-native/file';
 import { Transfer, TransferObject } from '@ionic-native/transfer';
 import { FilePath } from '@ionic-native/file-path';
@@ -15,7 +15,7 @@ import { FormsModule } from "@angular/forms";
 import { AlertController } from 'ionic-angular';
 import { LoginPage } from '../login/login';
 import * as firebase from 'firebase';
-
+import { CropPage } from '../crop/crop';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 
 import { FormControl, FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
@@ -26,6 +26,7 @@ import { FormControl, FormBuilder, FormGroup, Validators, ValidatorFn, AbstractC
 })
 
 export class RegistrationPage {
+  Image: any;
   imageURL;
   imageURI: any;
   imageFileName: any;
@@ -50,7 +51,7 @@ export class RegistrationPage {
     public actionSheetCtrl: ActionSheetController,
     public toastCtrl: ToastController, public platform: Platform,
     public loadingCtrl: LoadingController, private sms: SMS, private afAuth: AngularFireAuth,
-    afDatabase: AngularFireDatabase, public alertCtrl: AlertController) {
+    afDatabase: AngularFireDatabase, public alertCtrl: AlertController,private modal: ModalController) {
     this.itemsRef = afDatabase.list('Escorts');
     this.masks = {
       tel: ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
@@ -87,11 +88,22 @@ export class RegistrationPage {
     }
     this.camera.getPicture(options) .then((imageData) => {
         this.base64Image = "data:image/jpeg;base64," + imageData;
+        this.Image = imageData;
         // this.photos.push(this.base64Image);
         // this.photos.reverse();
       }, (err) => {
         console.log(err);
       });
+  }
+    openModal(){
+    console.log(this.base64Image);
+const myModal = this.modal.create(CropPage ,{ imageB64String : this.Image });
+myModal.present();
+myModal.onDidDismiss((croppedImgB64String)=>{
+ this.base64Image = croppedImgB64String;
+
+}
+)
   }
   public toggleTextPassword(): void {
     this.isActiveToggleTextPassword = (this.isActiveToggleTextPassword == true) ? false : true;

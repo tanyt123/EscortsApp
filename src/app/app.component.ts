@@ -36,6 +36,7 @@ import { CameraPage } from '../pages/camera/camera';
 })
 export class MyApp {
   rootPage: any = HomePage;
+  imgsource;
   activePage: any;
   @ViewChild(Nav) nav: Nav;
   pages: Array<{ title: string, component: any }>;
@@ -47,9 +48,9 @@ export class MyApp {
 
       this.afAuth.authState.subscribe(auth => {
         if (!auth)
-          this.rootPage =  CameraPage;
+          this.rootPage =  HomePage;
         else
-          this.rootPage =   CameraPage;
+          this.rootPage =   BookingPage;
       });
       this.pages = [
         { title: 'Profile', component: ProfilePage },

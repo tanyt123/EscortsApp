@@ -10,7 +10,7 @@ import firebase from 'firebase';
   templateUrl: 'camera.html',
 })
 export class CameraPage {
- 
+imgsource;
  @ViewChild('imageSrc') input: ElementRef;
   getCameraOptions() {
     // just an example working config
@@ -58,22 +58,36 @@ export class CameraPage {
     }
     this.camera.getPicture(options) .then((imageData) => {
         this.base64Image = "data:image/jpeg;base64," + imageData;
-      
+      this.Image = imageData;
 
       }, (err) => {
         console.log(err);
       });
   }
-//   openModal(){
-//     console.log(this.base64Image);
-// const myModal = this.modal.create(CropPage ,{ imageB64String : this.Image });
-// myModal.present();
-// myModal.onDidDismiss((croppedImgB64String)=>{
-//  this.base64Image = croppedImgB64String;
+  openModal(){
+    console.log(this.base64Image);
+const myModal = this.modal.create(CropPage ,{ imageB64String : this.Image });
+myModal.present();
+myModal.onDidDismiss((croppedImgB64String)=>{
+ this.base64Image = croppedImgB64String;
 
-// }
-// )
-//   }
+}
+)
+  }
+    display() {
+            let storageRef = firebase.storage().ref();
+    // Create a timestamp as filename
+    const filename = Math.floor(Date.now() / 1000);
+
+    // Create a reference to 'images/todays-date.jpg'
+    const imageRef = storageRef.child('images/${filename}.jpg');
+    imageRef.getDownloadURL().then((url) => {
+     console.log(url);
+        this.imgsource = url;
+      
+    })
+  }
+
   Upload(){
       let storageRef = firebase.storage().ref();
     // Create a timestamp as filename
@@ -82,7 +96,13 @@ export class CameraPage {
     // Create a reference to 'images/todays-date.jpg'
     const imageRef = storageRef.child('images/${filename}.jpg');
      imageRef.putString(this.base64Image, firebase.storage.StringFormat.DATA_URL).then((snapshot)=> {
-      this.showSuccesfulUploadAlert();
+       console.log(snapshot.downloadURL);
+//  firebase
+//         .database()
+//         .ref(`users/user1/profilePicture`)
+//         .set(snapshot.downloadURL);
+    
+//       this.showSuccesfulUploadAlert();
     });
   }
    showSuccesfulUploadAlert() {

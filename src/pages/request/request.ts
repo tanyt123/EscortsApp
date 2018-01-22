@@ -106,6 +106,7 @@ export class RequestPage {
 
   }
   getInitialItems() {
+    console.log("Hi");
     this.items = this.itemsRef.snapshotChanges().map(changes => {
 
       return changes.map(c =>
@@ -126,6 +127,8 @@ export class RequestPage {
       schedules = time;
 
       for (var i = 0; i < schedules.length; i++) {
+
+
         var startTime = (new Date(schedules[i].Date + " " + schedules[i].startTime));
         var endTime = (new Date(schedules[i].Date + " " + schedules[i].endTime));
 
@@ -139,15 +142,15 @@ export class RequestPage {
           this.items = this.items.map(item => {
             return item.filter(items =>
               ((new Date(items.Date + " " + items.startTime)) <
-                this.startTimes && (new Date(items.Date + " " + items.endTime)) <
-                this.startTimes)
+                startTime && (new Date(items.Date + " " + items.endTime)) <
+                startTime)
               || ((new Date(items.Date + " " + items.startTime)) >
-                this.endTimes)
+                endTime)
             )
           })
         }
         if (schedules[i].Carpool === 'Yes') {
-
+         
           var ref = firebase.database().ref("EscortBookings");
           if (ref) {
             ref.orderByChild("EPD").equalTo(EPD).once('value', (snap) => {
@@ -188,7 +191,7 @@ export class RequestPage {
                           ((new Date(items.Date + " " + items.startTime)) >=
                             startTime
                             && (new Date(items.Date + " " + items.startTime)) <
-                            endTime && items.Carpool === 'Yes'
+                            endTime && items.Carpool === 'Yes' && schedules[i].Pickup === items.Pickup && schedules[i].Pickup
                           )
                         )
                       })

@@ -21,7 +21,7 @@ export class CropPage {
   private cropper: Cropper;
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController) {
     this.imageB64 = this.navParams.get("imageB64String");
-      this.input.nativeElement = "data:image/jpeg;base64,"+this.imageB64;
+      this.imageB64Tagged = "data:image/jpeg;base64,"+this.imageB64;
   }
 
   ionViewDidLoad() {
@@ -30,10 +30,15 @@ export class CropPage {
   imageLoaded() {
     console.log("starting Cropper... ");
     this.cropper = new Cropper(this.input.nativeElement, {
-      aspectRatio: 1 / 1,
-      viewMode : 2,
-      movable: true,
-      zoomable: true,
+    aspectRatio: 1 / 1,
+   
+      modal: true,
+      guides: true,
+      highlight: false,
+      background: true,
+      autoCrop: true,
+      autoCropArea: 0.9,
+      responsive: true,
       crop: function (e) {
         console.log(e.detail.x);
         console.log(e.detail.y);

@@ -13,4 +13,7 @@
   </button>
    <img [src]="base64Image" *ngIf="base64Image"/>
 <button ion-button (click)="Upload()" *ngIf="base64Image">Upload to Firebase!</button>
+<button ion-button (click)="openModal()" *ngIf="base64Image">Crop!</button>
+ <button ion-button (click)="display()">Display</button>
+ <img src="{{imgsource}}">
 </ion-content>

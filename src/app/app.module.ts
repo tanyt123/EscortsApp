@@ -48,7 +48,7 @@ export const firebaseConfig = {
   authDomain: "sharedmedicalfyp-1cfcf.firebaseapp.com",
   databaseURL: "https://sharedmedicalfyp-1cfcf.firebaseio.com",
   projectId: "sharedmedicalfyp-1cfcf",
-  storageBucket: "test-dd62a.appspot.com",
+  storageBucket: "sharedmedicalfyp-1cfcf.appspot.com",
   messagingSenderId: "865840865908"
 };
 

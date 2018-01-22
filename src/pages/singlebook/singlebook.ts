@@ -101,7 +101,7 @@ export class SinglebookPage {
     this.startTime = this.getRoundedTime(new Date(this.date + " " + this.startTime));
     this.endTime = this.getRoundedTime(new Date(this.date + " " + this.endTime));
     var EPD = this.email + "," + this.pickup + "," + this.destination;
-
+console.log(this.startTime);
     try {
       this.isenabled = false;
       this.itemRefs.update({
@@ -115,13 +115,11 @@ export class SinglebookPage {
           ref.orderByChild("EPD").equalTo(EPD).once('value', (snap) => {
 
             if (snap.val()) {
-              console.log(new Date(snap.child("Date").val() + " " + this.startTime));
-
-
-
               snap.forEach(itemSnap => {
+                console.log(new Date(itemSnap.child("Date").val() +" " + this.startTime));
                 if (new Date(itemSnap.child("Date").val() + " " + this.startTime) >= new Date(itemSnap.child("Date").val() + " " + itemSnap.child("StartTime").val())
                   && new Date(itemSnap.child("Date").val() + " " + this.startTime) <= new Date(itemSnap.child("Date").val() + " " + itemSnap.child("EndTime").val())) {
+                   console.log('Hi');
                   this.count = parseInt(itemSnap.val().Count) + 1;
 
                 }
