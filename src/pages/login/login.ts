@@ -71,6 +71,7 @@ export class LoginPage {
 
                 });
               }),
+              console.log("Hi")
                 this.navCtrl.push(BookingPage);
 
               this.navCtrl.setRoot(BookingPage);

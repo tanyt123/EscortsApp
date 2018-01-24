@@ -1,6 +1,3 @@
-
-
-
 import { AddEventPage } from '../add-event/add-event';
   import { RequestPage } from '../request/request';
 import { Calendar } from '@ionic-native/calendar';

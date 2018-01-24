@@ -347,7 +347,7 @@
   </button>
    <img [src]="base64Image" *ngIf="base64Image"/>
    <button ion-button (click)="openModal()" *ngIf="base64Image">Crop!</button>
-  <button ion-button class="react" [disabled]="!myForm.valid || !isenabled || !base64Image || !base64Image" (click)="Register()">Register 
+  <button ion-button class="react" [disabled]="!myForm.valid || !isenabled" (click)="Register()">Register 
 </button>
   <div id="recaptcha-container"></div>
   <!-- <ion-footer>

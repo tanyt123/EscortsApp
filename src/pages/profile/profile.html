@@ -14,9 +14,15 @@
 <ion-content padding>
   <ion-list *ngFor="let item of items ">
 
+
+
+    <ion-avatar item-start>
+      <img src={{item.Pic}} style="height: 100px; width: 100px;">
+    </ion-avatar>
     <ion-item>
       <ion-label color="primary">Name:</ion-label>
       <ion-label>{{ item.Name}}</ion-label>
+      
     </ion-item>
 
     <ion-item>
@@ -52,9 +58,9 @@
       <ion-label>{{ item.PlateNo}}</ion-label>
     </ion-item>
 
-    <ion-item  >
+    <ion-item>
       <ion-label color="primary" class="date">Date of birth:</ion-label>
-      <ion-datetime disabled [(ngModel)]="myDate"   class="ion-datetime-picker"></ion-datetime>
+      <ion-datetime disabled [(ngModel)]="myDate" class="ion-datetime-picker"></ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label color="primary">Age:</ion-label>
@@ -85,32 +91,32 @@
         </button>
     </div>-->
   </div>
-<ion-list [formGroup]="myForm" class="margin">
+  <ion-list [formGroup]="myForm" class="margin">
     <ion-item class="ion-item">
-      <ion-label  color="primary" stacked no-lines text-wrap>New Password:</ion-label>
-             <ion-input type="password" formControlName="password" placeholder="Password Input" (ionChange)="matchingPasswords()" max="25"
-          min="8" [class.invalid]="!myForm.get('password').valid  && (myForm.get('password').dirty || submitAttempt)"></ion-input>
-      </ion-item>
-      <div class="error" *ngIf="myForm.get('password').hasError('required') && myForm.get('password').touched">
-        Password is required
-      </div>
-      <div class="error" *ngIf="myForm.get('password').hasError('minlength') && myForm.get('password').touched">
-        Minimum of 8 characters
-      </div>
-      <div class="error" *ngIf="myForm.get('password').hasError('maxlength') && myForm.get('password').touched">
-        Maximum of 25 characters
-      </div>
-      <ion-item class="ion-item1">
-        <ion-label color="primary" stacked no-lines text-wrap>Confirm Password:</ion-label>
-        <ion-input type="password" formControlName="rePassword" placeholder="Password Input" max="25" min="8" (ionChange)="matchingPasswords()"
-          [class.invalid]="!myForm.get('rePassword').valid  && (myForm.get('rePassword').dirty  || submitAttempt)"></ion-input>
-      </ion-item>
-  
-       <div class='form-text error' *ngIf="myForm.get('rePassword').touched && mismatchedPasswords && myForm.get('password').touched">
-        <p>Passwords do not match.</p>
-       </div>
-</ion-list>
- <!-- <form [formGroup]="myForm" class="margin">
+      <ion-label color="primary" stacked no-lines text-wrap>New Password:</ion-label>
+      <ion-input type="password" formControlName="password" placeholder="Password Input" (ionChange)="matchingPasswords()" max="25"
+        min="8" [class.invalid]="!myForm.get('password').valid  && (myForm.get('password').dirty || submitAttempt)"></ion-input>
+    </ion-item>
+    <div class="error" *ngIf="myForm.get('password').hasError('required') && myForm.get('password').touched">
+      Password is required
+    </div>
+    <div class="error" *ngIf="myForm.get('password').hasError('minlength') && myForm.get('password').touched">
+      Minimum of 8 characters
+    </div>
+    <div class="error" *ngIf="myForm.get('password').hasError('maxlength') && myForm.get('password').touched">
+      Maximum of 25 characters
+    </div>
+    <ion-item class="ion-item1">
+      <ion-label color="primary" stacked no-lines text-wrap>Confirm Password:</ion-label>
+      <ion-input type="password" formControlName="rePassword" placeholder="Password Input" max="25" min="8" (ionChange)="matchingPasswords()"
+        [class.invalid]="!myForm.get('rePassword').valid  && (myForm.get('rePassword').dirty  || submitAttempt)"></ion-input>
+    </ion-item>
+
+    <div class='form-text error' *ngIf="myForm.get('rePassword').touched && mismatchedPasswords && myForm.get('password').touched">
+      <p>Passwords do not match.</p>
+    </div>
+  </ion-list>
+  <!-- <form [formGroup]="myForm" class="margin">
  
  <div class="row">
       <span class = "input-label">New Password:</span>
@@ -131,7 +137,7 @@
   </form>
 -->
 
-    <button ion-button [disabled]=" mismatchedPasswords || !myForm.valid" class="react" (click)="UpdatePassword()">Update My Password
+  <button ion-button [disabled]=" mismatchedPasswords || !myForm.valid" class="react" (click)="UpdatePassword()">Update My Password
 </button>
 
 </ion-content>

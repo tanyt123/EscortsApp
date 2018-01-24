@@ -35,6 +35,7 @@ import { CameraPage } from '../pages/camera/camera';
   templateUrl: 'app.html'
 })
 export class MyApp {
+ itemRef: firebase.database.Reference = firebase.database().ref('Escorts');
   rootPage: any = HomePage;
   imgsource;
   activePage: any;
@@ -48,40 +49,57 @@ export class MyApp {
 
       this.afAuth.authState.subscribe(auth => {
         if (!auth)
-          this.rootPage =  HomePage;
+          this.rootPage = ProfilePage;
         else
-          this.rootPage =   BookingPage;
+          console.log(auth);
+        this.rootPage = ProfilePage;
       });
       this.pages = [
         { title: 'Profile', component: ProfilePage },
         { title: 'Bookings', component: BookingPage },
-         { title: 'My Schedule', component: MySchedulePage },
-           { title: 'My History', component: HistoryPage },
-        { title: 'Logout', component: null },
+        { title: 'My Schedule', component: MySchedulePage },
+        { title: 'My History', component: HistoryPage },
+
       ];
       this.activePage = this.pages[1];
     });
+     var appData = window.localStorage.getItem('Email');
+    this.itemRef.orderByChild("Email").equalTo(appData).once('value', (snap) => {
+     
+   
+      snap.forEach(itemSnap => {
+      
+        this.imgsource = itemSnap.child("Pic").val();
+        return false;
 
+      });
 
+    });
   }
   openPage(page) {
-console.log(page);
-    if (page.component) {
-      this.nav.setRoot(page.component);
-      this.activePage = page;
-    }
+        console.log(page);
+        if(page.component) {
+          this.nav.setRoot(page.component);
+          this.activePage = page;
+        }
     else {
 
-      this.nav.setRoot(HomePage);
-      this.activePage = this.pages[1];
-    }
-  }
+          this.nav.setRoot(HomePage);
+          this.activePage = this.pages[1];
+        }
+      }
   checkActive(page) {
-    return page == this.activePage;
-  }
+        return page == this.activePage;
+      }
   Logout() {
-    this.menuCtrl.close();
-    this.nav.setRoot(HomePage);
-  }
+        this.menuCtrl.close();
+        this.nav.setRoot(HomePage);
+        localStorage.clear();
+        firebase.auth().signOut().then(function () {
+          console.log('Signed Out');
+        }, function (error) {
+          console.error('Sign Out Error', error);
+        });
+      }
 }
 

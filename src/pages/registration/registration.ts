@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams,ModalController ,ActionSheetController, ToastController, Platform, LoadingController, Loading } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, ActionSheetController, ToastController, Platform, LoadingController, Loading } from 'ionic-angular';
 import { File } from '@ionic-native/file';
 import { Transfer, TransferObject } from '@ionic-native/transfer';
 import { FilePath } from '@ionic-native/file-path';
@@ -35,8 +35,10 @@ export class RegistrationPage {
   itemsRef: AngularFireList<any>;
   public ages: string;
   masks: any;
-  public photos : any;
-  public base64Image : string;
+
+  pic;
+  public photos: any;
+  public base64Image: string;
   public AgeError: boolean = false;
   isenabled: boolean = false;
   public mismatchedPasswords: boolean = false;
@@ -51,11 +53,9 @@ export class RegistrationPage {
     public actionSheetCtrl: ActionSheetController,
     public toastCtrl: ToastController, public platform: Platform,
     public loadingCtrl: LoadingController, private sms: SMS, private afAuth: AngularFireAuth,
-    afDatabase: AngularFireDatabase, public alertCtrl: AlertController,private modal: ModalController) {
+    afDatabase: AngularFireDatabase, public alertCtrl: AlertController, private modal: ModalController) {
     this.itemsRef = afDatabase.list('Escorts');
-    this.masks = {
-      tel: ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
-    };
+
 
     this.myForm = formBuilder.group({
       Name: ['', Validators.required],
@@ -63,7 +63,7 @@ export class RegistrationPage {
       gender: ['', Validators.required],
       IC: ['', Validators.compose([Validators.required, Validators.minLength(7), Validators.pattern('[a-zA-Z]{1}[0-9]{7}[a-zA-Z]{1}')])],
       plateNo: ['', Validators.required],
-
+      code: ['', Validators.required],
       age: ['',],
       DOB: ['', Validators.required],
       address: ['', Validators.required],
@@ -71,7 +71,7 @@ export class RegistrationPage {
       email: ['', Validators.compose([Validators.maxLength(70), Validators.pattern('^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$'), Validators.required])],
 
 
-      code: ['', Validators.required],
+
 
 
       password: ['', Validators.compose([Validators.minLength(8), Validators.maxLength(25), Validators.required])],
@@ -80,30 +80,30 @@ export class RegistrationPage {
     })
   }
   takePhoto() {
-    const options : CameraOptions = {
+    const options: CameraOptions = {
       quality: 50, // picture quality
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE
     }
-    this.camera.getPicture(options) .then((imageData) => {
-        this.base64Image = "data:image/jpeg;base64," + imageData;
-        this.Image = imageData;
-        // this.photos.push(this.base64Image);
-        // this.photos.reverse();
-      }, (err) => {
-        console.log(err);
-      });
+    this.camera.getPicture(options).then((imageData) => {
+      this.base64Image = "data:image/jpeg;base64," + imageData;
+      this.Image = imageData;
+      // this.photos.push(this.base64Image);
+      // this.photos.reverse();
+    }, (err) => {
+      console.log(err);
+    });
   }
-    openModal(){
+  openModal() {
     console.log(this.base64Image);
-const myModal = this.modal.create(CropPage ,{ imageB64String : this.Image });
-myModal.present();
-myModal.onDidDismiss((croppedImgB64String)=>{
- this.base64Image = croppedImgB64String;
+    const myModal = this.modal.create(CropPage, { imageB64String: this.Image });
+    myModal.present();
+    myModal.onDidDismiss((croppedImgB64String) => {
+      this.base64Image = croppedImgB64String;
 
-}
-)
+    }
+    )
   }
   public toggleTextPassword(): void {
     this.isActiveToggleTextPassword = (this.isActiveToggleTextPassword == true) ? false : true;
@@ -153,107 +153,172 @@ myModal.onDidDismiss((croppedImgB64String)=>{
   }
   Register() {
     const appVerifier = this.recaptchaVerifier;
+
     const phoneNumberString = "+" + this.myForm.value.code + this.myForm.value.tel;
     try {
       this.isenabled = false;
-      firebase.auth().signInWithPhoneNumber(phoneNumberString, appVerifier)
-        .then(confirmationResult => {
+      // firebase.auth().signInWithPhoneNumber(phoneNumberString, appVerifier)
+      //   .then(confirmationResult => {
+      //     let prompt = this.alertCtrl.create({
+      //       title: 'Enter the Confirmation code',
+      //       inputs: [{ name: 'confirmationCode', placeholder: 'Confirmation Code' }],
+      //       buttons: [
+      //         {
+      //           text: 'Cancel',
+      //           handler: data => { console.log('Cancel clicked'); }
+      //         },
+      //         {
+      //           text: 'Send',
+      //           handler: data => {
+      //             confirmationResult.confirm(data.confirmationCode)
+      //               .then((result) => {
+      //                 // User signed in successfully.
+      //                 this.user = firebase.auth().currentUser;
+      //                 var credential = firebase.auth.EmailAuthProvider.credential(this.myForm.value.email, this.myForm.value.password);
+      //                 this.user.linkWithCredential(credential).then(auth => {
+      //                   console.log(this.user)
+      //                   this.user = firebase.auth().currentUser;
+      //                   firebase.auth().onAuthStateChanged(function (user) {
+      //                     user.sendEmailVerification();
+      //                   });
+      //                   this.itemsRef.push({
+      //                     Name: this.myForm.value.Name,
+      //                     Username: this.myForm.value.Username,
+      //                     Tel: this.myForm.value.tel,
+      //                     Email: this.myForm.value.email,
 
-          let prompt = this.alertCtrl.create({
-            title: 'Enter the Confirmation code',
-            inputs: [{ name: 'confirmationCode', placeholder: 'Confirmation Code' }],
-            buttons: [
-              {
-                text: 'Cancel',
-                handler: data => { console.log('Cancel clicked'); }
-              },
-              {
-                text: 'Send',
-                handler: data => {
-                  confirmationResult.confirm(data.confirmationCode)
-                    .then((result) => {
-                      // User signed in successfully.
-                      this.user = firebase.auth().currentUser;
-                      var credential = firebase.auth.EmailAuthProvider.credential(this.myForm.value.email, this.myForm.value.password);
-                      this.user.linkWithCredential(credential).then(auth => {
-                        console.log(this.user)
-                        this.user = firebase.auth().currentUser;
-                        firebase.auth().onAuthStateChanged(function (user) {
-                          user.sendEmailVerification();
-                        });
+      //                     Address: this.myForm.value.address,
+      //                     Age: this.ages,
+      //                     DOB: this.myForm.value.DOB,
+      //                     PlateNo: this.myForm.value.plateNo,
+      //                     IC: this.myForm.value.IC,
+      //                     Gender: this.myForm.value.gender,
+      //                   });
+      //                   let alert = this.alertCtrl.create({
+      //                     title: 'Email verification sent!',
+      //                     buttons: ['OK']
+      //                   });
+      //                   alert.present();
+      //                   this.myForm.reset();
+      //                   this.navCtrl.push(LoginPage);
+      //                 })
+      //                   .catch(err => {
+      //                     // Handle error
+      //                     let alert = this.alertCtrl.create({
+      //                       title: 'Error',
+      //                       message: err.message,
+      //                       buttons: ['OK']
+      //                     });
+      //                     alert.present();
+      //                     this.myForm.get('email').setErrors({ Mismatch: true })
+      //                     this.isenabled = true;
+      //                   });
+      //               }).catch((error) => {
+      //                 let alert = this.alertCtrl.create({
+      //                   message: error.message,
+      //                   buttons: ['OK']
+      //                 });
+      //                 alert.present();
+
+      //               });
+      //           }
+      //         }
+      //       ]
+      //     });
+      //     prompt.present();
+      //   })
+      //   .catch(function (error) {
+      //     console.error("SMS not sent", error);
+      //   });
+      this.afAuth.auth.createUserWithEmailAndPassword(this.myForm.value.email, this.myForm.value.password).then(auth => {
+        var Name = this.myForm.value.Name;
+        var Username = this.myForm.value.Username;
+        var Tel = this.myForm.value.tel;
+        var Email = this.myForm.value.email;
+        var DOB = this.myForm.value.DOB;
+        var Address = this.myForm.value.address;
 
 
-                        this.itemsRef.push({
-                          Name: this.myForm.value.Name,
-                          Username: this.myForm.value.Username,
-                          Tel: this.myForm.value.tel,
-                          Email: this.myForm.value.email,
-
-                          Address: this.myForm.value.address,
-                          Age: this.ages,
-                          DOB: this.myForm.value.DOB,
-                          PlateNo: this.myForm.value.plateNo,
-                          IC: this.myForm.value.IC,
-                          Gender: this.myForm.value.gender,
+        var PlateNo = this.myForm.value.plateNo;
+        var IC = this.myForm.value.IC;
+        var Gender = this.myForm.value.gender;
+        let user: any = firebase.auth().currentUser;
+        firebase.auth().onAuthStateChanged(function (user) {
+          user.sendEmailVerification();
+        });
+        let storageRef = firebase.storage().ref();
 
 
-                        });
+        // Create a reference to 'images/todays-date.jpg'
+        const imageRef = storageRef.child('images/' + this.myForm.value.email + '.jpg');
+        imageRef.putString(this.base64Image, firebase.storage.StringFormat.DATA_URL).then(snapshot => {
+          this.pic = snapshot.downloadURL;
+          this.itemsRef.push({
+            Name: Name,
+            Username: Username,
+            Tel: Tel,
+            Email: Email,
+            Pic: this.pic,
+            Address: Address,
+            Age: this.ages,
+            DOB: DOB,
+            PlateNo: PlateNo,
+            IC: IC,
+            Gender: Gender,
 
 
-
-
-
-
-                        let alert = this.alertCtrl.create({
-                          title: 'Email verification sent!',
-                          buttons: ['OK']
-                        });
-                        alert.present();
-                        this.myForm.reset();
-                        this.navCtrl.push(LoginPage);
-                      })
-                        .catch(err => {
-                          // Handle error
-                          let alert = this.alertCtrl.create({
-                            title: 'Error',
-                            message: err.message,
-                            buttons: ['OK']
-                          });
-                          alert.present();
-                          this.myForm.get('email').setErrors({ Mismatch: true })
-                          this.isenabled = true;
-                        });
-                    }).catch((error) => {
-                      let alert = this.alertCtrl.create({
-                        message: error.message,
-                        buttons: ['OK']
-                      });
-                      alert.present();
-
-                    });
-                }
-              }
-            ]
           });
-          prompt.present();
-        })
-        .catch(function (error) {
-          console.error("SMS not sent", error);
+
+
         });
 
 
 
 
+        let alert = this.alertCtrl.create({
+          title: 'Email verification sent!',
+          buttons: ['OK']
+        });
+        alert.present();
+        this.myForm.reset();
+        this.navCtrl.push(LoginPage);
+      })
+        .catch(err => {
+          // Handle error
+          let alert = this.alertCtrl.create({
+            title: 'Error',
+            message: err.message,
+            buttons: ['OK']
+          });
+          alert.present();
+          this.myForm.get('email').setErrors({ Mismatch: true })
+          this.isenabled = true;
+          var cred = firebase.auth.EmailAuthProvider.credential(
+            this.myForm.value.email,
+            this.myForm.value.password
+          );
+
+        });
     }
+
     catch (e) {
       console.log(e);
 
     }
 
 
+
+
+  }
+  catch(e) {
+    console.log(e);
+
   }
 
+
 }
+
+
   /*Register(Name,Username,tel,email,password,rePassword,address,age,Issuedate,ExpiryDate,gender,IC,plateNo){
     if(password===rePassword){
   try{

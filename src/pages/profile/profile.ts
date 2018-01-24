@@ -26,6 +26,8 @@ export class ProfilePage {
   public date;
   public mismatchedPasswords: boolean = true;
   public key;
+  email;
+  imgsource;
   changeDate = '';
   correct_data;
   public myDate: string;
@@ -56,12 +58,12 @@ export class ProfilePage {
       snap.forEach(itemSnap => {
         this.items.push(itemSnap.val());
         this.date = itemSnap.child("DOB").val();
+          this.imgsource = itemSnap.child("Pic").val();
         return false;
 
       });
       this.myDate = this.date;
       this.itemsRef = firebase.database().ref('Escorts/' + this.key);
-
     });
 
   }

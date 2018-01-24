@@ -106,7 +106,7 @@ export class RequestPage {
 
   }
   getInitialItems() {
-    console.log("Hi");
+
     this.items = this.itemsRef.snapshotChanges().map(changes => {
 
       return changes.map(c =>
@@ -150,12 +150,14 @@ export class RequestPage {
           })
         }
         if (schedules[i].Carpool === 'Yes') {
-         
+
           var ref = firebase.database().ref("EscortBookings");
           if (ref) {
+            
             ref.orderByChild("EPD").equalTo(EPD).once('value', (snap) => {
+             
               if (snap.val()) {
-
+                 console.log(EPD)
                 snap.forEach(itemSnap => {
                   if (
                     startTime >= new Date(itemSnap.child("Date").val() + " " + itemSnap.child("StartTime").val())
