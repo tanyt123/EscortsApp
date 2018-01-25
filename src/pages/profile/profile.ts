@@ -58,7 +58,7 @@ export class ProfilePage {
       snap.forEach(itemSnap => {
         this.items.push(itemSnap.val());
         this.date = itemSnap.child("DOB").val();
-          this.imgsource = itemSnap.child("Pic").val();
+        
         return false;
 
       });

@@ -20,5 +20,7 @@
 
     </ion-header>
     <ion-content>
-      <img [src]="imageB64Tagged" (load)="imageLoaded()" #imageSrc>
+      <div style="border:1px solid #f53d3d;">
+      <img [src]="imageB64Tagged" id="img" (load)="imageLoaded()"  #imageSrc>
+      </div>
     </ion-content>

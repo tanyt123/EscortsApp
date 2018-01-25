@@ -310,7 +310,19 @@ page-camera {
 .cropper-crop {
   cursor: crosshair;
 }
-
+.img{
+ border-radius:50% 50% 50% 50%;
+    width:100px;
+    height:100px;
+}
+       .round {
+    
+ border-radius:50%;
+     margin: 0 auto;
+width: 250px;
+           overflow: hidden; 
+        }
+img {max-width: 100%;}
 .cropper-disabled .cropper-drag-box,
 .cropper-disabled .cropper-face,
 .cropper-disabled .cropper-line,

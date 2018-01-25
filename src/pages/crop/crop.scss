@@ -305,11 +305,32 @@ page-crop {
 .cropper-move {
   cursor: move;
 }
+.cropper-crop-box, .cropper-view-box {
+    border-radius: 50%;
 
+}
+.cropper-crop-box {
+  background-color: white;
+}
+.cropper-view-box {
+    box-shadow: 0 0 0 1px #39f;
+    outline: 0;
+}
 .cropper-crop {
   cursor: crosshair;
 }
 
+
+.cropper-center:after, .cropper-center:before {
+    -webkit-transform: scale(3.5);
+}
+
+.cropper-point.point-se {
+  right: 12%;
+  bottom: 12%;
+  -webkit-transform: translate(100%, 100%);
+  border-radius: 100%;
+}
 .cropper-disabled .cropper-drag-box,
 .cropper-disabled .cropper-face,
 .cropper-disabled .cropper-line,

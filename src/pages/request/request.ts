@@ -153,11 +153,11 @@ export class RequestPage {
 
           var ref = firebase.database().ref("EscortBookings");
           if (ref) {
-            
+          
             ref.orderByChild("EPD").equalTo(EPD).once('value', (snap) => {
              
               if (snap.val()) {
-                 console.log(EPD)
+                 
                 snap.forEach(itemSnap => {
                   if (
                     startTime >= new Date(itemSnap.child("Date").val() + " " + itemSnap.child("StartTime").val())
@@ -172,9 +172,9 @@ export class RequestPage {
                       this.items = this.items.map(item => {
                         return item.filter(items =>
                           ((new Date(items.Date + " " + items.startTime)) <
-                            startTime && (new Date(items.Date + " " + items.endTime)) <
+                            startTime && (new Date(items.Date + " " + items.endTime)) <=
                             startTime)
-                          || ((new Date(items.Date + " " + items.startTime)) >
+                          || ((new Date(items.Date + " " + items.startTime)) >=
                             endTime)
 
 
@@ -186,14 +186,16 @@ export class RequestPage {
                         console.log('Bye');
                         return item.filter(items =>
                           ((new Date(items.Date + " " + items.startTime)) <
-                            startTime && (new Date(items.Date + " " + items.endTime)) <
+                            startTime && (new Date(items.Date + " " + items.endTime)) <=
                             startTime)
-                          || ((new Date(items.Date + " " + items.startTime)) >
+                          || ((new Date(items.Date + " " + items.startTime)) >=
                             endTime) ||
                           ((new Date(items.Date + " " + items.startTime)) >=
                             startTime
                             && (new Date(items.Date + " " + items.startTime)) <
-                            endTime && items.Carpool === 'Yes' && schedules[i].Pickup === items.Pickup && schedules[i].Pickup
+                            endTime && items.Carpool === 'Yes' 
+                           // && schedules[i].Pickup === items.Pickup 
+                          //  && schedules[i].Destination === items.Destination
                           )
                         )
                       })
