@@ -8,14 +8,25 @@
 
 
 <ion-content padding>
-  <button ion-button full (click)="takePhoto()">
+  <!--<button ion-button full (click)="takePhoto()">
   <ion-icon name="camera"></ion-icon>Take Photo
   </button>
-  <div class="round">
-    <img [src]="base64Image" id="img" *ngIf="base64Image" />
+  <div >
+    <img [src]="base64Image"  *ngIf="base64Image" />
   </div>
   <button ion-button (click)="Upload()" *ngIf="base64Image">Upload to Firebase!</button>
   <button ion-button (click)="openModal()" *ngIf="base64Image">Crop!</button>
   <button ion-button (click)="display()">Display</button>
-  <img src="{{imgsource}}">
+  <img src="{{imgsource}}">-->
+  <ion-list>
+    
+<ion-item>
+ <ion-label floating>Password</ion-label>
+ <ion-input type="{{type}}" name="password" ngModel #password="ngModel" required pattern=".{4,10}"></ion-input>
+ 
+ <button *ngIf="!showPass" ion-button clear color="dark" type="button" item-right (click)="showPassword()"> <ion-icon name="ios-eye-off-outline"></ion-icon></button>
+ <button *ngIf="showPass" ion-button clear color="dark" type="button" item-right (click)="showPassword()"> <ion-icon name="ios-eye-outline"></ion-icon></button>
+ 
+</ion-item>
+  </ion-list>
 </ion-content>

@@ -33,17 +33,34 @@ export class CameraPage {
   imgUrl;
   Image;
   cropperInstance;
-
+  isActiveToggleTextPassword;
   public cropper: Cropper;
   constructor(public navCtrl: NavController, private camera: Camera, public alertCtrl: AlertController, public navParams: NavParams, private modal: ModalController) {
 
   }
 
+  public toggleTextPassword(): void {
+    this.isActiveToggleTextPassword = (this.isActiveToggleTextPassword === true) ? false : true;
+  }
+  public getType() {
+    return this.isActiveToggleTextPassword ? 'password' : 'text';
+  }
 
 
 
+  public type = 'password';
+  public showPass = false;
 
 
+  showPassword() {
+    this.showPass = !this.showPass;
+
+    if (this.showPass) {
+      this.type = 'text';
+    } else {
+      this.type = 'password';
+    }
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad ImageCropperPage');
   }
@@ -54,7 +71,7 @@ export class CameraPage {
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
-     
+
     }
     this.camera.getPicture(options).then((imageData) => {
       this.base64Image = "data:image/jpeg;base64," + imageData;
@@ -65,9 +82,9 @@ export class CameraPage {
       //   this.base64Image = croppedImgB64String;
 
       // })
-      }, (err) => {
-        console.log(err);
-      });
+    }, (err) => {
+      console.log(err);
+    });
   }
   openModal() {
     console.log(this.base64Image);

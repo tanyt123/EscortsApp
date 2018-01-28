@@ -1,7 +1,23 @@
 .activeHighlight {
         background-color :lightcoral;
     }
+      img {
+    
+ border-radius:50%;
+     margin: 0 auto;
+width: 100px;
+height: 100px;
+           overflow: hidden; 
+           display:block
+        }
+        .loading-ios,
+.loading-md,
+.loading-wp {
+  .my-loading-class {
+ opacity: 0;
 
+  }
+}
 .buttonCss {
  
 text-align: center;

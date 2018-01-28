@@ -22,7 +22,7 @@ export class ReauthenticatePage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad ReauthenticatePage');
 
-    this.appData = window.localStorage.getItem('email');
+    this.appData = window.localStorage.getItem('Email');
     this.email = this.navParams.get('Email');
     this.passwords = this.navParams.get('Password');
     console.log(this.email);

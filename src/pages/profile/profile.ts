@@ -10,6 +10,7 @@ import { Navbar } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { AlertController } from 'ionic-angular';
 import { ModalController } from 'ionic-angular';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 import { ReauthenticatePage } from '../reauthenticate/reauthenticate';
 import { AngularFireAuthModule, AngularFireAuth, AngularFireAuthProvider, AUTH_PROVIDERS } from 'angularfire2/auth';
 @IonicPage()
@@ -27,13 +28,15 @@ export class ProfilePage {
   public mismatchedPasswords: boolean = true;
   public key;
   email;
+  appData;
   imgsource;
   changeDate = '';
   correct_data;
+  base64Image;
   public myDate: string;
   private currentUser: firebase.User;
   constructor(public navCtrl: NavController, private afAuth: AngularFireAuth, public navParams: NavParams, public alertCtrl: AlertController
-    , private nativeStorage: NativeStorage, public modalCtrl: ModalController, public formBuilder: FormBuilder) {
+    , private nativeStorage: NativeStorage, private camera: Camera, public modalCtrl: ModalController, public formBuilder: FormBuilder) {
 
     this.myForm = formBuilder.group({
       password: ['', Validators.compose([Validators.minLength(8), Validators.maxLength(25), Validators.required])],
@@ -49,16 +52,16 @@ export class ProfilePage {
     console.log('ionViewDidLoad ProfilePage');
     this.items = [];
 
-     var appData = window.localStorage.getItem('Email');
-    
+    this.appData = window.localStorage.getItem('Email');
+
     //var appData = "tanyongting1234@gmail.com";
-    this.itemRef.orderByChild("Email").equalTo(appData).once('value', (snap) => {
+    this.itemRef.orderByChild("Email").equalTo(this.appData).once('value', (snap) => {
       this.key = Object.keys(snap.val());
       console.log(this.key);
       snap.forEach(itemSnap => {
         this.items.push(itemSnap.val());
         this.date = itemSnap.child("DOB").val();
-        
+        this.base64Image = itemSnap.child("Pic").val();
         return false;
 
       });
@@ -66,6 +69,36 @@ export class ProfilePage {
       this.itemsRef = firebase.database().ref('Escorts/' + this.key);
     });
 
+  }
+  takePhoto() {
+    console.log("Hi");
+    const options: CameraOptions = {
+      quality: 50, // picture quality
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+
+    }
+    this.camera.getPicture(options).then((imageData) => {
+        this.base64Image = "data:image/jpeg;base64," + imageData;
+        let storageRef = firebase.storage().ref();
+      const imageRef = storageRef.child('images/' + this.appData + '.jpg');
+      imageRef.delete();
+          imageRef.putString(this.base64Image, firebase.storage.StringFormat.DATA_URL);
+          
+          
+        
+    
+
+      // const myModal = this.modal.create(CropPage, { imageB64String: this.Image });
+      // myModal.present();
+      // myModal.onDidDismiss((croppedImgB64String) => {
+      //   this.base64Image = croppedImgB64String;
+
+      // })
+    }, (err) => {
+      console.log(err);
+    });
   }
   Update() {
     this.navCtrl.push(UpdateprofilePage);

@@ -1,19 +1,19 @@
 <ion-header>
 
   <ion-navbar color="danger">
-    
+
     <ion-title style="text-align: center;">Login</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding >
+<ion-content padding>
 
   <ion-list>
 
     <ion-item>
-     <img src ="../assets/imgs/hospital-icon.jpg" class="image">
+      <img src="../assets/imgs/hospital-icon.jpg" class="image">
     </ion-item>
     <ion-item class="row">
       <ion-label color="primary">Email: </ion-label>
@@ -27,7 +27,7 @@
     <button ion-button class="but" text-center (click)="Login()" [disabled]="!email || !password">Login
 </button>
     <ion-item class="fp" text-wrap no-lines>
-       <button ion-button class="but" text-center (click)="Reset()" >
+      <button ion-button class="but" text-center (click)="Reset()">
             Forgot Password</button>
     </ion-item>
 

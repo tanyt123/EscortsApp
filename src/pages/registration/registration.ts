@@ -59,7 +59,7 @@ export class RegistrationPage {
 
     this.myForm = formBuilder.group({
       Name: ['', Validators.required],
-      Username: ['', Validators.required],
+     
       gender: ['', Validators.required],
       IC: ['', Validators.compose([Validators.required, Validators.minLength(7), Validators.pattern('[a-zA-Z]{1}[0-9]{7}[a-zA-Z]{1}')])],
       plateNo: ['', Validators.required],
@@ -105,11 +105,18 @@ export class RegistrationPage {
     }
     )
   }
-  public toggleTextPassword(): void {
-    this.isActiveToggleTextPassword = (this.isActiveToggleTextPassword == true) ? false : true;
-  }
-  public getType() {
-    return this.isActiveToggleTextPassword ? 'password' : 'text';
+public type = 'password';
+  public showPass = false;
+ 
+ 
+  showPassword() {
+    this.showPass = !this.showPass;
+ 
+    if(this.showPass){
+      this.type = 'text';
+    } else {
+      this.type = 'password';
+    }
   }
   matchingPasswords() {
 
@@ -255,7 +262,7 @@ export class RegistrationPage {
           this.pic = snapshot.downloadURL;
           this.itemsRef.push({
             Name: Name,
-            Username: Username,
+          
             Tel: Tel,
             Email: Email,
             Pic: this.pic,

@@ -31,7 +31,7 @@ export class UpdateprofilePage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private nativeStorage: NativeStorage, public formBuilder: FormBuilder) {
     this.myForm = formBuilder.group({
       Name: ['', Validators.required],
-      Username: ['', Validators.required],
+    
       tel: ['', Validators.compose([Validators.minLength(8), Validators.maxLength(8), Validators.pattern('[0-9]*'), Validators.required])],
 
 
@@ -104,7 +104,7 @@ export class UpdateprofilePage {
       this.isenabled = false;
       this.itemsRef.update({
         Name: this.myForm.value.Name,
-        Username: this.myForm.value.Username,
+      
         Tel: this.myForm.value.tel,
         Address: this.myForm.value.address,
         Age: this.ages,

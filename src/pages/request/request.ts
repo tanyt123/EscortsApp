@@ -95,6 +95,18 @@ export class RequestPage {
   }
 
   ionViewDidLoad() {
+      let loading = this.loadingCtrl.create({
+      content: 'Loading data...',
+         showBackdrop: true
+    });
+
+    // Show the popup
+    loading.present();
+     loading.present();
+
+      setTimeout(() => {
+        loading.dismiss();
+      }, 3000);
     this.getInitialItems();
   }
   setBackButtonAction() {
@@ -125,17 +137,22 @@ export class RequestPage {
       var schedules = [];
 
       schedules = time;
-
+      console.log(schedules);
       for (var i = 0; i < schedules.length; i++) {
 
 
         var startTime = (new Date(schedules[i].Date + " " + schedules[i].startTime));
         var endTime = (new Date(schedules[i].Date + " " + schedules[i].endTime));
 
-        var EPD = this.email + "," + schedules[i].Pickup + "," + schedules[i].Destination;
-
+        var EDSEPD = this.email + "," + schedules[i].Date + "," + schedules[i].startTime + "," + schedules[i].endTime
+       + "," +   schedules[i].Pickup + "," + schedules[i].Destination;
+        console.log(EDSEPD);
+        var pickup = schedules[i].Pickup;
+        console.log(pickup);
+        var destination = schedules[i].Destination;
+        console.log(destination);
         if (schedules[i].Carpool === 'No') {
-          console.log(EPD);
+          console.log(EDSEPD);
           console.log(schedules);
 
           console.log(startTime);
@@ -153,11 +170,11 @@ export class RequestPage {
 
           var ref = firebase.database().ref("EscortBookings");
           if (ref) {
-          
-            ref.orderByChild("EPD").equalTo(EPD).once('value', (snap) => {
-             
+       
+            ref.orderByChild("EDSEPD").equalTo(EDSEPD).once('value', (snap) => {
+
               if (snap.val()) {
-                 
+     console.log("It loops.");
                 snap.forEach(itemSnap => {
                   if (
                     startTime >= new Date(itemSnap.child("Date").val() + " " + itemSnap.child("StartTime").val())
@@ -182,22 +199,25 @@ export class RequestPage {
                       })
                     }
                     else {
+                      console.log
                       this.items = this.items.map(item => {
-                        console.log('Bye');
+
+
                         return item.filter(items =>
-                          ((new Date(items.Date + " " + items.startTime)) <
-                            startTime && (new Date(items.Date + " " + items.endTime)) <=
-                            startTime)
-                          || ((new Date(items.Date + " " + items.startTime)) >=
-                            endTime) ||
-                          ((new Date(items.Date + " " + items.startTime)) >=
-                            startTime
-                            && (new Date(items.Date + " " + items.startTime)) <
-                            endTime && items.Carpool === 'Yes' 
-                           // && schedules[i].Pickup === items.Pickup 
-                          //  && schedules[i].Destination === items.Destination
-                          )
+                            ((new Date(items.Date + " " + items.startTime)) <
+                             startTime && (new Date(items.Date + " " + items.endTime)) <=
+                             startTime)
+                           || ((new Date(items.Date + " " + items.startTime)) >=
+                              endTime) ||
+                            ((new Date(items.Date + " " + items.startTime)) >=
+                              startTime
+                              && (new Date(items.Date + " " + items.startTime)) <
+                              endTime && items.Carpool === 'Yes'
+                              && 
+                          items.Pickup === pickup
+                          && items.Destination === destination
                         )
+                         )
                       })
                     }
                   }

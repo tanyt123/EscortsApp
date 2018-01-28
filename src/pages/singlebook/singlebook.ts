@@ -100,25 +100,25 @@ export class SinglebookPage {
   Accept() {
     this.startTime = this.getRoundedTime(new Date(this.date + " " + this.startTime));
     this.endTime = this.getRoundedTime(new Date(this.date + " " + this.endTime));
-    var EPD = this.email + "," + this.pickup + "," + this.destination;
-console.log(this.startTime);
+    var EDSEPD = this.email + "," + this.date + "," + this.startTime + "," + this.endTime + "," + this.pickup + "," + this.destination;
+console.log(this.date);
     try {
       this.isenabled = false;
-      this.itemRefs.update({
-        Status: "Accepted",
-        Driver: this.email,
-      });
+      // this.itemRefs.update({
+      //   Status: "Accepted",
+      //   Driver: this.email,
+      // });
       var ref = firebase.database().ref("EscortBookings");
       if (ref) {
         if (this.carpool === 'Yes') {
 
-          ref.orderByChild("EPD").equalTo(EPD).once('value', (snap) => {
+          ref.orderByChild("EDSEPD").equalTo(EDSEPD).once('value', (snap) => {
 
             if (snap.val()) {
               snap.forEach(itemSnap => {
                 console.log(new Date(itemSnap.child("Date").val() +" " + this.startTime));
                 if (new Date(itemSnap.child("Date").val() + " " + this.startTime) >= new Date(itemSnap.child("Date").val() + " " + itemSnap.child("StartTime").val())
-                  && new Date(itemSnap.child("Date").val() + " " + this.startTime) <= new Date(itemSnap.child("Date").val() + " " + itemSnap.child("EndTime").val())) {
+                  && new Date(itemSnap.child("Date").val() + " " + this.startTime) <= new Date(itemSnap.child("Date").val() + " " + itemSnap.child("EndTime").val()) && this.date === itemSnap.child("Date").val()) {
                    console.log('Hi');
                   this.count = parseInt(itemSnap.val().Count) + 1;
 
@@ -126,7 +126,7 @@ console.log(this.startTime);
                 else {
                   console.log('Haaai');
                   this.itemsRef.push({
-                    EPD: EPD,
+                    EDSEPD: EDSEPD,
                     StartTime: this.startTime,
                     EndTime: this.endTime,
                     Date: this.date,
@@ -147,7 +147,7 @@ console.log(this.startTime);
             else {
               console.log('Haaai');
               this.itemsRef.push({
-                EPD: EPD,
+                EDSEPD: EDSEPD,
                 StartTime: this.startTime,
                 EndTime: this.endTime,
                 Date: this.date,
@@ -179,7 +179,7 @@ console.log(this.startTime);
   Cancel() {
     this.startTime = this.getRoundedTime(new Date(this.date + " " + this.startTime));
     this.endTime = this.getRoundedTime(new Date(this.date + " " + this.endTime));
-    var EPD = this.email + "," + this.date + "," + this.pickup + "," + this.destination;
+    var EDSEPD = this.email + "," + this.date + "," + this.pickup + "," + this.destination;
     try {
       this.isenabled = false;
       this.itemRefs.update({
@@ -188,7 +188,7 @@ console.log(this.startTime);
         ROD: this.myForm.value.Rod,
       })
       var ref = firebase.database().ref("EscortBookings");
-      ref.orderByChild("EPD").equalTo(EPD).once('value', (snap) => {
+      ref.orderByChild("EDSEPD").equalTo(EDSEPD).once('value', (snap) => {
         if (snap.val()) {
           this.keys = Object.keys(snap.val());
           this.DSEARef = firebase.database().ref('EscortBookings/' + this.keys);

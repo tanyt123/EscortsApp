@@ -22,14 +22,8 @@
       <div class="error" *ngIf="!myForm.get('Name').valid && myForm.get('Name').touched">
         <p>Please enter a valid name.</p>
       </div>
-      <ion-item>
-        <ion-label color="primary">Username:</ion-label>
-        <ion-input formControlName="Username" value="{{ item.Username }}" [class.invalid]="!myForm.get('Username').valid  && (myForm.get('Username').dirty || submitAttempt)"
-          placeholder="Text Input"></ion-input>
-      </ion-item>
-      <div class="error" *ngIf="!myForm.get('Username').valid  && myForm.get('Username').touched">
-        <p>Please enter a valid username.</p>
-      </div>
+   
+ 
       <ion-item>
         <ion-label color="primary" text-wrap>Personal Contact:</ion-label>
         <ion-input formControlName="tel" type="tel"  value="{{ item.Tel }}" placeholder="Tel Input" [class.invalid]="!myForm.get('tel').valid  && (myForm.get('tel').dirty || submitAttempt)"></ion-input>

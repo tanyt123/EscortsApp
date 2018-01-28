@@ -35,9 +35,10 @@ import { CameraPage } from '../pages/camera/camera';
   templateUrl: 'app.html'
 })
 export class MyApp {
- itemRef: firebase.database.Reference = firebase.database().ref('Escorts');
+  itemRef: firebase.database.Reference = firebase.database().ref('Escorts');
   rootPage: any = HomePage;
   imgsource;
+  name;
   activePage: any;
   @ViewChild(Nav) nav: Nav;
   pages: Array<{ title: string, component: any }>;
@@ -63,43 +64,45 @@ export class MyApp {
       ];
       this.activePage = this.pages[1];
     });
-     var appData = window.localStorage.getItem('Email');
+    var appData = window.localStorage.getItem('Email');
     this.itemRef.orderByChild("Email").equalTo(appData).once('value', (snap) => {
-     
-   
+
+
       snap.forEach(itemSnap => {
-      
+
         this.imgsource = itemSnap.child("Pic").val();
+        this.name = itemSnap.child("Name").val()
         return false;
 
       });
-
+console.log(this.imgsource);
     });
   }
   openPage(page) {
-        console.log(page);
-        if(page.component) {
-          this.nav.setRoot(page.component);
-          this.activePage = page;
-        }
+    console.log(page);
+    if (page.component) {
+      this.nav.setRoot(page.component);
+      this.activePage = page;
+    }
     else {
 
-          this.nav.setRoot(HomePage);
-          this.activePage = this.pages[1];
-        }
-      }
+      this.nav.setRoot(HomePage);
+      this.activePage = this.pages[1];
+    }
+  }
   checkActive(page) {
-        return page == this.activePage;
-      }
+    return page == this.activePage;
+  }
   Logout() {
-        this.menuCtrl.close();
-        this.nav.setRoot(HomePage);
-        localStorage.clear();
-        firebase.auth().signOut().then(function () {
-          console.log('Signed Out');
-        }, function (error) {
-          console.error('Sign Out Error', error);
-        });
-      }
+    this.menuCtrl.close();
+    this.activePage = this.pages[1];
+    this.nav.setRoot(HomePage);
+    localStorage.clear();
+    firebase.auth().signOut().then(function () {
+      console.log('Signed Out');
+    }, function (error) {
+      console.error('Sign Out Error', error);
+    });
+  }
 }
 
