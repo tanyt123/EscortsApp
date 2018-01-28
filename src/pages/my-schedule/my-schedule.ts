@@ -9,6 +9,7 @@ import { MonthViewComponent } from 'ionic2-calendar/monthview';
 import { WeekViewComponent } from 'ionic2-calendar/weekview';
 import { DayViewComponent } from 'ionic2-calendar/dayview';
 import { SinglebookPage } from '../singlebook/singlebook';
+import firebase from 'firebase';
 
 @IonicPage()
 @Component({
