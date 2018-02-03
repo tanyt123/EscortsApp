@@ -1,35 +1,35 @@
-
-<ion-header class="modal_header" >
+<ion-header class="modal_header">
 
   <ion-navbar>
     <ion-title>Reauthenticate</ion-title>
     <ion-buttons end>
       <button ion-button (click)="CloseModal()">Close</button>
-    </ion-buttons> 
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content class="main-view">
-  <div class="overlay" ></div>
-  <ion-scroll class="modal_content"    >
+  <div class="overlay"></div>
+  <ion-scroll class="modal_content">
 
- <ion-list>
+    <ion-list>
 
-  
 
-    <ion-item class="ro">
-      <ion-label color="primary">Password:</ion-label>
-      <ion-input [(ngModel)]="password" placeholder="Text Input" type="password" text-wrap></ion-input>
 
-    </ion-item>
-    <button ion-button class="but" text-center (click)="Confirm()" [disabled]=" !password">Confirm
+      <ion-item class="ro">
+        <ion-label color="primary">Password:</ion-label>
+        <ion-input [(ngModel)]="password" placeholder="Text Input" type="{{type}}" text-wrap></ion-input>
+        <button *ngIf="!showPass" ion-button clear color="dark" type="button" item-right (click)="showPassword()"> <ion-icon name="ios-eye-off-outline"></ion-icon></button>
+        <button *ngIf="showPass" ion-button clear color="dark" type="button" item-right (click)="showPassword()"> <ion-icon name="ios-eye-outline"></ion-icon></button>
+      </ion-item>
+      <button ion-button class="but" text-center (click)="Confirm()" [disabled]=" !password">Confirm
 </button>
 
 
 
 
-  </ion-list>
+    </ion-list>
   </ion-scroll>
 </ion-content>

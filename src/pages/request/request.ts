@@ -95,18 +95,18 @@ export class RequestPage {
   }
 
   ionViewDidLoad() {
-      let loading = this.loadingCtrl.create({
+    let loading = this.loadingCtrl.create({
       content: 'Loading data...',
-         showBackdrop: true
+      showBackdrop: true
     });
 
     // Show the popup
     loading.present();
-     loading.present();
+ 
 
-      setTimeout(() => {
-        loading.dismiss();
-      }, 3000);
+    setTimeout(() => {
+      loading.dismiss();
+    }, 3000);
     this.getInitialItems();
   }
   setBackButtonAction() {
@@ -145,7 +145,7 @@ export class RequestPage {
         var endTime = (new Date(schedules[i].Date + " " + schedules[i].endTime));
 
         var EDSEPD = this.email + "," + schedules[i].Date + "," + schedules[i].startTime + "," + schedules[i].endTime
-       + "," +   schedules[i].Pickup + "," + schedules[i].Destination;
+          + "," + schedules[i].Pickup + "," + schedules[i].Destination;
         console.log(EDSEPD);
         var pickup = schedules[i].Pickup;
         console.log(pickup);
@@ -159,9 +159,10 @@ export class RequestPage {
           this.items = this.items.map(item => {
             return item.filter(items =>
               ((new Date(items.Date + " " + items.startTime)) <
-                startTime && (new Date(items.Date + " " + items.endTime)) <
+                startTime && (new Date(items.Date + " " + items.endTime)) <=
                 startTime)
-              || ((new Date(items.Date + " " + items.startTime)) >
+              ||
+              ((new Date(items.Date + " " + items.startTime)) >=
                 endTime)
             )
           })
@@ -170,57 +171,70 @@ export class RequestPage {
 
           var ref = firebase.database().ref("EscortBookings");
           if (ref) {
-       
+
             ref.orderByChild("EDSEPD").equalTo(EDSEPD).once('value', (snap) => {
 
               if (snap.val()) {
-     console.log("It loops.");
+                console.log("It loops.");
                 snap.forEach(itemSnap => {
-                  if (
-                    startTime >= new Date(itemSnap.child("Date").val() + " " + itemSnap.child("StartTime").val())
-                    && startTime <= new Date(itemSnap.child("Date").val()
-                      + " " + itemSnap.child("EndTime").val())) {
+                  console.log(parseInt(itemSnap.val().Count))
 
-
-                    console.log(parseInt(itemSnap.val().Count))
-
-                    if (parseInt(itemSnap.val().Count) === 3) {
-                      console.log('Hi');
-                      this.items = this.items.map(item => {
-                        return item.filter(items =>
-                          ((new Date(items.Date + " " + items.startTime)) <
-                            startTime && (new Date(items.Date + " " + items.endTime)) <=
-                            startTime)
-                          || ((new Date(items.Date + " " + items.startTime)) >=
-                            endTime)
-
-
+                  if (parseInt(itemSnap.val().Count) === 3) {
+                    console.log('Hi');
+                    this.items = this.items.map(item => {
+                      return item.filter(items =>
+                        ((new Date(items.Date + " " + items.startTime)) <
+                          startTime && (new Date(items.Date + " " + items.endTime)) <
+                          startTime)
+                        ||
+                        ((new Date(items.Date + " " + items.startTime)) >
+                          endTime)
+                      )
+                    })
+                  }
+                  if (parseInt(itemSnap.val().Count) === 2) {
+                    console.log('Hi');
+                    this.items = this.items.map(item => {
+                      return item.filter(items =>
+                        ((new Date(items.Date + " " + items.startTime)) <
+                          startTime && (new Date(items.Date + " " + items.endTime)) <=
+                          startTime)
+                        || ((new Date(items.Date + " " + items.startTime)) >=
+                          endTime) ||
+                        ((new Date(items.Date + " " + items.startTime)) >=
+                          startTime
+                          && (new Date(items.Date + " " + items.startTime)) <
+                          endTime && items.Carpool === 'Yes'
+                          &&
+                          items.Pickup === pickup
+                          && items.Destination === destination && !items.Patient2Name
                         )
-                      })
-                    }
-                    else {
-                      console.log
-                      this.items = this.items.map(item => {
+                      )
+                    })
+                  }
+                  else {
+
+                    this.items = this.items.map(item => {
 
 
-                        return item.filter(items =>
-                            ((new Date(items.Date + " " + items.startTime)) <
-                             startTime && (new Date(items.Date + " " + items.endTime)) <=
-                             startTime)
-                           || ((new Date(items.Date + " " + items.startTime)) >=
-                              endTime) ||
-                            ((new Date(items.Date + " " + items.startTime)) >=
-                              startTime
-                              && (new Date(items.Date + " " + items.startTime)) <
-                              endTime && items.Carpool === 'Yes'
-                              && 
+                      return item.filter(items =>
+                        ((new Date(items.Date + " " + items.startTime)) <
+                          startTime && (new Date(items.Date + " " + items.endTime)) <=
+                          startTime)
+                        || ((new Date(items.Date + " " + items.startTime)) >=
+                          endTime) ||
+                        ((new Date(items.Date + " " + items.startTime)) >=
+                          startTime
+                          && (new Date(items.Date + " " + items.startTime)) <
+                          endTime && items.Carpool === 'Yes'
+                          &&
                           items.Pickup === pickup
                           && items.Destination === destination
                         )
-                         )
-                      })
-                    }
+                      )
+                    })
                   }
+
 
                   return false;
 

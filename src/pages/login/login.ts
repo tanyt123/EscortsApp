@@ -40,6 +40,19 @@ export class LoginPage {
     this.setBackButtonAction();
 
   }
+  public type = 'password';
+  public showPass = false;
+ 
+ 
+  showPassword() {
+    this.showPass = !this.showPass;
+ 
+    if(this.showPass){
+      this.type = 'text';
+    } else {
+      this.type = 'password';
+    }
+  }
   setBackButtonAction() {
     this.navBar.backButtonClick = () => {
       //Write here wherever you wanna do
@@ -74,8 +87,10 @@ export class LoginPage {
               console.log("Hi")
                 this.navCtrl.push(BookingPage);
 
-              this.navCtrl.setRoot(BookingPage);
-
+             this.navCtrl.setRoot(BookingPage).then(() =>{
+    this.navCtrl.popToRoot();
+                   
+            });
             }
             else if (!user.emailVerified) {
               let alert = this.alertCtrl.create({

@@ -28,6 +28,7 @@ import { FormControl, FormBuilder, FormGroup, Validators, ValidatorFn, AbstractC
 export class RegistrationPage {
   Image: any;
   imageURL;
+  code;
   imageURI: any;
   imageFileName: any;
   isActiveToggleTextPassword: Boolean = true;
@@ -78,13 +79,15 @@ export class RegistrationPage {
       rePassword: ['', Validators.compose([Validators.minLength(8), Validators.maxLength(25), Validators.required])],
 
     })
+    this.code = "65";
   }
   takePhoto() {
     const options: CameraOptions = {
       quality: 50, // picture quality
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
+      mediaType: this.camera.MediaType.PICTURE,
+       correctOrientation: true,
     }
     this.camera.getPicture(options).then((imageData) => {
       this.base64Image = "data:image/jpeg;base64," + imageData;
@@ -158,6 +161,7 @@ public type = 'password';
     }
 
   }
+  
   Register() {
     const appVerifier = this.recaptchaVerifier;
 
@@ -262,7 +266,6 @@ public type = 'password';
           this.pic = snapshot.downloadURL;
           this.itemsRef.push({
             Name: Name,
-          
             Tel: Tel,
             Email: Email,
             Pic: this.pic,

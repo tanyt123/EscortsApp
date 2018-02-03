@@ -70,6 +70,19 @@ export class ProfilePage {
     });
 
   }
+  public type = 'password';
+  public showPass = false;
+
+
+  showPassword() {
+    this.showPass = !this.showPass;
+
+    if (this.showPass) {
+      this.type = 'text';
+    } else {
+      this.type = 'password';
+    }
+  }
   takePhoto() {
     console.log("Hi");
     const options: CameraOptions = {
@@ -80,15 +93,15 @@ export class ProfilePage {
 
     }
     this.camera.getPicture(options).then((imageData) => {
-        this.base64Image = "data:image/jpeg;base64," + imageData;
-        let storageRef = firebase.storage().ref();
+      this.base64Image = "data:image/jpeg;base64," + imageData;
+      let storageRef = firebase.storage().ref();
       const imageRef = storageRef.child('images/' + this.appData + '.jpg');
       imageRef.delete();
-          imageRef.putString(this.base64Image, firebase.storage.StringFormat.DATA_URL);
-          
-          
-        
-    
+      imageRef.putString(this.base64Image, firebase.storage.StringFormat.DATA_URL);
+
+
+
+
 
       // const myModal = this.modal.create(CropPage, { imageB64String: this.Image });
       // myModal.present();

@@ -43,6 +43,7 @@ import { DayViewComponent } from 'ionic2-calendar/dayview';
 import { Crop } from '@ionic-native/crop';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CropPage } from '../pages/crop/crop';
+
 export const firebaseConfig = {
   apiKey: "AIzaSyCFU9g3inPp81yQU14fYANC7vf31SpkqKk",
   authDomain: "sharedmedicalfyp-1cfcf.firebaseapp.com",

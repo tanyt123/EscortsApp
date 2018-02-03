@@ -37,6 +37,19 @@ export class ReauthenticatePage {
   CloseModal() {
     this.view.dismiss();
   }
+  public type = 'password';
+  public showPass = false;
+ 
+ 
+  showPassword() {
+    this.showPass = !this.showPass;
+ 
+    if(this.showPass){
+      this.type = 'text';
+    } else {
+      this.type = 'password';
+    }
+  }
   Confirm() {
     var user = firebase.auth().currentUser;
     var cred = firebase.auth.EmailAuthProvider.credential(

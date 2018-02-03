@@ -1,3 +1,14 @@
 page-history {
-
+.item-inner, ion-item {
+  border-bottom-color: transparent !important;
+  box-shadow: none !important;
+}
+.item ion-thumbnail {
+    min-width: 3rem;    
+    min-height: 3rem;
+    img {
+        max-width: 5rem;    
+        min-width: 5rem;
+    }
+}
 }

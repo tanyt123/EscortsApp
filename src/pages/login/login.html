@@ -13,7 +13,7 @@
   <ion-list>
 
     <ion-item>
-      <img src="../assets/imgs/hospital-icon.jpg" class="image">
+      <img src="../assets/imgs/hospital-icon.png" class="image">
     </ion-item>
     <ion-item class="row">
       <ion-label color="primary">Email: </ion-label>
@@ -21,8 +21,9 @@
     </ion-item>
     <ion-item class="ro">
       <ion-label color="primary">Password:</ion-label>
-      <ion-input [(ngModel)]="password" placeholder="Text Input" type="password" text-wrap></ion-input>
-
+      <ion-input [(ngModel)]="password" placeholder="Text Input" type="{{type}}" text-wrap></ion-input>
+      <button *ngIf="!showPass" ion-button clear color="dark" type="button" item-right (click)="showPassword()"> <ion-icon name="ios-eye-off-outline"></ion-icon></button>
+      <button *ngIf="showPass" ion-button clear color="dark" type="button" item-right (click)="showPassword()"> <ion-icon name="ios-eye-outline"></ion-icon></button>
     </ion-item>
     <button ion-button class="but" text-center (click)="Login()" [disabled]="!email || !password">Login
 </button>

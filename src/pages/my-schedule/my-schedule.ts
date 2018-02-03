@@ -94,14 +94,33 @@ export class MySchedulePage {
 
                 var startTime = (new Date(r.Date + " " + r.startTime));
                 var EndTime = (new Date(r.Date + " " + r.endTime));
+                if(r.PatientName3){
                 this.events.push({
-                    title: "test",
+                    title: r.PatientName + "," + r.PatientName2 + "," + r.PatientName3,
                     key: r.key,
                     startTime: startTime,
                     endTime: EndTime,
                     allDay: false
                 });
-
+            }
+              else if(r.PatientName2){
+                this.events.push({
+                    title: r.PatientName + "," + r.PatientName2 ,
+                    key: r.key,
+                    startTime: startTime,
+                    endTime: EndTime,
+                    allDay: false
+                });
+            }
+            else{
+                  this.events.push({
+                    title: r.PatientName ,
+                    key: r.key,
+                    startTime: startTime,
+                    endTime: EndTime,
+                    allDay: false
+                });
+            }
                 this.myCalendar.loadEvents();
 
             }

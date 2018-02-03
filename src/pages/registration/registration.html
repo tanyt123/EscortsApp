@@ -23,15 +23,15 @@
       <ion-item>
         <ion-label color="primary">Countries :</ion-label>
 
-        <ion-select formControlName="code">
+        <ion-select class="ion-select1" [(ngModel)]="code" formControlName="code">
           <!-- Countries often ion-selected by users can be moved to the top of the list. -->
           <!-- Countries known to be subject to general US embargo are commented out by default. -->
           <!-- The data-countryCode attribute is populated with ISO country code, and value is int'l calling code. -->
 
-          <ion-option data-countryCode="US" value="1" selected>USA (+1)</ion-option>
+          <ion-option data-countryCode="US" value="1" >USA (+1)</ion-option>
           <ion-option data-countryCode="GB" value="44">UK (+44)</ion-option>
-          <ion-option data-countryCode="SG" value="65">Singapore (+65)</ion-option>
-          <ion-option disabled="disabled">Other Countries</ion-option>
+          <ion-option data-countryCode="SG" value="65" selected>Singapore (+65)</ion-option>
+         
           <ion-option data-countryCode="DZ" value="213">Algeria (+213)</ion-option>
           <ion-option data-countryCode="AD" value="376">Andorra (+376)</ion-option>
           <ion-option data-countryCode="AO" value="244">Angola (+244)</ion-option>
@@ -341,8 +341,8 @@
   <ion-icon name="camera"></ion-icon>Take Photo
   </button>
   <img [src]="base64Image" *ngIf="base64Image" />
-  <button ion-button (click)="openModal()" *ngIf="base64Image">Crop!</button>
-  <button ion-button class="react" [disabled]="!myForm.valid || !isenabled" (click)="Register()">Register 
+ 
+  <button ion-button class="react" [disabled]="!myForm.valid || !isenabled || !base64Image" (click)="Register()">Register 
 </button>
   <div id="recaptcha-container"></div>
   <!-- <ion-footer>

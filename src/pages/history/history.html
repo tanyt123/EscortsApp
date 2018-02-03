@@ -1,18 +1,56 @@
-<!--
-  Generated template for the HistoryPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>history</ion-title>
+  <ion-navbar color="danger">
+    <button persistent="true" ion-button class="damn" menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title style="text-align: center;">History</ion-title>
   </ion-navbar>
-
+  <ion-toolbar no-border-top>
+    <ion-segment [(ngModel)]="history">
+      <ion-segment-button value="completed">
+        Completed
+      </ion-segment-button>
+      <ion-segment-button value="cancelled">
+        Cancelled
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 </ion-header>
 
 
 <ion-content padding>
+  <div [ngSwitch]="history">
+    <div *ngSwitchCase="'completed'">
+   <ion-list *ngFor="let item of (items | async)">
+        <ion-item-divider  sticky class="ion-item-divider" 	item-right>
+          <ion-thumbnail item-end>{{ item.CompletedAt | date : 'dd/MM/yyyy h.mma'}}
+          </ion-thumbnail>
 
+        </ion-item-divider>
+        <ion-row (click)="gotoPage(item.key)">
+        <ion-item col-8>
+          <p text-wrap> Pick Up : {{item.Pickup }}</p>
+          <p text-wrap>Destination : {{ item.Destination }}</p>
+        </ion-item>
+        </ion-row>
+      </ion-list>
+    </div>
+
+    <div *ngSwitchCase="'cancelled'">
+  <ion-list *ngFor="let cancel of (cancelled | async)">
+        <ion-item-divider  sticky class="ion-item-divider" 	item-right>
+          <ion-thumbnail item-end>{{cancel.CancelledAt | date : 'dd/MM/yyyy h.mma'}}
+          </ion-thumbnail>
+
+        </ion-item-divider>
+        <ion-row (click)="gotoPage(cancel.key)">
+        <ion-item col-8>
+          <p text-wrap> Pick Up : {{cancel.Pickup }}</p>
+          <p text-wrap>Destination : {{ cancel.Destination }}</p>
+        </ion-item>
+        </ion-row>
+      </ion-list>
+    </div>
+
+  </div>
 </ion-content>

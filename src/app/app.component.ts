@@ -31,6 +31,7 @@ import { NgxPhoneSelectModule } from 'ngx-phone-select';
 import { TextMaskModule } from 'angular2-text-mask';
 import { HistoryPage } from '../pages/history/history';
 import { CameraPage } from '../pages/camera/camera';
+import { Observable } from 'rxjs/Observable';
 @Component({
   templateUrl: 'app.html'
 })
@@ -39,6 +40,7 @@ export class MyApp {
   rootPage: any = HomePage;
   imgsource;
   name;
+  items: Observable<any[]>;
   activePage: any;
   @ViewChild(Nav) nav: Nav;
   pages: Array<{ title: string, component: any }>;
@@ -47,13 +49,27 @@ export class MyApp {
 
       statusBar.styleDefault();
       splashScreen.hide();
+      var appData = window.localStorage.getItem('Email');
+      console.log(appData);
+      this.itemRef.orderByChild("Email").equalTo(appData).once('value', (snap) => {
 
+
+        snap.forEach(itemSnap => {
+
+          this.imgsource = itemSnap.child("Pic").val();
+          this.name = itemSnap.child("Name").val()
+          return false;
+
+        });
+        console.log(this.name);
+        console.log(this.imgsource);
+      });
       this.afAuth.authState.subscribe(auth => {
         if (!auth)
-          this.rootPage = HomePage;
+          this.rootPage = BookingPage;
         else
           console.log(auth);
-        this.rootPage = BookingPage;
+        this.rootPage = HomePage;
       });
       this.pages = [
         { title: 'Profile', component: ProfilePage },
@@ -64,20 +80,9 @@ export class MyApp {
       ];
       this.activePage = this.pages[1];
     });
-    var appData = window.localStorage.getItem('Email');
-    this.itemRef.orderByChild("Email").equalTo(appData).once('value', (snap) => {
 
-
-      snap.forEach(itemSnap => {
-
-        this.imgsource = itemSnap.child("Pic").val();
-        this.name = itemSnap.child("Name").val()
-        return false;
-
-      });
-console.log(this.imgsource);
-    });
   }
+
   openPage(page) {
     console.log(page);
     if (page.component) {

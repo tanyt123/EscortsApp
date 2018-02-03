@@ -21,9 +21,11 @@ margin: auto;
   .but{
   margin:auto;
   display:block;
-
-
+   background-color: red;
 }
+ ion-icon {
+        font-size: 40px; //Preferred size here
+    }
   .overlay {
     position: fixed;
     top: 0;
