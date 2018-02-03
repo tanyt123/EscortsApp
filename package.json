@@ -39,6 +39,7 @@
     "@types/cropperjs": "^1.1.1",
     "angular2-text-mask": "^8.0.4",
     "angularfire2": "^5.0.0-rc.4",
+    "cordova-android": "~6.3.0",
     "cordova-browser": "~5.0.2",
     "cordova-plugin-camera": "^3.0.0",
     "cordova-plugin-crop": "^0.4.0",
@@ -71,8 +72,7 @@
     "npm": "^5.6.0",
     "rxjs": "5.4.0",
     "sw-toolbox": "3.6.0",
-    "zone.js": "0.8.12",
-    "cordova-android": "~6.3.0"
+    "zone.js": "0.8.12"
   },
   "devDependencies": {
     "@ionic/app-scripts": "2.1.3",

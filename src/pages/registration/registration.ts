@@ -85,6 +85,8 @@ export class RegistrationPage {
     const options: CameraOptions = {
       quality: 50, // picture quality
       destinationType: this.camera.DestinationType.DATA_URL,
+      targetWidth : 200,
+      targetHeight:200,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
        correctOrientation: true,
