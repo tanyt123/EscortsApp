@@ -8,6 +8,7 @@
   <ion-content>
     <ion-list>
      <img [src]="imgsource" id="img">
+     <ion-label style="text-align: center;">{{name}}</ion-label>
       <button menuClose ion-item *ngFor="let p of pages" [class.activeHighlight]="checkActive(p)" (click)="openPage(p)" >
         {{p.title}}
       </button>

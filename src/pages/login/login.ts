@@ -26,6 +26,7 @@ export class LoginPage {
   password: '';
   name = "";
   gender;
+  pic;
   public loading: Loading;
   constructor(public navCtrl: NavController,
     private alertCtrl: AlertController, private toastCtrl: ToastController,
@@ -80,6 +81,8 @@ export class LoginPage {
                   window.localStorage.setItem('Name', this.name);
                   this.gender = itemSnap.child("Gender").val();
                   window.localStorage.setItem('Gender', this.gender);
+                  this.pic = itemSnap.child('Pic').val();
+                  window.localStorage.setItem('Pic' , this.pic);
                   return false;
 
                 });

@@ -60,7 +60,7 @@ export class RegistrationPage {
 
     this.myForm = formBuilder.group({
       Name: ['', Validators.required],
-     
+
       gender: ['', Validators.required],
       IC: ['', Validators.compose([Validators.required, Validators.minLength(7), Validators.pattern('[a-zA-Z]{1}[0-9]{7}[a-zA-Z]{1}')])],
       plateNo: ['', Validators.required],
@@ -81,15 +81,64 @@ export class RegistrationPage {
     })
     this.code = "65";
   }
+  presentActionSheet() {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Select Image Via',
+      buttons: [
+        {
+          text: 'Gallery',
+          handler: () => {
+            this.galeryPhoto();
+            console.log('Gallery clicked');
+          }
+        },
+        {
+          text: 'Camera',
+          handler: () => {
+            this.takePhoto();
+            console.log('Camera clicked');
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+
+    actionSheet.present();
+  }
   takePhoto() {
     const options: CameraOptions = {
       quality: 50, // picture quality
       destinationType: this.camera.DestinationType.DATA_URL,
-      targetWidth : 200,
-      targetHeight:200,
+      targetWidth: 200,
+      targetHeight: 200,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
-       correctOrientation: true,
+      correctOrientation: true,
+    }
+    this.camera.getPicture(options).then((imageData) => {
+      this.base64Image = "data:image/jpeg;base64," + imageData;
+      this.Image = imageData;
+      // this.photos.push(this.base64Image);
+      // this.photos.reverse();
+    }, (err) => {
+      console.log(err);
+    });
+  }
+    galeryPhoto() {
+    const options: CameraOptions = {
+      quality: 50, // picture quality
+      destinationType: this.camera.DestinationType.DATA_URL,
+      targetWidth: 200,
+      targetHeight: 200,
+      encodingType: this.camera.EncodingType.JPEG,
+      sourceType  : this.camera.PictureSourceType.PHOTOLIBRARY,
+      correctOrientation: true,
     }
     this.camera.getPicture(options).then((imageData) => {
       this.base64Image = "data:image/jpeg;base64," + imageData;
@@ -110,14 +159,14 @@ export class RegistrationPage {
     }
     )
   }
-public type = 'password';
+  public type = 'password';
   public showPass = false;
- 
- 
+
+
   showPassword() {
     this.showPass = !this.showPass;
- 
-    if(this.showPass){
+
+    if (this.showPass) {
       this.type = 'text';
     } else {
       this.type = 'password';
@@ -163,7 +212,7 @@ public type = 'password';
     }
 
   }
-  
+
   Register() {
     const appVerifier = this.recaptchaVerifier;
 

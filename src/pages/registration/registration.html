@@ -337,28 +337,13 @@
 
     </form>
   </ion-list>
-  <button ion-button full (click)="takePhoto()">
-  <ion-icon name="camera"></ion-icon>Take Photo
-  </button>
+   <button ion-button full (click)="presentActionSheet()">Pick Image</button>
   <img [src]="base64Image" *ngIf="base64Image" />
  
   <button ion-button class="react" [disabled]="!myForm.valid || !isenabled || !base64Image" (click)="Register()">Register 
 </button>
   <div id="recaptcha-container"></div>
-   <ion-footer>
-        <div style="display:flex; flex-direction:column;justify-content:center">
-    <button ion-button (click)="takePhoto()">Lets take a picture!</button>
-  </div>
-  <ion-toolbar color="primary">
-    <ion-buttons>
-      <button ion-button icon-left (click)="presentActionSheet()">
-        <ion-icon name="camera"></ion-icon>Select Image
-      </button>
-      <button ion-button icon-left (click)="uploadImage()" [disabled]="lastImage === null">
-        <ion-icon name="cloud-upload"></ion-icon>Upload
-      </button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-footer>
+
+
 
 </ion-content>

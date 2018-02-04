@@ -43,7 +43,7 @@ import { DayViewComponent } from 'ionic2-calendar/dayview';
 import { Crop } from '@ionic-native/crop';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CropPage } from '../pages/crop/crop';
-
+import { Events } from 'ionic-angular';
 export const firebaseConfig = {
   apiKey: "AIzaSyCFU9g3inPp81yQU14fYANC7vf31SpkqKk",
   authDomain: "sharedmedicalfyp-1cfcf.firebaseapp.com",
@@ -131,6 +131,7 @@ export const firebaseConfig = {
     Crop,
     FilePath,
     SMS,
+     Events ,
     AngularFireDatabaseModule,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
 

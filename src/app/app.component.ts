@@ -32,6 +32,7 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { HistoryPage } from '../pages/history/history';
 import { CameraPage } from '../pages/camera/camera';
 import { Observable } from 'rxjs/Observable';
+import { Events } from 'ionic-angular';
 @Component({
   templateUrl: 'app.html'
 })
@@ -44,26 +45,23 @@ export class MyApp {
   activePage: any;
   @ViewChild(Nav) nav: Nav;
   pages: Array<{ title: string, component: any }>;
-  constructor(platform: Platform, statusBar: StatusBar, private afAuth: AngularFireAuth, splashScreen: SplashScreen, private camera: Camera, public menuCtrl: MenuController) {
+  constructor(platform: Platform, statusBar: StatusBar, private nativeStorage: NativeStorage ,public events: Events, private afAuth: AngularFireAuth, splashScreen: SplashScreen, private camera: Camera, public menuCtrl: MenuController) {
+    this.events.subscribe('profileUpdated', () => {
+
+        this.nativeStorage.getItem('uImage')
+        .then( (data)=> {
+          this.imgsource = data;
+         
+        },(error)=> {
+          console.log(error);
+        });
+    });
+   
     platform.ready().then(() => {
 
       statusBar.styleDefault();
       splashScreen.hide();
-      var appData = window.localStorage.getItem('Email');
-      console.log(appData);
-      this.itemRef.orderByChild("Email").equalTo(appData).once('value', (snap) => {
-
-
-        snap.forEach(itemSnap => {
-
-          this.imgsource = itemSnap.child("Pic").val();
-          this.name = itemSnap.child("Name").val()
-          return false;
-
-        });
-        console.log(this.name);
-        console.log(this.imgsource);
-      });
+ 
       this.afAuth.authState.subscribe(auth => {
         if (!auth)
           this.rootPage = BookingPage;
@@ -80,7 +78,22 @@ export class MyApp {
       ];
       this.activePage = this.pages[1];
     });
+     var appData = window.localStorage.getItem('Email');
+     var pic = window.localStorage.getItem('Pic');
+      console.log(appData);
+      this.itemRef.orderByChild("Email").equalTo(appData).once('value', (snap) => {
 
+
+        snap.forEach(itemSnap => {
+
+          this.imgsource = itemSnap.child("Pic").val() + new Date().getTime();
+          this.name = itemSnap.child("Name").val()
+          return false;
+
+        });
+        console.log(this.name);
+        console.log(this.imgsource);
+      });
   }
 
   openPage(page) {
