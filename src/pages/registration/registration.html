@@ -310,8 +310,8 @@
         <ion-label color="primary" stacked>Password:</ion-label>
         <ion-input type="{{type}}" formControlName="password" placeholder="Password Input" (ionChange)="matchingPasswords()" max="25"
           min="8" [class.invalid]="!myForm.get('password').valid  && (myForm.get('password').dirty || submitAttempt)"></ion-input>
-        <button *ngIf="!showPass" ion-button clear color="dark" type="button" item-right (click)="showPassword()"> <ion-icon name="ios-eye-off-outline"></ion-icon></button>
-        <button *ngIf="showPass" ion-button clear color="dark" type="button" item-right (click)="showPassword()"> <ion-icon name="ios-eye-outline"></ion-icon></button>
+        <button *ngIf="!showPass" ion-button clear color="dark" type="button" item-right (click)="showPassword()"> <ion-icon name="ios-eye-outline"></ion-icon></button>
+        <button *ngIf="showPass" ion-button clear color="dark" type="button" item-right (click)="showPassword()"> <ion-icon name="ios-eye-off-outline"></ion-icon></button>
       </ion-item>
       <div class="error" *ngIf="myForm.get('password').hasError('required') && myForm.get('password').touched">
         Password is required
@@ -326,8 +326,8 @@
         <ion-label color="primary" stacked no-lines text-wrap>Confirm Password:</ion-label>
         <ion-input type="{{type}}" formControlName="rePassword" placeholder="Password Input" max="25" min="8" (ionChange)="matchingPasswords()"
           [class.invalid]="!myForm.get('rePassword').valid  && (myForm.get('rePassword').dirty  || submitAttempt)"></ion-input>
-       <button *ngIf="!showPass" ion-button clear color="dark" type="button" item-right (click)="showPassword()"> <ion-icon name="ios-eye-off-outline"></ion-icon></button>
-      <button *ngIf="showPass" ion-button clear color="dark" type="button" item-right (click)="showPassword()"> <ion-icon name="ios-eye-outline"></ion-icon></button>
+       <button *ngIf="!showPass" ion-button clear color="dark" type="button" item-right (click)="showPassword()"> <ion-icon name="ios-eye-outline"></ion-icon></button>
+      <button *ngIf="showPass" ion-button clear color="dark" type="button" item-right (click)="showPassword()"> <ion-icon name="ios-eye-off-outline"></ion-icon></button>
       </ion-item>
      
       <div class='form-text error' *ngIf="myForm.get('rePassword').touched && mismatchedPasswords && myForm.get('password').touched">

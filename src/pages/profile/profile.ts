@@ -38,7 +38,7 @@ export class ProfilePage {
   public myDate: string;
   private currentUser: firebase.User;
   constructor(public navCtrl: NavController, private afAuth: AngularFireAuth, public navParams: NavParams, public alertCtrl: AlertController
-    , private nativeStorage: NativeStorage,public events: Events, private cdRef: ChangeDetectorRef, public actionSheetCtrl: ActionSheetController, private camera: Camera, public modalCtrl: ModalController, public formBuilder: FormBuilder) {
+    , private nativeStorage: NativeStorage, public events: Events, private cdRef: ChangeDetectorRef, public actionSheetCtrl: ActionSheetController, private camera: Camera, public modalCtrl: ModalController, public formBuilder: FormBuilder) {
 
     this.myForm = formBuilder.group({
       password: ['', Validators.compose([Validators.minLength(8), Validators.maxLength(25), Validators.required])],
@@ -100,14 +100,14 @@ export class ProfilePage {
       this.base64Image = "data:image/jpeg;base64," + imageData;
       let storageRef = firebase.storage().ref();
       const imageRef = storageRef.child('images/' + this.appData + '.jpg');
-     
+
       imageRef.putString(this.base64Image, firebase.storage.StringFormat.DATA_URL).then(snapshot => {
         this.itemsRef.update({
           Pic: snapshot.downloadURL,
         });
 
-    this.nativeStorage.setItem('uImage', snapshot.downloadURL);
-this.events.publish('profileUpdated');
+       window.localStorage.setItem('uImage', snapshot.downloadURL);
+        this.events.publish('profileUpdated');
       });
 
 
@@ -168,48 +168,53 @@ this.events.publish('profileUpdated');
       let storageRef = firebase.storage().ref();
       const imageRef = storageRef.child('images/' + this.appData + '.jpg');
       imageRef.delete();
-      imageRef.putString(this.base64Image, firebase.storage.StringFormat.DATA_URL);
+           imageRef.putString(this.base64Image, firebase.storage.StringFormat.DATA_URL).then(snapshot => {
+        this.itemsRef.update({
+          Pic: snapshot.downloadURL,
+        });
 
-      // this.photos.push(this.base64Image);
-      // this.photos.reverse();
-    }, (err) => {
-      console.log(err);
+        this.nativeStorage.setItem('uImage', snapshot.downloadURL);
+        this.events.publish('profileUpdated');
+    
     });
+  }, (err) => {
+    console.log(err);
+  });
   }
-  Update() {
-    this.navCtrl.push(UpdateprofilePage);
-  }
-  matchingPasswords() {
+Update() {
+  this.navCtrl.push(UpdateprofilePage);
+}
+matchingPasswords() {
 
 
-    if (this.myForm.value.password !== this.myForm.value.rePassword) {
-      this.myForm.get('rePassword').setErrors({ Mismatch: true })
-      this.mismatchedPasswords = true;
+  if (this.myForm.value.password !== this.myForm.value.rePassword) {
+    this.myForm.get('rePassword').setErrors({ Mismatch: true })
+    this.mismatchedPasswords = true;
 
-    }
-    else {
+  }
+  else {
 
-      this.mismatchedPasswords = false;
-    }
+    this.mismatchedPasswords = false;
   }
-  Delete() {
-    const myModalOptions: ModalOptions = {
-      enableBackdropDismiss: false
-    };
-    const myModal = this.modalCtrl.create(ReauthenticatePage);
-    myModal.present();
-    console.log(this.key);
-    var user = firebase.auth().currentUser;
-  }
-  UpdatePassword() {
-    const myModalOptions: ModalOptions = {
-      enableBackdropDismiss: false
-    };
-    const myModal = this.modalCtrl.create(ReauthenticatePage, { Password: this.myForm.value.password });
-    myModal.present();
-    console.log(this.key);
-    var user = firebase.auth().currentUser;
-  }
+}
+Delete() {
+  const myModalOptions: ModalOptions = {
+    enableBackdropDismiss: false
+  };
+  const myModal = this.modalCtrl.create(ReauthenticatePage);
+  myModal.present();
+  console.log(this.key);
+  var user = firebase.auth().currentUser;
+}
+UpdatePassword() {
+  const myModalOptions: ModalOptions = {
+    enableBackdropDismiss: false
+  };
+  const myModal = this.modalCtrl.create(ReauthenticatePage, { Password: this.myForm.value.password });
+  myModal.present();
+  console.log(this.key);
+  var user = firebase.auth().currentUser;
+}
 
 }
     /*  let alert = this.alertCtrl.create({
