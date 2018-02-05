@@ -70,7 +70,7 @@ export class LoginPage {
 
     this.afAuth.auth.signInWithEmailAndPassword(this.email, this.password)
       .then(auth => {
-          console.log("Enough!")
+          
         try {
           firebase.auth().onAuthStateChanged((user) => {
             console.log(user);

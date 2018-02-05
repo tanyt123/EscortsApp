@@ -44,6 +44,10 @@ import { Crop } from '@ionic-native/crop';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CropPage } from '../pages/crop/crop';
 import { Events } from 'ionic-angular';
+import { Geolocation } from '@ionic-native/geolocation';
+import { Device } from '@ionic-native/device';
+import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResult } from '@ionic-native/native-geocoder';
+import { TrackerPage } from '../pages/tracker/tracker';
 export const firebaseConfig = {
   apiKey: "AIzaSyCFU9g3inPp81yQU14fYANC7vf31SpkqKk",
   authDomain: "sharedmedicalfyp-1cfcf.firebaseapp.com",
@@ -74,7 +78,8 @@ export const firebaseConfig = {
     MySchedulePage,
     HistoryPage,
     CameraPage,
-    CropPage
+    CropPage,
+    TrackerPage
   ],
   imports: [
     BrowserModule,
@@ -89,7 +94,7 @@ export const firebaseConfig = {
         }
       }
     }),
-     ImageCropperModule,
+    ImageCropperModule,
     NgxPhoneSelectModule,
     NgCalendarModule,
     AngularFireModule.initializeApp(firebaseConfig),
@@ -118,7 +123,8 @@ export const firebaseConfig = {
     MySchedulePage,
     HistoryPage,
     CameraPage,
-    CropPage
+    CropPage,
+    TrackerPage
   ],
   providers: [
     StatusBar,
@@ -131,10 +137,13 @@ export const firebaseConfig = {
     Crop,
     FilePath,
     SMS,
-     Events ,
+    Events,
     AngularFireDatabaseModule,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-
+    Geolocation,
+    Device,
+    NativeGeocoder,
+    
   ]
 })
 export class AppModule { }

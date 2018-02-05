@@ -34,6 +34,8 @@ import { CameraPage } from '../pages/camera/camera';
 import { Observable } from 'rxjs/Observable';
 import { Events } from 'ionic-angular';
 import { App } from 'ionic-angular';
+import { TrackerPage } from '../pages/tracker/tracker';
+
 
 @Component({
   templateUrl: 'app.html'
@@ -77,8 +79,8 @@ export class MyApp {
         { title: 'Profile', component: ProfilePage },
         { title: 'Bookings', component: BookingPage },
         { title: 'My Schedule', component: MySchedulePage },
-        { title: 'My History', component: HistoryPage },
-
+        { title: 'History', component: HistoryPage },
+        { title: 'Tracking', component: TrackerPage },
       ];
       this.activePage = this.pages[1];
     });
@@ -118,7 +120,7 @@ export class MyApp {
   Logout() {
     this.menuCtrl.close();
     this.activePage = this.pages[1];
-   
+
     window.localStorage.clear();
     window.localStorage.isMySessionActive = "false";
 
@@ -126,9 +128,9 @@ export class MyApp {
 
     firebase.auth().signOut().then(function () {
       // Sign-out successful.
-    setTimeout(function(){
-    window.location.reload();
-}, 500);
+      setTimeout(function () {
+        window.location.reload();
+      }, 500);
 
     }, function (error) {
       // An error happened.
