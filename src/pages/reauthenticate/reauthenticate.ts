@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ViewController, AlertController } 
 import firebase from 'firebase';
 import { HomePage } from '../home/home';
 import { ProfilePage } from '../profile/profile';
+
 @IonicPage()
 @Component({
   selector: 'page-reauthenticate',
@@ -14,11 +15,12 @@ export class ReauthenticatePage {
   password;
   public key;
   appData;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public view: ViewController, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController,  public navParams: NavParams, public view: ViewController, public alertCtrl: AlertController) {
   }
 
   public itemRef: firebase.database.Reference = firebase.database().ref('Escorts');
   public itemsRef: firebase.database.Reference;
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad ReauthenticatePage');
 
@@ -39,12 +41,12 @@ export class ReauthenticatePage {
   }
   public type = 'password';
   public showPass = false;
- 
- 
+
+
   showPassword() {
     this.showPass = !this.showPass;
- 
-    if(this.showPass){
+
+    if (this.showPass) {
       this.type = 'text';
     } else {
       this.type = 'password';

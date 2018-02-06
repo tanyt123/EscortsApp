@@ -58,6 +58,10 @@ margin: auto;
     -webkit-box-sizing: border-box;
   
   }
+  #addStepWrapper{
+  overflow:hidden !important;
+}
+[ion-fixed] { height: 100%; width: 100%; }
    .modal_header {
   
     top: 32.5%;
@@ -75,6 +79,9 @@ margin: auto;
 
 
   
+  }
+  .ro{
+    position: fixed;
   }
   .theroot {
   height: 100px;

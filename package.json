@@ -30,6 +30,7 @@
     "@ionic-native/file-transfer": "^4.5.2",
     "@ionic-native/firebase": "^4.5.0",
     "@ionic-native/geolocation": "^4.4.2",
+    "@ionic-native/keyboard": "^4.5.3",
     "@ionic-native/native-geocoder": "^4.5.3",
     "@ionic-native/native-storage": "^4.5.2",
     "@ionic-native/sim": "^4.5.2",

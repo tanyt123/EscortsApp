@@ -41,6 +41,7 @@ import { MonthViewComponent } from 'ionic2-calendar/monthview';
 import { WeekViewComponent } from 'ionic2-calendar/weekview';
 import { DayViewComponent } from 'ionic2-calendar/dayview';
 import { Crop } from '@ionic-native/crop';
+
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CropPage } from '../pages/crop/crop';
 import { Events } from 'ionic-angular';
@@ -48,6 +49,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { Device } from '@ionic-native/device';
 import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResult } from '@ionic-native/native-geocoder';
 import { TrackerPage } from '../pages/tracker/tracker';
+
 export const firebaseConfig = {
   apiKey: "AIzaSyCFU9g3inPp81yQU14fYANC7vf31SpkqKk",
   authDomain: "sharedmedicalfyp-1cfcf.firebaseapp.com",
@@ -87,6 +89,8 @@ export const firebaseConfig = {
     CalendarModule,
     ReactiveFormsModule,
     IonicModule.forRoot(MyApp, {
+      scrollAssist: false,    // Valid options appear to be [true, false]
+      autoFocusAssist: false,
       menuType: 'push',
       platforms: {
         ios: {
@@ -94,14 +98,17 @@ export const firebaseConfig = {
         }
       }
     }),
+
     ImageCropperModule,
     NgxPhoneSelectModule,
     NgCalendarModule,
+ 
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    FormsModule,
-
+    FormsModule
+ 
+    
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -143,7 +150,7 @@ export const firebaseConfig = {
     Geolocation,
     Device,
     NativeGeocoder,
-    
+
   ]
 })
 export class AppModule { }
