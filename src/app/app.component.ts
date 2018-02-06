@@ -92,7 +92,7 @@ export class MyApp {
       this.pages = [
         { title: 'Profile', component: ProfilePage },
         { title: 'Bookings', component: BookingPage },
-        { title: 'My Schedule', component: MySchedulePage },
+        { title: 'Schedule', component: MySchedulePage },
         { title: 'History', component: HistoryPage },
         { title: 'Tracking', component: TrackerPage },
       ];
