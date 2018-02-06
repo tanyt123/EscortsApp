@@ -273,7 +273,7 @@
         <ion-input formControlName="IC" placeholder="Text Input" [class.invalid]="!myForm.get('IC').valid  && (myForm.get('IC').dirty || submitAttempt)"></ion-input>
       </ion-item>
       <div class="error" *ngIf="!myForm.get('IC').valid  && myForm.get('IC').touched">
-        <p>Enter valid IC.</p>
+        <p>Enter valid IC. Letters must be uppercase!</p>
       </div>
 
 
