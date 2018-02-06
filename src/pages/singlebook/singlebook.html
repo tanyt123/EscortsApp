@@ -24,9 +24,17 @@
       <ion-label> {{ assist }}</ion-label>
     </ion-item>
     </ion-list>-->
+     <ion-item>
+        <ion-label color="primary">Client's Email:</ion-label>
+        <ion-label> {{ item.Email }}</ion-label>
+      </ion-item>
       <ion-item>
         <ion-label color="primary">Contact:</ion-label>
         <ion-label> {{ item.Contact }}</ion-label>
+      </ion-item>
+        <ion-item *ngIf= "item.SecondaryContact">
+        <ion-label color="primary">Secondary Contact:</ion-label>
+        <ion-label> {{ item.SecondaryContact }}</ion-label>
       </ion-item>
       <ion-item>
         <ion-label color="primary">Date:</ion-label>
@@ -36,9 +44,14 @@
         <ion-label color="primary">Destination:</ion-label>
         <ion-label> {{ item.Destination }}</ion-label>
       </ion-item>
+     
       <ion-item>
         <ion-label color="primary">Start Time:</ion-label>
         <ion-label> {{ item.startTime }}</ion-label>
+      </ion-item>
+         <ion-item>
+        <ion-label color="primary">End Time:</ion-label>
+        <ion-label> {{ item.endTime }}</ion-label>
       </ion-item>
       <ion-item>
         <ion-label color="primary">Pick up Location:</ion-label>
@@ -61,6 +74,10 @@
       <ion-item *ngIf="item.CompletedAt">
         <ion-label color="primary">Completed At:</ion-label>
         <ion-label> {{item.CompletedAt | date : 'dd/MM/yyyy h.mma'}}</ion-label>
+      </ion-item>
+         <ion-item *ngIf="item.ROD">
+        <ion-label color="primary">Reason Of Decline :</ion-label>
+        <ion-label> {{ item.ROD }}</ion-label>
       </ion-item>
       <ion-item *ngIf="item.CancelledAt">
         <ion-label color="primary">Cancelled At:</ion-label>
