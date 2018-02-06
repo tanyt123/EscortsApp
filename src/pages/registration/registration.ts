@@ -130,14 +130,14 @@ export class RegistrationPage {
       console.log(err);
     });
   }
-    galeryPhoto() {
+  galeryPhoto() {
     const options: CameraOptions = {
       quality: 50, // picture quality
       destinationType: this.camera.DestinationType.DATA_URL,
       targetWidth: 200,
       targetHeight: 200,
       encodingType: this.camera.EncodingType.JPEG,
-      sourceType  : this.camera.PictureSourceType.PHOTOLIBRARY,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
       correctOrientation: true,
     }
     this.camera.getPicture(options).then((imageData) => {
@@ -161,8 +161,8 @@ export class RegistrationPage {
   }
   public type = 'password';
   public showPass = false;
-
-
+  public cfmpass = false;
+  public types = 'password';
   showPassword() {
     this.showPass = !this.showPass;
 
@@ -170,6 +170,15 @@ export class RegistrationPage {
       this.type = 'text';
     } else {
       this.type = 'password';
+    }
+  }
+  showsPassword() {
+    this.cfmpass = !this.cfmpass;
+
+    if (this.cfmpass) {
+      this.types = 'text';
+    } else {
+      this.types = 'password';
     }
   }
   matchingPasswords() {

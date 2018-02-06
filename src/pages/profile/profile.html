@@ -107,10 +107,10 @@
     </div>
     <ion-item class="ion-item1">
       <ion-label color="primary" stacked no-lines text-wrap>Confirm Password:</ion-label>
-      <ion-input type="{{type}}" formControlName="rePassword" placeholder="Password Input" max="25" min="8" (ionChange)="matchingPasswords()"
+      <ion-input type="{{types}}" formControlName="rePassword" placeholder="Password Input" max="25" min="8" (ionChange)="matchingPasswords()"
         [class.invalid]="!myForm.get('rePassword').valid  && (myForm.get('rePassword').dirty  || submitAttempt)"></ion-input>
-      <button *ngIf="!showPass" ion-button clear color="dark" type="button" item-right (click)="showPassword()"> <ion-icon name="ios-eye-outline"></ion-icon></button>
-      <button *ngIf="showPass" ion-button clear color="dark" type="button" item-right (click)="showPassword()"> <ion-icon name="ios-eye-off-outline"></ion-icon></button>
+      <button *ngIf="!cfmpass" ion-button clear color="dark" type="button" item-right (click)="showsPassword()"> <ion-icon name="ios-eye-outline"></ion-icon></button>
+      <button *ngIf="cfmpass" ion-button clear color="dark" type="button" item-right (click)="showsPassword()"> <ion-icon name="ios-eye-off-outline"></ion-icon></button>
     </ion-item>
 
     <div class='form-text error' *ngIf="myForm.get('rePassword').touched && mismatchedPasswords && myForm.get('password').touched">

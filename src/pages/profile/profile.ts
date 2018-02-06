@@ -74,8 +74,8 @@ export class ProfilePage {
   }
   public type = 'password';
   public showPass = false;
-
-
+ public cfmpass = false;
+ public types = 'password';
   showPassword() {
     this.showPass = !this.showPass;
 
@@ -83,6 +83,15 @@ export class ProfilePage {
       this.type = 'text';
     } else {
       this.type = 'password';
+    }
+  }
+  showsPassword() {
+    this.cfmpass = !this.cfmpass;
+
+    if (this.cfmpass) {
+      this.types = 'text';
+    } else {
+      this.types = 'password';
     }
   }
   takePhoto() {
