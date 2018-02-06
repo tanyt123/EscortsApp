@@ -230,7 +230,7 @@ export class SinglebookPage {
     this.itemRefs.update({
       Status: "Ongoing",
     });
-   this.events.publish('Track');
+    this.events.publish('Track');
     this.navCtrl.setRoot(TrackerPage)
       .then(() => {
         this.navCtrl.popToRoot();
@@ -240,7 +240,7 @@ export class SinglebookPage {
   Cancel() {
     this.startTime = this.getRoundedTime(new Date(this.date + " " + this.startTime));
     this.endTime = this.getRoundedTime(new Date(this.date + " " + this.endTime));
-      var EDSEPD = this.email + "," + this.date + "," + this.startTime + "," + this.endTime + "," + this.pickupregion + "," + this.destinationregion;
+    var EDSEPD = this.email + "," + this.date + "," + this.startTime + "," + this.endTime + "," + this.pickupregion + "," + this.destinationregion;
     try {
       this.isenabled = false;
       this.itemRefs.update({
@@ -248,24 +248,32 @@ export class SinglebookPage {
         CancelledAt: firebase.database.ServerValue.TIMESTAMP,
         ROD: this.myForm.value.Rod,
       })
-      var ref = firebase.database().ref("EscortBookings");
-      ref.orderByChild("EDSEPD").equalTo(EDSEPD).once('value', (snap) => {
-        if (snap.val()) {
-          this.keys = Object.keys(snap.val());
-          this.DSEARef = firebase.database().ref('EscortBookings/' + this.keys);
-          if (this.patient2) {
-            this.DSEARef.update({
-              Count: parseInt(snap.val().Count) - 2
+      if (this.carpool === "Yes") {
+        console.log(EDSEPD)
+        var ref = firebase.database().ref("EscortBookings");
+        ref.orderByChild("EDSEPD").equalTo(EDSEPD).once('value', (snap) => {
+          if (snap.val()) {
+            console.log("Excellent");
+            this.keys = Object.keys(snap.val());
+            snap.forEach(itemSnap => {
+           this.count =   parseInt(itemSnap.val().Count);
+              return false;
             });
+            this.DSEARef = firebase.database().ref('EscortBookings/' + this.keys);
+            if (this.patient2) {
+              this.DSEARef.update({
+                Count: this.count - 2
+              });
+            }
+            else {
+              this.DSEARef.update({
+                Count: this.count - 1
+              });
+            }
           }
-          else {
-            this.DSEARef.update({
-              Count: parseInt(snap.val().Count) - 1
-            });
-          }
-        }
 
-      });
+        });
+      }
       let alert = this.alertCtrl.create({
         title: 'You have cancelled the booking!',
         buttons: ['OK']
