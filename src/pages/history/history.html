@@ -29,28 +29,29 @@
         </ion-item-divider>
         <ion-row (click)="gotoPage(item.key)">
         <ion-item col-8>
-          <p text-wrap> Pick Up : {{item.Pickup }}</p>
-          <p text-wrap>Destination : {{ item.Destination }}</p>
+          <p > Pick Up : {{item.Pickup }}</p>
+          <p >Destination : {{ item.Destination }}</p>
         </ion-item>
         </ion-row>
       </ion-list>
     </div>
 
-    <div *ngSwitchCase="'cancelled'">
-  <ion-list *ngFor="let cancel of (cancelled | async)">
+        <div *ngSwitchCase="'cancelled'">
+   <ion-list *ngFor="let cancel of (cancelled | async)">
         <ion-item-divider  sticky class="ion-item-divider" 	item-right>
-          <ion-thumbnail item-end>{{cancel.CancelledAt | date : 'dd/MM/yyyy h.mma'}}
+          <ion-thumbnail item-end>{{ cancel.CancelledAt | date : 'dd/MM/yyyy h.mma'}}
           </ion-thumbnail>
 
         </ion-item-divider>
         <ion-row (click)="gotoPage(cancel.key)">
         <ion-item col-8>
-          <p text-wrap> Pick Up : {{cancel.Pickup }}</p>
-          <p text-wrap>Destination : {{ cancel.Destination }}</p>
+          <p > Pick Up : {{cancel.Pickup }}</p>
+          <p >Destination : {{ cancel.Destination }}</p>
         </ion-item>
         </ion-row>
       </ion-list>
     </div>
+
 
   </div>
 </ion-content>

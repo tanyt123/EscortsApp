@@ -75,8 +75,8 @@ export class LoginPage {
           firebase.auth().onAuthStateChanged((user) => {
             console.log(user);
             if (user.emailVerified) {
-              window.localStorage.setItem('Email', this.email);
-              console.log(window.localStorage.getItem('Email'));
+              window.sessionStorage.setItem('Email', this.email);
+              console.log(window.sessionStorage.getItem('Email'));
               this.itemRef.orderByChild("Email").equalTo(this.email).once('value', (snap) => {
                 console.log(snap.val());
                 snap.forEach(itemSnap => {
@@ -85,24 +85,23 @@ export class LoginPage {
                   console.log(this.name);
 
                   this.gender = itemSnap.child("Gender").val();
-                  window.localStorage.setItem('Gender', this.gender);
+                  window.sessionStorage.setItem('Gender', this.gender);
                   this.pic = itemSnap.child('Pic').val();
 
 
                   return false;
 
                 });
-                window.localStorage.setItem('Name', this.name);
+                window.sessionStorage.setItem('Name', this.name);
                 console.log(this.name);
-                console.log(window.localStorage.getItem('Name'));
+                console.log(window.sessionStorage.getItem('Name'));
 
-                window.localStorage.setItem('Pic', this.pic);
+                window.sessionStorage.setItem('Pic', this.pic);
                 console.log(this.pic);
-                console.log(window.localStorage.getItem('Pic'));
+                console.log(window.sessionStorage.getItem('Pic'));
                 this.events.publish('profileInserted');
               }),
-                this.email = "";
-              this.password = "";
+              
               this.navCtrl.push(BookingPage);
               this.navCtrl.setRoot(BookingPage).then(() => {
                 this.navCtrl.popToRoot();

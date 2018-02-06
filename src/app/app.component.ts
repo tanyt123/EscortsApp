@@ -53,15 +53,29 @@ export class MyApp {
   pages: Array<{ title: string, component: any }>;
   constructor(platform: Platform, statusBar: StatusBar, public appCtrl: App, private nativeStorage: NativeStorage, public events: Events, private afAuth: AngularFireAuth, splashScreen: SplashScreen, private camera: Camera, public menuCtrl: MenuController) {
     this.events.subscribe('profileUpdated', () => {
+      console.log(window.sessionStorage.getItem('uImage'))
+      this.imgsource = window.sessionStorage.getItem('uImage');
 
-      this.imgsource = window.localStorage.getItem('uImage')
-
+    });
+    this.events.subscribe('History', () => {
+      this.activePage = this.pages[3];
+      console.log("Hi");
+    });
+    this.events.subscribe('Track', () => {
+      this.activePage = this.pages[4];
+      console.log("Hi");
+    });
+    this.events.subscribe('Schedule', () => {
+      this.activePage = this.pages[2];
+    });
+    this.events.subscribe('nameUpdated', () => {
+      this.name = window.sessionStorage.getItem('Name');
     });
     this.events.subscribe('profileInserted', () => {
       console.log("hisdf");
-      console.log(window.localStorage.getItem('Pic'));
-      this.imgsource = window.localStorage.getItem('Pic');
-      this.name = window.localStorage.getItem('Name');
+      console.log(window.sessionStorage.getItem('Pic'));
+      this.imgsource = window.sessionStorage.getItem('Pic');
+      this.name = window.sessionStorage.getItem('Name');
     });
     platform.ready().then(() => {
 
@@ -84,8 +98,8 @@ export class MyApp {
       ];
       this.activePage = this.pages[1];
     });
-    //  var appData = window.localStorage.getItem('Email');
-    //  var pic = window.localStorage.getItem('Pic');
+    //  var appData = window.sessionStorage.getItem('Email');
+    //  var pic = window.sessionStorage.getItem('Pic');
     //   console.log(appData);
     //   this.itemRef.orderByChild("Email").equalTo(appData).once('value', (snap) => {
 
@@ -121,10 +135,10 @@ export class MyApp {
     this.menuCtrl.close();
     this.activePage = this.pages[1];
 
-    window.localStorage.clear();
-    window.localStorage.isMySessionActive = "false";
+    window.sessionStorage.clear();
 
-    console.log(window.localStorage.getItem('Email'));
+
+    console.log(window.sessionStorage.getItem('Email'));
 
     firebase.auth().signOut().then(function () {
       // Sign-out successful.

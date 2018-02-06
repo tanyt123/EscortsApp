@@ -23,7 +23,7 @@ export class MySchedulePage {
     day = [];
     events = [];
     items: Observable<any[]>;
-    email = window.localStorage.getItem('Email');
+    email = window.sessionStorage.getItem('Email');
     itemsRef: AngularFireList<any>;
     @ViewChild(CalendarComponent) myCalendar: CalendarComponent;
 
@@ -94,18 +94,18 @@ export class MySchedulePage {
 
                 var startTime = (new Date(r.Date + " " + r.startTime));
                 var EndTime = (new Date(r.Date + " " + r.endTime));
-                if(r.PatientName3){
+                if(r.Patient3Name){
                 this.events.push({
-                    title: r.PatientName + "," + r.PatientName2 + "," + r.PatientName3,
+                    title: r.PatientName + "," + r.Patient2Name + "," + r.Patient3Name,
                     key: r.key,
                     startTime: startTime,
                     endTime: EndTime,
                     allDay: false
                 });
             }
-              else if(r.PatientName2){
+              else if(r.Patient2Name){
                 this.events.push({
-                    title: r.PatientName + "," + r.PatientName2 ,
+                    title: r.PatientName + "," + r.Patient2Name ,
                     key: r.key,
                     startTime: startTime,
                     endTime: EndTime,

@@ -54,7 +54,7 @@ export class ProfilePage {
     console.log('ionViewDidLoad ProfilePage');
     this.items = [];
 
-    this.appData = window.localStorage.getItem('Email');
+    this.appData = window.sessionStorage.getItem('Email');
 
     //var appData = "tanyongting1234@gmail.com";
     this.itemRef.orderByChild("Email").equalTo(this.appData).once('value', (snap) => {
@@ -106,7 +106,7 @@ export class ProfilePage {
           Pic: snapshot.downloadURL,
         });
 
-       window.localStorage.setItem('uImage', snapshot.downloadURL);
+       window.sessionStorage.setItem('uImage', snapshot.downloadURL);
         this.events.publish('profileUpdated');
       });
 
@@ -167,13 +167,13 @@ export class ProfilePage {
       this.base64Image = "data:image/jpeg;base64," + imageData;
       let storageRef = firebase.storage().ref();
       const imageRef = storageRef.child('images/' + this.appData + '.jpg');
-      imageRef.delete();
+    
            imageRef.putString(this.base64Image, firebase.storage.StringFormat.DATA_URL).then(snapshot => {
         this.itemsRef.update({
           Pic: snapshot.downloadURL,
         });
-
-        this.nativeStorage.setItem('uImage', snapshot.downloadURL);
+        window.sessionStorage.setItem('uImage', snapshot.downloadURL);
+         
         this.events.publish('profileUpdated');
     
     });

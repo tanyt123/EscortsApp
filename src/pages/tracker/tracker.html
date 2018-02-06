@@ -14,5 +14,8 @@
 </ion-header>
 
 <ion-content padding>
-  <div #map id="map"></div>
+
+  <div [hidden]="!visible" #map id="map" ></div>
+ <!--<div  #map id="map" ></div>-->
+  <div *ngIf="value">You must start a trip first!</div>
 </ion-content>

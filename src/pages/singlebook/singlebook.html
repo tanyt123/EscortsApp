@@ -70,11 +70,21 @@
         <ion-label color="primary">Reasons Of Decline :</ion-label>
         <ion-input formControlName="Rod" type="text" placeholder="Reasons Of Decline "></ion-input>
       </ion-item>
-      <ion-item *ngIf="button || cancel">
-        <button ion-button class="but" *ngIf="button" text-center [disabled]="!isenabled" (click)="Accept()"> Accept</button>
-        <button ion-button class="but" *ngIf="cancel" text-center [disabled]="!isenabled || !myForm.valid" (click)="Cancel()"> Cancel</button>
-      </ion-item>
 
+      <ion-item *ngIf="button">
+        <button ion-button class="but"  text-center [disabled]="!isenabled" (click)="Accept()"> Accept</button>
+      
+      </ion-item>
+      <ion-row *ngIf=" cancel">
+            <ion-col col-6>
+
+        <button ion-button class="but"  text-center  (click)="Trip()"> Start Trip</button>
+        
+            </ion-col>
+              <ion-col col-6>
+        <button ion-button class="but"  text-center [disabled]="!isenabled || !myForm.valid" (click)="Cancel()"> Cancel</button>
+       </ion-col>
+      </ion-row>
     </form>
 
   </ion-list>

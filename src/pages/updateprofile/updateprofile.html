@@ -63,9 +63,9 @@
         <ion-datetime class="date" formControlName="myDate" [(ngModel)]="myDate" displayFormat="DD/MM/YYYY"  (ionChange)="getAge()" pickerFormat="DDDD MMMM YYYY"></ion-datetime>
       </ion-item>
 
-      <ion-item>
+      <ion-item disabled>
         <ion-label color="primary">Age:</ion-label>
-        <ion-input formControlName="age" id="age" type="text" value="{{ item.Age }}" [disabled]="true"></ion-input>
+        <ion-input disabled formControlName="age" id="age" type="text" value="{{ item.Age }}" [disabled]="true"></ion-input>
       </ion-item>
       <div *ngIf="AgeError">
         <p>You must be between 18 & 70.</p>

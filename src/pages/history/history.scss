@@ -11,4 +11,14 @@ page-history {
         min-width: 5rem;
     }
 }
+.ion-item-divider{
+    background-color: lightgrey;
+    color: black;
+}
+ion-item .item-inner{
+ border-bottom:1px solid blue; 
+}
+.row{
+    border-bottom:1px solid black; // or any thing
+}
 }

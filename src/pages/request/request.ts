@@ -61,7 +61,7 @@ export class RequestPage {
     this.itemsRef = afDatabase.list('Bookings',
       ref => ref.orderByChild('Time')
     );
-    this.Gender = window.localStorage.getItem('Gender');
+    this.Gender = window.sessionStorage.getItem('Gender');
     this.selectedDate = this.navParams.get('date');
 
 
@@ -102,7 +102,7 @@ export class RequestPage {
 
     // Show the popup
     loading.present();
- 
+
 
     setTimeout(() => {
       loading.dismiss();
@@ -128,7 +128,7 @@ export class RequestPage {
 
     this.itemsRef.snapshotChanges().map(changes => {
 
-      this.email = window.localStorage.getItem('Email');
+      this.email = window.sessionStorage.getItem('Email');
 
       return changes.map(c =>
         ({ key: c.payload.key, ...c.payload.val() })).filter(items =>
@@ -143,14 +143,13 @@ export class RequestPage {
 
         var startTime = (new Date(schedules[i].Date + " " + schedules[i].startTime));
         var endTime = (new Date(schedules[i].Date + " " + schedules[i].endTime));
-
-        var EDSEPD = this.email + "," + schedules[i].Date + "," + schedules[i].startTime + "," + schedules[i].endTime
-          + "," + schedules[i].Pickup + "," + schedules[i].Destination;
+        this.startTimes = this.getRoundedTime(new Date(schedules[i].Date + " " + schedules[i].startTime));
+        this.endTimes = this.getRoundedTime(new Date(schedules[i].Date + " " + schedules[i].endTime));
+        var EDSEPD = this.email + "," + schedules[i].Date + "," + this.startTimes + "," + this.endTimes
+          + "," + schedules[i].PickupRegion + "," + schedules[i].DestinationRegion;
         console.log(EDSEPD);
-        var pickup = schedules[i].Pickup;
-        console.log(pickup);
-        var destination = schedules[i].Destination;
-        console.log(destination);
+        var pickup = schedules[i].PickupRegion;
+        var destination = schedules[i].DestinationRegion;
         if (schedules[i].Carpool === 'No') {
           console.log(EDSEPD);
           console.log(schedules);
@@ -206,8 +205,8 @@ export class RequestPage {
                           && (new Date(items.Date + " " + items.startTime)) <
                           endTime && items.Carpool === 'Yes'
                           &&
-                          items.Pickup === pickup
-                          && items.Destination === destination && !items.Patient2Name
+                          items.PickupRegion === pickup
+                          && items.DestinationRegion === destination && !items.Patient2Name
                         )
                       )
                     })
@@ -228,8 +227,8 @@ export class RequestPage {
                           && (new Date(items.Date + " " + items.startTime)) <
                           endTime && items.Carpool === 'Yes'
                           &&
-                          items.Pickup === pickup
-                          && items.Destination === destination
+                          items.PickupRegion === pickup
+                          && items.DestinationRegion === destination
                         )
                       )
                     })

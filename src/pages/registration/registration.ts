@@ -62,7 +62,7 @@ export class RegistrationPage {
       Name: ['', Validators.required],
 
       gender: ['', Validators.required],
-      IC: ['', Validators.compose([Validators.required, Validators.minLength(7), Validators.pattern('[a-zA-Z]{1}[0-9]{7}[a-zA-Z]{1}')])],
+      IC: ['', Validators.compose([Validators.required, Validators.minLength(7), Validators.pattern('[STFG]{1}[0-9]{7}[A-Z]{1}')])],
       plateNo: ['', Validators.required],
       code: ['', Validators.required],
       age: ['',],

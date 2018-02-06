@@ -45,7 +45,7 @@ export class SchedulePage {
     this.itemsRef = afDatabase.list('Bookings',
       ref => ref.orderByChild('startTime')
     );
-    var email = window.localStorage.getItem('Email');
+    var email = window.sessionStorage.getItem('Email');
     console.log(email);
     this.items = this.itemsRef.snapshotChanges().map(changes => {
      

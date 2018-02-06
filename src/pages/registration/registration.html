@@ -248,7 +248,7 @@
       </ion-item>
 
       <ion-item>
-        <ion-label color="primary" >Phone Number</ion-label>
+        <ion-label color="primary" >Phone Number:</ion-label>
         <ion-input type="tel" formControlName="tel" [(ngModel)]="phoneNumber" placeholder="Phone Number"></ion-input>
       </ion-item>
       <div class="error" *ngIf="!myForm.get('tel').valid && myForm.get('tel').touched">
@@ -262,7 +262,7 @@
         <p>Please enter a valid email.</p>
       </div>
       <ion-item text-wrap>
-        <ion-label color="primary">Gender:</ion-label>
+        <ion-label color="primary" style=" font-size: 16px; ">Gender:</ion-label>
         <ion-select class="ion-select" formControlName="gender" text-wrap>
           <ion-option text-wrap value="Female">Female </ion-option>
           <ion-option text-wrap value="Male">Male</ion-option>
@@ -287,7 +287,7 @@
 
       <ion-item>
         <ion-label color="primary" text-wrap>License Plate:</ion-label>
-        <ion-input formControlName="plateNo" type="text" placeholder="License Plate"></ion-input>
+        <ion-input formControlName="plateNo" type="text" placeholder="License Plate Input"></ion-input>
       </ion-item>
       <div class="error" *ngIf="!myForm.get('plateNo').valid  && myForm.get('plateNo').touched">
         <p>Please enter a valid car plate.</p>

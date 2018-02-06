@@ -5,9 +5,12 @@ import { SchedulePage } from '../schedule/schedule';
 import { BookingPage } from '../booking/booking';
 import { MySchedulePage } from '../my-schedule/my-schedule';
 import { AlertController } from 'ionic-angular';
-
+import { TrackerPage } from '../tracker/tracker';
 import { AngularFireDatabaseModule, AngularFireDatabase, AngularFireList, } from 'angularfire2/database';
 import { FormControl, FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
+import { HistoryPage } from '../history/history';
+
+import { Events } from 'ionic-angular';
 @IonicPage()
 @Component({
   selector: 'page-singlebook',
@@ -24,9 +27,9 @@ export class SinglebookPage {
   date;
   assist;
   count;
-  cancel :boolean = false; 
-  pickup;
-  destination;
+  cancel: boolean = false;
+  pickupregion;
+  destinationregion;
   startTime;
   endTime;
   StartTime;
@@ -39,7 +42,7 @@ export class SinglebookPage {
   myForm: FormGroup;
   button: boolean;
   public DSEARef: firebase.database.Reference;
-  constructor(public navCtrl: NavController, public navParams: NavParams, afDatabase: AngularFireDatabase, public formBuilder: FormBuilder, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public events: Events, afDatabase: AngularFireDatabase, public formBuilder: FormBuilder, public alertCtrl: AlertController) {
     this.itemsRef = afDatabase.list('EscortBookings');
 
     this.myForm = formBuilder.group({
@@ -58,10 +61,10 @@ export class SinglebookPage {
     offsetRef.on("value", function (snap) {
       var offset = snap.val();
       var estimatedServerTimeMs = new Date().getTime() + offset;
-         console.log(estimatedServerTimeMs);
+      console.log(estimatedServerTimeMs);
     });
- 
-    this.email = window.localStorage.getItem('Email');
+
+    this.email = window.sessionStorage.getItem('Email');
     this.key = this.navParams.get('key');
     this.status = this.navParams.get('Status');
     if (this.status === 'Pending') {
@@ -77,8 +80,8 @@ export class SinglebookPage {
       this.startTime = itemkeySnapshot.val().startTime;
       this.endTime = itemkeySnapshot.val().endTime;
       this.date = itemkeySnapshot.val().Date;
-      this.pickup = itemkeySnapshot.val().Pickup;
-      this.destination = itemkeySnapshot.val().Destination;
+      this.pickupregion = itemkeySnapshot.val().PickupRegion;
+      this.destinationregion = itemkeySnapshot.val().DestinationRegion;
       this.carpool = itemkeySnapshot.val().Carpool;
       this.assist = itemkeySnapshot.val().Assistance;
       if (itemkeySnapshot.hasChild("Patient2Name")) {
@@ -119,7 +122,7 @@ export class SinglebookPage {
   Accept() {
     this.startTime = this.getRoundedTime(new Date(this.date + " " + this.startTime));
     this.endTime = this.getRoundedTime(new Date(this.date + " " + this.endTime));
-    var EDSEPD = this.email + "," + this.date + "," + this.startTime + "," + this.endTime + "," + this.pickup + "," + this.destination;
+    var EDSEPD = this.email + "," + this.date + "," + this.startTime + "," + this.endTime + "," + this.pickupregion + "," + this.destinationregion;
     console.log(this.date);
     try {
       this.isenabled = false;
@@ -209,9 +212,9 @@ export class SinglebookPage {
           buttons: ['OK']
         });
         alert.present();
-
-        this.navCtrl.push(BookingPage);
-        this.navCtrl.setRoot(BookingPage)
+        this.events.publish('Schedule');
+        this.navCtrl.push(MySchedulePage);
+        this.navCtrl.setRoot(MySchedulePage)
           .then(() => {
             this.navCtrl.popToRoot();
 
@@ -223,10 +226,21 @@ export class SinglebookPage {
 
     }
   }
+  Trip() {
+    this.itemRefs.update({
+      Status: "Ongoing",
+    });
+   this.events.publish('Track');
+    this.navCtrl.setRoot(TrackerPage)
+      .then(() => {
+        this.navCtrl.popToRoot();
+
+      });
+  }
   Cancel() {
     this.startTime = this.getRoundedTime(new Date(this.date + " " + this.startTime));
     this.endTime = this.getRoundedTime(new Date(this.date + " " + this.endTime));
-    var EDSEPD = this.email + "," + this.date + "," + this.pickup + "," + this.destination;
+      var EDSEPD = this.email + "," + this.date + "," + this.startTime + "," + this.endTime + "," + this.pickupregion + "," + this.destinationregion;
     try {
       this.isenabled = false;
       this.itemRefs.update({
@@ -257,9 +271,10 @@ export class SinglebookPage {
         buttons: ['OK']
       });
       alert.present();
-
-      this.navCtrl.push(MySchedulePage);
-      this.navCtrl.setRoot(MySchedulePage)
+      localStorage.setItem('History', 'cancelled');
+      this.events.publish('History');
+      this.navCtrl.push(HistoryPage);
+      this.navCtrl.setRoot(HistoryPage)
         .then(() => {
           this.navCtrl.popToRoot();
 

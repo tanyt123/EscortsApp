@@ -8,7 +8,7 @@ import { ViewChild } from '@angular/core'
 import { AlertController } from 'ionic-angular';
 import { ProfilePage } from '../profile/profile';
 import { Navbar } from 'ionic-angular';
-
+import { Events } from 'ionic-angular';
 @IonicPage()
 @Component({
   selector: 'page-updateprofile',
@@ -28,7 +28,7 @@ export class UpdateprofilePage {
   changeDate = '';
   correct_data;
   public myDate: string
-  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private nativeStorage: NativeStorage, public formBuilder: FormBuilder) {
+  constructor(public navCtrl: NavController, public events: Events, public navParams: NavParams, public alertCtrl: AlertController, private nativeStorage: NativeStorage, public formBuilder: FormBuilder) {
     this.myForm = formBuilder.group({
       Name: ['', Validators.required],
     
@@ -60,7 +60,7 @@ export class UpdateprofilePage {
     console.log('ionViewDidLoad UpdateProfilePage');
     this.items = [];
 
-     var appData = window.localStorage.getItem('Email');
+     var appData = window.sessionStorage.getItem('Email');
 
     //var appData = "tanyongting1234@gmail.com";
     this.itemRef.orderByChild("Email").equalTo(appData).once('value', (snap) => {
@@ -113,6 +113,8 @@ export class UpdateprofilePage {
         IC: this.myForm.value.IC,
       });
       console.log(this.itemsRef);
+       window.sessionStorage.setItem('Name', this.myForm.value.Name);
+        this.events.publish('nameUpdated');
       let alert = this.alertCtrl.create({
         title: 'Profile updated!',
         buttons: [

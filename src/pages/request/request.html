@@ -26,8 +26,8 @@
     <ion-option text-wrap value="m">Male</ion-option>
   </ion-select>
     </ion-item>-->
-  <ion-searchbar (ionInput)="getItems($event)">Search Address</ion-searchbar>
-  <ion-list text-wrap *ngFor="let item of (items | async) ">
+ 
+  <ion-list  *ngFor="let item of (items | async) ">
     <ion-item-divider *ngIf="toggle" sticky class="ion-item-divider">
       <ion-label>Start Time: {{ item.startTime }}
       </ion-label>
